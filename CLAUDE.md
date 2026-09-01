@@ -113,6 +113,12 @@ status type**.
     un troncamento lascia un file che esiste e non si apre.
   - L'`alt` è **vuoto**: il nome dell'item sta scritto accanto, e uno screen
     reader che lo legge due volte è peggio di uno che lo legge una volta.
+  - 🔴 **Ma non tutto merita un'icona, e la linea è netta**: la si mette agli
+    item con **un'identità fissa** — valute, omen, essenze, ossa, e al limite le
+    uniche. **Mai a basi bianche, magiche o rare** (boots, cintura, amuleto,
+    anello): lì l'icona mostrerebbe un contenitore, mentre ciò di cui si parla
+    sono i **mod** che ci finiscono sopra. Detto da Nicolas il 1 settembre 2026,
+    respingendo la proposta di metterle nella tabella dei tier.
 - Un strumento = una cartella con il suo `index.html`, più una scheda nel
   catalogo in `index.html` alla radice.
 - 🔴 **E la voce va aggiunta alla barra di *tutte* le pagine**, non solo a quella
