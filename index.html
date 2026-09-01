@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PoE 2 Tools — strumenti misurati per Path of Exile 2</title>
+<meta name="description" content="Strumenti per Path of Exile 2 costruiti su numeri misurati: prezzi letti dall'API di poe.ninja e dal trade2, non tier list copiate. Patch 0.5.0, lega Runes of Aldur.">
+<link rel="stylesheet" href="stile.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  .hero{padding:var(--s8) 0 var(--s7);text-align:center}
+  .hero h1{font-size:clamp(2.2rem,6vw,3.4rem);letter-spacing:-.03em;margin-bottom:var(--s3)}
+  .hero h1 span{color:var(--gold)}
+  .hero .sub{color:var(--muted);font-size:var(--t-md);max-width:44rem;margin:0 auto}
+  .hero .badges{justify-content:center}
+
+  /* Finche' la barra e' vuota, dice che e' vuota: una barra muta sembrerebbe
+     rotta, e non lo e'. Il posto e' gia' quello giusto per la prima voce. */
+  .nav-vuoto{
+    font-size:var(--t-xs);color:var(--label);
+    padding:0 var(--s2);white-space:nowrap;
+  }
+
+  .griglia{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(20rem,1fr))}
+  .strumento{display:flex;flex-direction:column;gap:var(--s2);padding:var(--s4) var(--s4) var(--s5)}
+  .strumento .etichetta{
+    font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.1em;
+    color:var(--label);font-weight:600;
+  }
+  .strumento h3{font-size:var(--t-md)}
+  .strumento p{color:var(--muted);font-size:var(--t-sm);flex:1}
+  .strumento .dato{
+    width:100%;margin-top:var(--s2);padding-top:var(--s3);
+    border-top:1px solid var(--line);
+    font-size:var(--t-xs);color:var(--label);
+  }
+  .strumento .dato b{color:var(--gold);font-family:var(--mono);font-weight:600}
+
+  .metodo{margin-top:var(--s8)}
+  .metodo .card{padding:var(--s5)}
+  .metodo p{color:var(--muted);margin-bottom:var(--s3)}
+  .metodo p:last-child{margin-bottom:0}
+  .metodo b{color:var(--text)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="marchio" href="index.html">PoE 2 <span>Tools</span></a>
+    <div class="nav-link">
+      <span class="nav-vuoto">nessuno strumento ancora</span>
+    </div>
+    <span class="nav-patch">patch 0.5.0</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1>PoE 2 <span>Tools</span></h1>
+    <p class="sub">Strumenti per Path of Exile 2, costruiti su <b>numeri misurati</b> — prezzi letti dall&rsquo;API del trade e da poe.ninja, non tier list copiate. Ogni pagina dichiara anche cosa il numero <b>non</b> dice.</p>
+    <div class="badges">
+      <span class="badge oro">patch <b>0.5.0</b></span>
+      <span class="badge">lega <b>Runes of Aldur</b></span>
+      <span class="badge">nessuno strumento <b>ancora</b></span>
+    </div>
+  </header>
+
+  <div class="griglia">
+
+    <div class="card strumento">
+      <span class="etichetta">Il catalogo</span>
+      <h3>Qui non c&rsquo;&egrave; ancora niente, ed &egrave; giusto cos&igrave;</h3>
+      <p>Il repo nasce vuoto di proposito: uno strumento entra <b>dopo</b> che il numero su cui poggia &egrave; stato misurato, non prima. Ogni strumento sar&agrave; una cartella con il suo <code>index.html</code>, una scheda qui e una voce nella barra di tutte le pagine.</p>
+      <span class="dato">scheletro pronto &middot; <b>0</b> strumenti</span>
+    </div>
+
+  </div>
+
+  <section class="metodo">
+    <h2 class="sec">Il metodo</h2>
+    <div class="card">
+      <p><b>Misurare, non dedurre.</b> Il ragionamento strutturale su Path of Exile produce ipotesi plausibili e sbagliate. Ogni numero qui viene da una misura datata, e ogni pagina dichiara il proprio limite.</p>
+      <p><b>E questo &egrave; il due.</b> Il gioco precedente ha nomi identici e numeri diversi: l&rsquo;unit&agrave; di conto dei prezzi qui &egrave; il <b>Divine Orb</b>, non il Chaos; l&rsquo;Exalted &egrave; uno spicciolo; scarab, frammenti e carte divinatorie non esistono. Un fatto dell&rsquo;altro gioco non attraversa: si rimisura.</p>
+    </div>
+  </section>
+
+  <footer class="pie">
+    Sito statico su GitHub Pages &middot; nessuna dipendenza esterna, funziona offline.
+    Gli appunti di gioco restano altrove, in locale.
+  </footer>
+
+</div>
+<script src="menu.js" defer></script>
+</body>
+</html>
