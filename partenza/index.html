@@ -90,21 +90,25 @@
     <button type="button" id="azzera">Azzera le spunte</button>
   </div>
 
-  <h2 class="sec">1 · Prima di entrare — il filtro</h2>
+  <h2 class="sec">1 &middot; Prima di entrare &mdash; il filtro</h2>
 
   <div class="avviso">
-    🔴 <b>Le quattro regole su rari, magici e bianchi vanno spente.</b> A lega nuova
-    quella roba <i>&egrave;</i> l&rsquo;upgrade: FilterBlade stesso avverte
-    <i>&laquo;NOT recommended at league-start&raquo;</i>. Il profilo si chiama
-    <i>Semi-Strict</i> ma il nome mente: dentro &egrave; <b>STRICT</b>, con 26 modifiche.
+    🎯 <b>Il filtro non &egrave; da spegnere: &egrave; da scegliere.</b> Se segui il filtro di un
+    altro autore invece di mantenere il tuo, <b>non c&rsquo;&egrave; niente da disattivare</b> &mdash;
+    le regole &laquo;da spegnere a lega nuova&raquo; sono personalizzazioni che vivono
+    dentro un profilo tuo, e <b>un filtro seguito non si modifica</b>.
+    Il default per il giorno 1 &egrave; <b>&laquo;League Start&raquo; di SnooBAE85</b>:
+    <b>2-SEMI-STRICT</b>, <b>422 <code>Show</code> / 25 <code>Hide</code></b>, con una sezione
+    <code>[[3600]] Leveling</code> che nasconde bianchi e magici <i>solo quando li hai
+    superati di livello</i>. Misurato il 1 settembre 2026 leggendo il file, non l&rsquo;etichetta.
   </div>
 
   <div class="card" style="padding:0">
-    <label class="passo"><input type="checkbox" data-id="filtro-rari"><span class="testo"><b>Spegnere &laquo;Hide ALL rare items without a tier&raquo;</b><span class="nota">Nasconde i rari senza tier. A lega nuova sono l&rsquo;equipaggiamento.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="filtro-magici"><span class="testo"><b>Spegnere &laquo;Hide ALL magic items without a tier&raquo;</b><span class="nota">Stessa ragione: nei primi giorni un magico con due mod buoni &egrave; un upgrade.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="filtro-bianchi"><span class="testo"><b>Spegnere le due sui bianchi</b><span class="nota">&laquo;Hide crafting bases below level 82&raquo; e &laquo;Hide all basetypes, except for the very best&raquo;. Le basi bianche sono la materia prima del craft dei primi giorni.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="filtro-campaign"><span class="testo"><b>Rifare l&rsquo;Auto-Adjust <i>Campaign</i></b><span class="nota">Oggi &egrave; azzerata di proposito: la versione precedente era compilata con le scelte dell&rsquo;endgame, mentre a inizio lega si gioca <b>Hollow Palm Technique</b> e il quarterstaff non conta.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="filtro-rileggi"><span class="testo"><b>Rileggere guida e filtro <i>dopo</i> la patch</b><span class="nota">La guida &egrave; ferma al 16 luglio 2026 e il filtro base di NeverSink cambia a ogni patch.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-date"><span class="testo"><b>Controllare quali filtri seguiti sono stati aggiornati</b><span class="nota">Sulla tua pagina dei filtri, campi <code>Last updated</code> e <code>Version</code>. Al 1 settembre 2026 erano fermi a: <b>League Start</b> 29 mag <code>0.10.0</code> &middot; <b>Snoo Ultra Strict</b> 11 giu <code>0.10.2a</code> &middot; <b>Snoo Omega Strict</b> 15 giu <code>0.10.2c</code> &middot; <b>Mirror Tier League Start</b> 31 mag <code>0.10.0a</code>. Un filtro seguito si aggiorna da solo <i>solo se l&rsquo;autore lo aggiorna</i>.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-autori"><span class="testo"><b>Se nessuno si &egrave; mosso, guardare i profili degli autori</b><span class="nota">Un filtro <i>nuovo</i> non compare fra i seguiti: va cercato su <code>/account/view-profile/&lt;autore&gt;/item-filters</code>. 🔴 <b>La trappola: SnooBAE85 ha 7 filtri di PoE 1 e sono i pi&ugrave; aggiornati di tutti</b> (fino al 27 agosto), mentre i suoi PoE 2 sono fermi a giugno. Chi cerca &laquo;il pi&ugrave; recente&raquo; prende l&rsquo;altro gioco: si controlla <code>Platform: PoE 2</code> riga per riga. ⚠️ E un <code>403</code> &egrave; transitorio, si riprova.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-seleziona"><span class="testo"><b>Selezionare il filtro in gioco e verificarlo</b><span class="nota"><b>Options &rarr; Game</b>. Se non compare, riavvia il gioco. Poi guarda <b>&laquo;Last Update&raquo;</b> nella schermata del filtro: &egrave; l&rsquo;unica prova che stai usando la versione che credi.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-scala"><span class="testo"><b>Sapere in anticipo dove si sale</b><span class="nota">I tre filtri di SnooBAE85 sono una scala, non tre alternative: <b>League Start</b> &rarr; <b>Snoo Ultra Strict</b> (&laquo;Late Endgame Mappers&raquo;) &rarr; <b>Snoo Omega Strict</b>. Si sale <i>quando</i> in mappa non si legge pi&ugrave; niente, non prima: a lega nuova nascondere costa pi&ugrave; di quanto rende. 📌 Su uno schermo piccolo il criterio &egrave; la <b>leggibilit&agrave;</b>, non il gusto.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-rileggi"><span class="testo"><b>Rileggere guida e filtro <i>dopo</i> la patch</b><span class="nota">Il filtro base di NeverSink cambia a ogni patch, e <b>tutti i filtri seguiti qui sono fermi a maggio-giugno</b>. La rete &egrave; la sezione <code>[[2300]] New League Unknown Items</code>: gli oggetti che la 0.5.5 aggiunge <b>si vedono</b>, ma senza tiering n&eacute; stile.</span></span></label>
   </div>
 
   <h2 class="sec">2 · Cosa farmare — i tre gradini di tier</h2>
