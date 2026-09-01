@@ -97,8 +97,22 @@ status type**.
 - **La larghezza della colonna è la variabile `--colonna`**, condivisa fra barra
   e contenuto perché restino allineati. Una pagina che ha bisogno di più spazio
   mette `class="largo"` su `<body>` — non un max-width solo sul contenitore.
-- **Le icone si scaricano, non si linkano.** Gli asset stanno in `<tool>/img/` e
-  sono committati.
+- **Le icone si scaricano, non si linkano.** Gli asset stanno in `<tool>/img/`,
+  committati, con il nome dell'item in kebab-case (`omen-of-light.png`). Un PNG
+  da 8 KB non merita un'eccezione alla regola delle dipendenze: una pagina che
+  offline mostra quindici quadrati rotti è una pagina rotta.
+  - **Dove si prendono, in ordine.** La `image` di poe.ninja
+    (`.../economy/exchange/current/overview?type=<tipo>` → `items[].image`), che
+    è un percorso relativo da anteporre a `https://web.poecdn.com`. Per gli item
+    che **non passano dal Currency Exchange** — le ossa della desecrazione, per
+    dire — non c'è: lì il campo `icon` di un risultato di **trade2** ce l'ha, e
+    una sola ricerca larga con `term` ne raccoglie diversi in un colpo.
+  - ⚠️ **Il CDN tronca**: scaricando quindici icone di fila, sette sono arrivate
+    a metà (`IncompleteRead`, `Remote end closed connection`). Si riprova, non è
+    un URL sbagliato — e **si verifica che il file cominci per `\x89PNG`**, perché
+    un troncamento lascia un file che esiste e non si apre.
+  - L'`alt` è **vuoto**: il nome dell'item sta scritto accanto, e uno screen
+    reader che lo legge due volte è peggio di uno che lo legge una volta.
 - Un strumento = una cartella con il suo `index.html`, più una scheda nel
   catalogo in `index.html` alla radice.
 - 🔴 **E la voce va aggiunta alla barra di *tutte* le pagine**, non solo a quella

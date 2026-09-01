@@ -40,6 +40,16 @@
   .passo input:checked ~ .testo{color:var(--label)}
   .passo input:checked ~ .testo b{color:var(--label);text-decoration:line-through}
 
+  /* Icone degli item. Scaricate e committate in img/, come sull'altro sito:
+     la regola "zero dipendenze esterne" vale anche per un PNG da 8 KB, e una
+     pagina che a schermo nero mostra quindici quadrati rotti e' una pagina
+     rotta. L'alt e' vuoto di proposito: il nome dell'item sta scritto accanto,
+     e uno screen reader che lo legge due volte e' peggio di uno che lo legge
+     una volta sola. */
+  .ico{width:21px;height:21px;object-fit:contain;vertical-align:-.32em;
+       margin-right:.12rem;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+  .ico.g{width:26px;height:26px;vertical-align:-.42em;margin-right:.25rem}
+
   .griglia2{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(19rem,1fr))}
   .card h3{font-size:var(--t-md);margin-bottom:var(--s2)}
   .card p{color:var(--muted);margin-bottom:var(--s2)}
@@ -138,8 +148,8 @@
 
   <div class="card" style="padding:0">
     <label class="passo"><input type="checkbox" data-id="craft-blu"><span class="testo"><b>Spammare Transmutation e Augmentation su tutto</b><span class="nota">Il <b>Regal</b> invece si spende solo su un item che ha gi&agrave; <b>due</b> stat buone. &laquo;Buona&raquo; in ordine: il mod esclusivo del pezzo (movement speed sui boots, +N skills sull&rsquo;amuleto) &rarr; una resistenza da almeno <b>30%</b> &rarr; la difesa giusta per la base: armour sulle basi da forza, evasion da destrezza, energy shield da intelligenza.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="craft-essenze"><span class="testo"><b>Tenere da parte sei essenze, grado <i>Perfect</i></b><span class="nota">Delle <b>82</b> che esistono ne servono sei: <b>Sorcery</b> (+2 spell skills, su basi che hanno gi&agrave; spell damage), <b>Battle</b> (+2 attack skills, su armi gi&agrave; con danno alto), e le quattro da resistenza — <b>Thawing</b> freddo, <b>Insulation</b> fuoco, <b>Electricity</b> fulmine, <b>Ruin</b> caos. Le quattro da res su cinture che hanno gi&agrave; vita + una res sopra il 30%, o su boots gi&agrave; al 30% di movement speed.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="craft-omen"><span class="testo"><b>Il metodo forte: Omen of Putrefaction + osso</b><span class="nota">L&rsquo;omen fa s&igrave; che la desecrazione successiva aggiunga <b>sei mod non rivelati</b>, e ogni mod si sceglie fra <b>tre</b>: diciotto possibilit&agrave; viste, sei tenute, <b>senza spendere exalted</b>. L&rsquo;osso dipende dal pezzo: <b>Preserved Rib</b> armature, <b>Preserved Jawbone</b> armi, <b>Preserved Collarbone</b> gioielleria.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="craft-essenze"><span class="testo"><b>Tenere da parte sei essenze, grado <i>Perfect</i></b><span class="nota">Delle <b>82</b> che esistono ne servono sei: <img class="ico" src="img/perfect-essence-of-sorcery.png" alt="" loading="lazy"><b>Sorcery</b> (+2 spell skills, su basi che hanno gi&agrave; spell damage), <img class="ico" src="img/perfect-essence-of-battle.png" alt="" loading="lazy"><b>Battle</b> (+2 attack skills, su armi gi&agrave; con danno alto), e le quattro da resistenza — <img class="ico" src="img/perfect-essence-of-thawing.png" alt="" loading="lazy"><b>Thawing</b> freddo, <img class="ico" src="img/perfect-essence-of-insulation.png" alt="" loading="lazy"><b>Insulation</b> fuoco, <img class="ico" src="img/perfect-essence-of-electricity.png" alt="" loading="lazy"><b>Electricity</b> fulmine, <img class="ico" src="img/perfect-essence-of-ruin.png" alt="" loading="lazy"><b>Ruin</b> caos. Le quattro da res su cinture che hanno gi&agrave; vita + una res sopra il 30%, o su boots gi&agrave; al 30% di movement speed.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="craft-omen"><span class="testo"><b><img class="ico g" src="img/omen-of-putrefaction.png" alt="" loading="lazy">Il metodo forte: Omen of Putrefaction + osso</b><span class="nota">L&rsquo;omen fa s&igrave; che la desecrazione successiva aggiunga <b>sei mod non rivelati</b>, e ogni mod si sceglie fra <b>tre</b>: diciotto possibilit&agrave; viste, sei tenute, <b>senza spendere exalted</b>. L&rsquo;osso dipende dal pezzo: <img class="ico" src="img/preserved-rib.png" alt="" loading="lazy"><b>Preserved Rib</b> armature, <img class="ico" src="img/preserved-jawbone.png" alt="" loading="lazy"><b>Preserved Jawbone</b> armi, <img class="ico" src="img/preserved-collarbone.png" alt="" loading="lazy"><b>Preserved Collarbone</b> gioielleria.</span></span></label>
     <label class="passo"><input type="checkbox" data-id="craft-socket"><span class="testo"><b>Socket e qualit&agrave; <i>prima</i> dell&rsquo;omen</b><span class="nota">⚠️ Dopo non si pu&ograve; pi&ugrave;. &Egrave; l&rsquo;errore che rovina l&rsquo;item buono appena fatto.</span></span></label>
   </div>
 
@@ -152,10 +162,10 @@
   <p class="muto">La tesi: accumulare divine fa perdere, perch&eacute; <b>tutto &egrave; prezzato rispetto al Mirror</b> e il Mirror corre pi&ugrave; delle divine. Si sale una scala, partendo dal basso.</p>
 
   <div class="card" style="padding:0">
-    <label class="passo"><input type="checkbox" data-id="inv-abissale"><span class="testo"><b>1. Omen of Abyssal Echoes</b><span class="nota">Il gradino d&rsquo;ingresso, quando hai due exalted in tasca. Si consuma sempre di pi&ugrave; con l&rsquo;andare della lega.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="inv-whittling"><span class="testo"><b>2. Omen of Whittling e Omen of Light &mdash; il grosso</b><span class="nota">Servono a ogni craft di fascia medio-alta, e i gruppi che vendono copie mirror li accaparrano per tenerne alto il prezzo. Anche se il prezzo scendesse, a loro restano utili da usare: la posizione non ha un lato perdente.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="inv-hinekora"><span class="testo"><b>3. Hinekora&rsquo;s Lock</b><span class="nota">Il risparmio a lunga scadenza, con i soldi che non ti servono: costa poco all&rsquo;inizio perch&eacute; non serve a nessuno, e sale quando la gente ha item cari da corrompere.</span></span></label>
-    <label class="passo"><input type="checkbox" data-id="inv-mirror"><span class="testo"><b>4. Il Mirror</b><span class="nota">Si vende tutto e si compra, quando la scala ha fatto il suo lavoro.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="inv-abissale"><span class="testo"><img class="ico g" src="img/omen-of-abyssal-echoes.png" alt="" loading="lazy"><b>1. Omen of Abyssal Echoes</b><span class="nota">Il gradino d&rsquo;ingresso, quando hai due exalted in tasca. Si consuma sempre di pi&ugrave; con l&rsquo;andare della lega.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="inv-whittling"><span class="testo"><img class="ico g" src="img/omen-of-whittling.png" alt="" loading="lazy"><b>2. Omen of Whittling e <img class="ico" src="img/omen-of-light.png" alt="" loading="lazy">Omen of Light &mdash; il grosso</b><span class="nota">Servono a ogni craft di fascia medio-alta, e i gruppi che vendono copie mirror li accaparrano per tenerne alto il prezzo. Anche se il prezzo scendesse, a loro restano utili da usare: la posizione non ha un lato perdente.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="inv-hinekora"><span class="testo"><img class="ico g" src="img/hinekoras-lock.png" alt="" loading="lazy"><b>3. Hinekora&rsquo;s Lock</b><span class="nota">Il risparmio a lunga scadenza, con i soldi che non ti servono: costa poco all&rsquo;inizio perch&eacute; non serve a nessuno, e sale quando la gente ha item cari da corrompere.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="inv-mirror"><span class="testo"><img class="ico g" src="img/mirror-of-kalandra.png" alt="" loading="lazy"><b>4. Il Mirror</b><span class="nota">Si vende tutto e si compra, quando la scala ha fatto il suo lavoro.</span></span></label>
   </div>
 
   <div class="card" style="margin-top:var(--s4)">
