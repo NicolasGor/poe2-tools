@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Partenza di lega — cosa fare il giorno della patch | PoE 2 Tools</title>
+<meta name="description" content="La checklist del giorno della patch per Path of Exile 2: quali regole del filtro spegnere, quale tier di mappa correre (T1, T7, T11 e perché), come craftare i primi giorni, dove parcheggiare la valuta. Ogni numero misurato sui dati dei mod di PoB2 e sull'API di poe.ninja.">
+<link rel="stylesheet" href="../stile.css">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+  .testata{padding:var(--s7) 0 var(--s5)}
+  .testata h1{font-size:clamp(1.9rem,4.5vw,2.8rem);letter-spacing:-.025em;margin-bottom:var(--s3)}
+  .testata h1 span{color:var(--gold)}
+  .testata .sub{color:var(--muted);font-size:var(--t-md);max-width:52rem}
+
+  /* La barra di avanzamento della checklist. Sta qui e non in stile.css
+     perche' finche' e' l'unica pagina con delle spunte non serve a nessun'altra. */
+  .avanzamento{
+    display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;
+    margin:var(--s4) 0;padding:var(--s3) var(--s4);
+    background:var(--panel2);border:1px solid var(--line);border-radius:var(--r);
+  }
+  .avanzamento .conta{font-family:var(--mono);font-size:var(--t-md);color:var(--gold);font-weight:650}
+  .avanzamento .barra{flex:1;min-width:8rem;height:6px;background:var(--panel-alto);border-radius:var(--r-full);overflow:hidden}
+  .avanzamento .barra i{display:block;height:100%;width:0;background:var(--gold);transition:width .18s}
+
+  /* 🔴 La spunta e' un <label> attorno a un <input>, non un div con onclick:
+     senza JS resta un controllo vero, spuntabile e raggiungibile da tastiera.
+     Lo script aggiunge solo il *ricordo* della spunta, non la spunta. */
+  .passo{
+    display:flex;gap:var(--s3);align-items:flex-start;
+    padding:var(--s3) var(--s4);border-bottom:1px solid var(--line);cursor:pointer;
+  }
+  .passo:last-child{border-bottom:0}
+  .passo:hover{background:var(--panel2)}
+  .passo input{margin:.25rem 0 0;width:1.05rem;height:1.05rem;accent-color:var(--gold);flex:none}
+  .passo .testo{flex:1}
+  .passo .testo b{color:var(--text)}
+  .passo .testo .nota{display:block;margin-top:var(--s1);font-size:var(--t-sm);color:var(--muted)}
+  .passo input:checked ~ .testo{color:var(--label)}
+  .passo input:checked ~ .testo b{color:var(--label);text-decoration:line-through}
+
+  .griglia2{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(19rem,1fr))}
+  .card h3{font-size:var(--t-md);margin-bottom:var(--s2)}
+  .card p{color:var(--muted);margin-bottom:var(--s2)}
+  .card p:last-child{margin-bottom:0}
+  .card ul{margin:var(--s2) 0 0 var(--s4);color:var(--muted)}
+  .card li{margin-bottom:var(--s1)}
+  table{width:100%;border-collapse:collapse}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="marchio" href="../index.html">PoE 2 <span>Tools</span></a>
+    <div class="nav-link">
+      <a href="./" aria-current="page">Partenza</a>
+    </div>
+    <span class="nav-patch">patch 0.5.0</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="testata">
+    <h1>La partenza <span>di lega</span></h1>
+    <p class="sub">Cosa fare il giorno che apre la patch, in ordine. Il tier di mappa che conviene correre <b>non &egrave; il pi&ugrave; alto che reggi</b>: &egrave; il pi&ugrave; basso che sblocca i mod che ti servono — e i gradini sono <b>tre</b>.</p>
+    <div class="badges">
+      <span class="badge oro">0.5.5 <b>Forbidden Rites</b></span>
+      <span class="badge">ven <b>4 settembre</b>, 13:00 PDT</span>
+      <span class="badge">economia <b>azzerata</b></span>
+      <span class="badge">nessun cambio di <b>bilanciamento</b></span>
+    </div>
+  </header>
+
+  <div class="avanzamento">
+    <span class="conta" id="conta">0 / 13</span>
+    <span class="barra"><i id="barra"></i></span>
+    <button type="button" id="azzera">Azzera le spunte</button>
+  </div>
+
+  <h2 class="sec">1 · Prima di entrare — il filtro</h2>
+
+  <div class="avviso">
+    🔴 <b>Le quattro regole su rari, magici e bianchi vanno spente.</b> A lega nuova
+    quella roba <i>&egrave;</i> l&rsquo;upgrade: FilterBlade stesso avverte
+    <i>&laquo;NOT recommended at league-start&raquo;</i>. Il profilo si chiama
+    <i>Semi-Strict</i> ma il nome mente: dentro &egrave; <b>STRICT</b>, con 26 modifiche.
+  </div>
+
+  <div class="card" style="padding:0">
+    <label class="passo"><input type="checkbox" data-id="filtro-rari"><span class="testo"><b>Spegnere &laquo;Hide ALL rare items without a tier&raquo;</b><span class="nota">Nasconde i rari senza tier. A lega nuova sono l&rsquo;equipaggiamento.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-magici"><span class="testo"><b>Spegnere &laquo;Hide ALL magic items without a tier&raquo;</b><span class="nota">Stessa ragione: nei primi giorni un magico con due mod buoni &egrave; un upgrade.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-bianchi"><span class="testo"><b>Spegnere le due sui bianchi</b><span class="nota">&laquo;Hide crafting bases below level 82&raquo; e &laquo;Hide all basetypes, except for the very best&raquo;. Le basi bianche sono la materia prima del craft dei primi giorni.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-campaign"><span class="testo"><b>Rifare l&rsquo;Auto-Adjust <i>Campaign</i></b><span class="nota">Oggi &egrave; azzerata di proposito: la versione precedente era compilata con le scelte dell&rsquo;endgame, mentre a inizio lega si gioca <b>Hollow Palm Technique</b> e il quarterstaff non conta.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="filtro-rileggi"><span class="testo"><b>Rileggere guida e filtro <i>dopo</i> la patch</b><span class="nota">La guida &egrave; ferma al 16 luglio 2026 e il filtro base di NeverSink cambia a ogni patch.</span></span></label>
+  </div>
+
+  <h2 class="sec">2 · Cosa farmare — i tre gradini di tier</h2>
+
+  <p class="muto">Il livello dei mostri di una mappa fissa l&rsquo;<b>ilvl</b> di ci&ograve; che droppa, e ogni mod ha un ilvl minimo. Salire di tier serve <b>solo</b> se sblocca un mod che vuoi. Misurato sugli 8.049 mod di PoB2 0.5.</p>
+
+  <div class="scorri-x">
+  <table class="tabella">
+    <thead><tr><th>tier</th><th class="n">ilvl</th><th>cosa apre</th><th>cosa cercare l&igrave;</th></tr></thead>
+    <tbody>
+      <tr><td><b>T1</b></td><td class="n">65</td><td><b class="val">Movement Speed 30%</b> sui boots</td><td>boots</td></tr>
+      <tr><td><b>T7</b></td><td class="n">71</td><td><b class="val">resistenze elementali +36-40%</b></td><td>cinture, armature, anelli da res</td></tr>
+      <tr><td><b>T11</b></td><td class="n">75</td><td><b class="val">+3 to Level of all &hellip; Skills</b>, danno piatto massimo</td><td>amuleti, anelli, guanti</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="avviso">
+    🔑 <b>La regola operativa.</b> Se la build regge il T1 ma soffre in T7, si resta in <b>T1</b>. Se regge il T10 ma non l&rsquo;T11, si torna a <b>T7</b>. Un tier intermedio non sblocca niente: &egrave; solo pi&ugrave; difficile.
+  </div>
+
+  <div class="griglia2">
+    <div class="card">
+      <h3>Il muro a ilvl 81</h3>
+      <p>Il tier successivo di quei mod sta a <b>ilvl 82</b> — movement speed 35%, resistenze 41-45% — e da una mappa non arriva mai. In tutto <b>169 mod</b> si sbloccano a ilvl <b>&ge; 81</b>, sopra il livello mostro della mappa pi&ugrave; alta.</p>
+      <p>📌 Da dove escano <b>non &egrave; verificato</b>.</p>
+    </div>
+    <div class="card">
+      <h3>Dove la fonte sbaglia</h3>
+      <p>Il video dice che il T1 d&agrave; accesso a &laquo;+2 minion skills e crit chance&raquo; su elmo e guanti. Quei mod aprono a <b>41, 58 e 59</b>: molto <i>prima</i> del T1.</p>
+      <p>L&rsquo;unico vero sblocco del T1 &egrave; il <b>movement speed al 30%</b>, che per&ograve; da solo basta.</p>
+    </div>
+    <div class="card">
+      <h3>I nomi non esistono</h3>
+      <p><i>Ancient</i>, <i>Refined Waystone II</i>, <i>Pristine Waystone I</i> erano una previsione fatta prima dell&rsquo;uscita di 0.5, e non si &egrave; avverata: nel gioco si chiamano tutte e sole <b>Waystone (Tier N)</b>, e i tier sono <b>16</b>, non 15.</p>
+      <p><b>I numeri di tier valgono, i nomi no.</b></p>
+    </div>
+  </div>
+
+  <h2 class="sec">3 · Come craftare i primi giorni</h2>
+
+  <div class="card" style="padding:0">
+    <label class="passo"><input type="checkbox" data-id="craft-blu"><span class="testo"><b>Spammare Transmutation e Augmentation su tutto</b><span class="nota">Il <b>Regal</b> invece si spende solo su un item che ha gi&agrave; <b>due</b> stat buone. &laquo;Buona&raquo; in ordine: il mod esclusivo del pezzo (movement speed sui boots, +N skills sull&rsquo;amuleto) &rarr; una resistenza da almeno <b>30%</b> &rarr; la difesa giusta per la base: armour sulle basi da forza, evasion da destrezza, energy shield da intelligenza.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="craft-essenze"><span class="testo"><b>Tenere da parte sei essenze, grado <i>Perfect</i></b><span class="nota">Delle <b>82</b> che esistono ne servono sei: <b>Sorcery</b> (+2 spell skills, su basi che hanno gi&agrave; spell damage), <b>Battle</b> (+2 attack skills, su armi gi&agrave; con danno alto), e le quattro da resistenza — <b>Thawing</b> freddo, <b>Insulation</b> fuoco, <b>Electricity</b> fulmine, <b>Ruin</b> caos. Le quattro da res su cinture che hanno gi&agrave; vita + una res sopra il 30%, o su boots gi&agrave; al 30% di movement speed.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="craft-omen"><span class="testo"><b>Il metodo forte: Omen of Putrefaction + osso</b><span class="nota">L&rsquo;omen fa s&igrave; che la desecrazione successiva aggiunga <b>sei mod non rivelati</b>, e ogni mod si sceglie fra <b>tre</b>: diciotto possibilit&agrave; viste, sei tenute, <b>senza spendere exalted</b>. L&rsquo;osso dipende dal pezzo: <b>Preserved Rib</b> armature, <b>Preserved Jawbone</b> armi, <b>Preserved Collarbone</b> gioielleria.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="craft-socket"><span class="testo"><b>Socket e qualit&agrave; <i>prima</i> dell&rsquo;omen</b><span class="nota">⚠️ Dopo non si pu&ograve; pi&ugrave;. &Egrave; l&rsquo;errore che rovina l&rsquo;item buono appena fatto.</span></span></label>
+  </div>
+
+  <div class="avviso">
+    📌 <b>L&rsquo;ordine di convenienza dell&rsquo;omen non &egrave; misurato.</b> L&rsquo;autore dice: <b>boots, anelli, armature, guanti, faretre</b>; e <b>armi e cinture no</b>, perch&eacute; nei suoi test i risultati erano pessimi. &Egrave; la sua esperienza, non un numero: trattalo come un&rsquo;indicazione, non come un dato.
+  </div>
+
+  <h2 class="sec">4 · Dove parcheggiare i soldi</h2>
+
+  <p class="muto">La tesi: accumulare divine fa perdere, perch&eacute; <b>tutto &egrave; prezzato rispetto al Mirror</b> e il Mirror corre pi&ugrave; delle divine. Si sale una scala, partendo dal basso.</p>
+
+  <div class="card" style="padding:0">
+    <label class="passo"><input type="checkbox" data-id="inv-abissale"><span class="testo"><b>1. Omen of Abyssal Echoes</b><span class="nota">Il gradino d&rsquo;ingresso, quando hai due exalted in tasca. Si consuma sempre di pi&ugrave; con l&rsquo;andare della lega.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="inv-whittling"><span class="testo"><b>2. Omen of Whittling e Omen of Light &mdash; il grosso</b><span class="nota">Servono a ogni craft di fascia medio-alta, e i gruppi che vendono copie mirror li accaparrano per tenerne alto il prezzo. Anche se il prezzo scendesse, a loro restano utili da usare: la posizione non ha un lato perdente.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="inv-hinekora"><span class="testo"><b>3. Hinekora&rsquo;s Lock</b><span class="nota">Il risparmio a lunga scadenza, con i soldi che non ti servono: costa poco all&rsquo;inizio perch&eacute; non serve a nessuno, e sale quando la gente ha item cari da corrompere.</span></span></label>
+    <label class="passo"><input type="checkbox" data-id="inv-mirror"><span class="testo"><b>4. Il Mirror</b><span class="nota">Si vende tutto e si compra, quando la scala ha fatto il suo lavoro.</span></span></label>
+  </div>
+
+  <div class="griglia2" style="margin-top:var(--s4)">
+    <div class="card">
+      <h3>La misura che conferma la scala</h3>
+      <p>Non &egrave; il prezzo: &egrave; il <b>volume</b>. Il 1 settembre 2026, a fine lega 0.5, Whittling e Light hanno i due volumi pi&ugrave; alti dell&rsquo;intera categoria Ritual — <b>17.823</b> e <b>13.928</b> — mentre il terzo si ferma a <b>5.175</b>. Sono davvero gli omen che il mercato consuma.</p>
+    </div>
+    <div class="card">
+      <div class="scorri-x">
+      <table class="tabella">
+        <thead><tr><th>item</th><th class="n">1 set 2026</th></tr></thead>
+        <tbody>
+          <tr><td>Mirror of Kalandra</td><td class="n"><b>7.055</b> div</td></tr>
+          <tr><td>Hinekora&rsquo;s Lock</td><td class="n"><b>2.067</b> div</td></tr>
+          <tr><td>Omen of Whittling</td><td class="n">11,26 div</td></tr>
+          <tr><td>Omen of Light</td><td class="n">9,68 div</td></tr>
+          <tr><td>Omen of Abyssal Echoes</td><td class="n">0,109 div</td></tr>
+          <tr><td>Omen of Putrefaction</td><td class="n">0,0042 div</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="avviso">
+    🔴 <b>Questi sono prezzi di fine lega, e il 4 settembre l&rsquo;economia si azzera.</b> Valgono come <b>classifica</b> e come ordine di grandezza dell&rsquo;arco che i prezzi percorrono in tre mesi — <b>mai come obiettivi</b>. Il giorno 1 nessuna di queste cifre sar&agrave; vera.
+  </div>
+
+  <h2 class="sec">5 · Il limite di tutta questa pagina</h2>
+
+  <div class="card">
+    <p>La fonte &egrave; il video <b>&laquo;How Top Players Get Fully Geared On League Start&raquo;</b> di <b>Mirror Tier | POE 2</b> (viking0071), pubblicato il <b>27 maggio 2026</b>: &egrave; la guida per la partenza di <b>0.5</b>, non per l&rsquo;evento <b>0.5.5</b>. Regge <b>solo perch&eacute; la 0.5.5 non porta cambi di bilanciamento</b> — i livelli di sblocco dei mod sono gli stessi.</p>
+    <p>📌 <b>Ma la 0.5.5 mette Ritual in <i>ogni zona della campagna</i></b>, e gli omen vengono dal Ritual. La quarta sezione &mdash; quella sugli investimenti &mdash; &egrave; esattamente quella che la patch tocca: l&rsquo;offerta di omen nei primi giorni sar&agrave; molto pi&ugrave; alta di com&rsquo;era in 0.5. Se questo renda la strategia <b>migliore</b> (ne trovi tanti) o <b>peggiore</b> (ne trovano tanti tutti, e il prezzo non sale) <b>non &egrave; misurato</b>: si vede il 5 settembre.</p>
+    <p>📌 E la formula &laquo;T1 = livello 65, +1 per tier&raquo; <b>non &egrave; misurata in gioco</b>. Ma i tre punti che predice — 65, 71, 75 — cadono <b>esattamente</b> sui tre livelli di sblocco letti nei dati. Tre coincidenze su tre non sono una prova: la verifica &egrave; aprire una mappa e leggere il livello in alto a destra.</p>
+  </div>
+
+  <footer class="pie">
+    Sito statico su GitHub Pages &middot; nessuna dipendenza esterna, funziona offline.
+    Le spunte restano su questo browser e non lasciano il dispositivo.
+  </footer>
+
+</div>
+
+<script src="../menu.js" defer></script>
+<script>
+/**
+ * Le spunte della checklist, ricordate fra una visita e l'altra.
+ *
+ * 🔴 Lo script aggiunge il *ricordo* della spunta, non la spunta: senza JS le
+ * caselle restano controlli veri, cliccabili e raggiungibili da tastiera — si
+ * perde solo la memoria fra due aperture. Per questo non c'e' niente da
+ * abilitare all'avvio.
+ *
+ * ⚠️ Ogni accesso a localStorage sta in un try/catch: in navigazione privata,
+ * o con i dati dei siti bloccati, la sola *lettura* solleva. Una checklist che
+ * si rompe per non aver potuto ricordare sarebbe peggio di una che non ricorda.
+ */
+(() => {
+  const CHIAVE = "poe2-partenza-spunte";
+  const caselle = [...document.querySelectorAll(".passo input[type=checkbox]")];
+  const conta = document.getElementById("conta");
+  const barra = document.getElementById("barra");
+
+  const leggi = () => {
+    try { return JSON.parse(localStorage.getItem(CHIAVE) || "{}"); }
+    catch { return {}; }
+  };
+  const scrivi = (stato) => {
+    try { localStorage.setItem(CHIAVE, JSON.stringify(stato)); } catch { /* pazienza */ }
+  };
+
+  const aggiorna = () => {
+    const fatte = caselle.filter((c) => c.checked).length;
+    conta.textContent = `${fatte} / ${caselle.length}`;
+    barra.style.width = (fatte / caselle.length * 100) + "%";
+  };
+
+  const stato = leggi();
+  for (const c of caselle) {
+    if (stato[c.dataset.id]) c.checked = true;
+    c.addEventListener("change", () => {
+      const s = leggi();
+      if (c.checked) s[c.dataset.id] = 1; else delete s[c.dataset.id];
+      scrivi(s);
+      aggiorna();
+    });
+  }
+
+  document.getElementById("azzera").addEventListener("click", () => {
+    for (const c of caselle) c.checked = false;
+    scrivi({});
+    aggiorna();
+  });
+
+  aggiorna();
+})();
+</script>
+</body>
+</html>
