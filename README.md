@@ -1,7 +1,7 @@
 # PoE 2 Tools
 
-Sito statico con la UI degli strumenti per Path of Exile 2 (patch 0.5.0, lega
-*Runes of Aldur*). Servito da GitHub Pages, nessuna build: HTML e CSS scritti
+Sito statico con la UI degli strumenti per Path of Exile 2 (patch 0.5.5, lega
+*Forbidden Rites*). Servito da GitHub Pages, nessuna build: HTML e CSS scritti
 a mano.
 
 ## Struttura
