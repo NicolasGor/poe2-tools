@@ -40,6 +40,14 @@
   --rare:  #ffff77;
   --unique:#af6025;
   --uni:   #af6025; /* alias storico */
+  /* 🔴 --unique e' il marrone del gioco: giusto come *sfondo* di un'etichetta,
+     sotto la soglia come *testo*. Misurato sulla superficie piu' chiara
+     (--panel-alto), come gli altri contrasti qui sopra: **3,40:1** — regge il
+     3:1 del testo grande, **non** il 4,5 del corpo, ed e' li' che finirebbe il
+     nome di un'unica in una riga di elenco. Questa versione schiarita sta a
+     **5,55:1**: AA ovunque. Si usa dove il nome e' scritto in chiaro, non
+     dentro un .tag, che ha lo sfondo suo. */
+  --unique-chiaro:#d08a3e;
 
   /* tipografia */
   --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
