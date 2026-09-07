@@ -82,6 +82,15 @@
   --colonna:84rem;
 }
 
+/* Una pagina che ha davvero bisogno di piu' spazio — la prima e' l'albero
+   dell'Atlante, che dentro 84rem diventa un francobollo — mette `class="largo"`
+   su <body>. Si allarga **la variabile**, non il contenitore: cosi' la barra la
+   segue e resta allineata al contenuto, che era il motivo per cui --colonna e'
+   condivisa. Aggiunta il 7 settembre 2026: la convenzione era gia' scritta nel
+   CLAUDE.md del sito, ma il CSS non l'aveva mai implementata e nessuna pagina
+   l'aveva mai usata. */
+body.largo{--colonna:108rem}
+
 /* ---------- Reset ---------- */
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}

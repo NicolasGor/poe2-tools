@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L&rsquo;albero dell&rsquo;Atlante &mdash; l&rsquo;allocazione completa | PoE 2 Tools</title>
+<meta name="description" content="L'albero dell'Atlante di Path of Exile 2 con 527 dei 536 nodi allocati insieme, incorniciato da poeplanner. Il tetto di 40 punti che il planner mostra non e' un limite: la funzione che alloca non lo controlla.">
+<link rel="stylesheet" href="../stile.css">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+  .testata{padding:var(--s7) 0 var(--s5)}
+  .testata h1{font-size:clamp(1.9rem,4.5vw,2.8rem);letter-spacing:-.025em;margin-bottom:var(--s3)}
+  .testata h1 span{color:var(--gold)}
+  .testata .sub{color:var(--muted);font-size:var(--t-md);max-width:52rem}
+
+  /* Il riquadro dell'albero. L'iframe sta *sopra* un messaggio di ripiego:
+     se poeplanner e' irraggiungibile l'iframe resta trasparente e il messaggio
+     sotto si legge, invece di lasciare un rettangolo vuoto senza spiegazione. */
+  .telaio{
+    position:relative;margin:var(--s5) 0;
+    border:1px solid var(--line);border-radius:var(--r-lg);
+    background:var(--panel2);overflow:hidden;
+    height:min(78vh,44rem);min-height:26rem;
+  }
+  .telaio iframe{
+    position:absolute;inset:0;width:100%;height:100%;
+    border:0;display:block;
+  }
+  .telaio .ripiego{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:var(--s3);
+    padding:var(--s5);text-align:center;color:var(--muted);
+  }
+  .telaio .ripiego b{color:var(--text)}
+  .telaio .ripiego a{color:var(--gold)}
+
+  .fuori{
+    display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center;
+    margin-bottom:var(--s5);font-size:var(--t-sm);color:var(--label);
+  }
+  .fuori a{
+    color:var(--gold);border:1px solid var(--line);border-radius:var(--r);
+    padding:var(--s2) var(--s4);text-decoration:none;font-weight:600;
+    background:var(--panel);
+  }
+  .fuori a:hover{border-color:var(--line2)}
+
+  .rami td:first-child{font-weight:600;color:var(--text)}
+  .rami .n{font-family:var(--mono);color:var(--gold);text-align:right;white-space:nowrap}
+  .rami .tot{font-family:var(--mono);color:var(--label);text-align:right;white-space:nowrap}
+
+  .esclusi li{margin-bottom:var(--s3);color:var(--muted);font-size:var(--t-sm)}
+  .esclusi b{color:var(--text)}
+  .esclusi .dove{
+    font-size:var(--t-xs);color:var(--label);text-transform:uppercase;
+    letter-spacing:.08em;margin-left:var(--s2);
+  }
+</style>
+</head>
+<body class="largo">
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="marchio" href="../index.html">PoE 2 <span>Tools</span></a>
+    <div class="nav-link">
+      <a href="../partenza/">Partenza</a>
+      <a href="../twister/">Twister</a>
+      <a href="./" aria-current="page">Atlante</a>
+    </div>
+    <span class="nav-patch">patch 0.5.5</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="testata">
+    <h1>L&rsquo;albero dell&rsquo;Atlante &mdash; <span>l&rsquo;allocazione completa</span></h1>
+    <p class="sub">L&rsquo;albero dell&rsquo;Atlante con <b>527 nodi su 536 presi insieme</b>. Il planner scrive <b>&laquo;330 / 40&raquo;</b> e non protesta, perch&eacute; quel 40 &egrave; <b>un&rsquo;etichetta, non un limite</b>: la funzione che alloca un nodo scrive e basta, non controlla nessun tetto. Serve a <b>vedere tutto l&rsquo;albero acceso in una schermata</b> &mdash; non &egrave; una build, in gioco i punti restano quelli che hai.</p>
+    <div class="badges">
+      <span class="badge oro"><b>527</b> / 536 nodi</span>
+      <span class="badge">albero <b>0.5.0</b></span>
+      <span class="badge"><b>7</b> rami</span>
+      <span class="badge">misurato il <b>7 settembre 2026</b></span>
+    </div>
+  </header>
+
+  <div class="avviso">
+    <b>La barra di caricamento qui sotto mente, e non c&rsquo;&egrave; niente da aspettare.</b>
+    Con pi&ugrave; di <b>255</b> nodi allocati, poeplanner prova a costruire il link per il
+    sito ufficiale scrivendo il numero dei nodi in <b>un byte solo</b>: <code>btoa</code>
+    solleva un errore, l&rsquo;eccezione salta il callback che spegne la barra, e quella
+    resta accesa per sempre. L&rsquo;albero sotto &egrave; caricato e funzionante &mdash;
+    misurato: rete ferma, zero richieste in volo.
+  </div>
+
+  <div class="fuori">
+    <a href="https://poeplanner.com/atlas-tree2/BQAFAAEIAtPGxGuM97odX2q__b85aDu6VBKD_07ygNbgaDUHZzKpVaBsxlT0SHm0eS0X9txbkvPliZoq5axTmKrmo0srVJqAjJNi42Na8tPXBwmZoHrYKLjksq8JPQHF8uY7KSowKeFYI4tzRWtA9dp11zPw9s6lj4z1c55d5Dk2nmiiG-0qxu1hGxT2EYbUHdg52dmYd2HYM_9k24WLhWBcQhboOe24OxB2RasWTTFYMFTguSwJD6T8JpthoHkxuLQCfY-Q9u0ZwY8wdH-nnzneqgWdskYMSk_7tTNHLWxXTuZ0hEfvzblEprZBSCFqszoU9SD12QOLnx6_Hflpjfe5j2VCC05U0VywYQhYMLLBLWHUbpLQquDgKYIv9LFriSvwtxe6bflSfMlP9wTktHw3wQcTuM29R0H5yFBm-UhfEj0_5xZiJVYeWsoc9ujSOs20bc3rkT5LnzAfRSN1SLaDCixgXL98mi5eQsidnkyHNPjSDyVhD3hMe_mEdqrRk7hbtGxtPzYZShVecUzVzBvT2je83Jg5eDpEdCUOGl5G2k6WBstjQkJAT02ihT4uv7bUhM4KL0VAB4g7y5ZjVZkxdvE0ANAEUz1yVy8hY9UiN3-G53GQUvl4Eg1d0qYP2883aoffqAhY1m834pIZUcL1mWbLA5GTLF1fdVpMdrof3ROz4fCX9XEOljb3m2WnZoBmDrpDY7U7x0HFFczjernBBH5QD1wghqtw3MUl-RCpJv6YNkHjUhGmzGNHieG26hVm77XKZAgnJZVclj_iRsH5SYs4LMY_9eizVDyNitbrygkWEWqPnAff9XZmKIa3HBfOYZ3cu5_FwmZ5PVJxb44DTlWEsA8AX3-8qqmbPyB5gjfUltcxBo-mzo5X8y2BCZ3oi2iwly2kqAz5R7rfnIx6DTqf3q6C0MUDrWErom798g20YwbpJzzfwvs0PhFba9RPA0KMfOhoO46fpHSjJrLDvsVk4ukkBxPf2ebJdx4NhCGiN-FESUD7zPqDhVuPWq8dZchNQYirvxr7Yoyjdr4rnln_gnavC1FNHpwH9C6M2DUocI6YJN86BwynadWpPE3rBRFO6WnRybMottkPfSIHkuvQbaPvFj_BHLpmlbAlgbOcuQJHpPNZJrFVZB7aybpXjuE8IrNV-otdotgHTds4g_C8Ncp2asFD1UJxKwxHEe8CeQQXO-kyCOTdcIdsAvQzfsIILU62jkjggaXKNrVNnNwqSxqqL6W8y55nxEtGizmzmh8sgfLfsdLzwyWQJNJ9_yRi_45omfM6L7Gmo0egcN4IJ_qO9DVJt_YtSdVZnM-2AHsBEpGmM8BA7VEBt-Jxoz6_xcXO2F9MoUXfBxhWN-pGz_bLJPrc_0-OLlM_ReHATuTtFAAfiwgAAAAAAAADAwAAAAAAAAAAAA==" target="_blank" rel="noopener">Aprire su poeplanner &rarr;</a>
+    <span>Il riquadro qui sotto &egrave; poeplanner.com incorniciato: si trascina, si zooma e i nodi si cliccano come sul sito originale.</span>
+  </div>
+
+  <div class="telaio">
+    <div class="ripiego">
+      <p><b>L&rsquo;albero non si &egrave; caricato.</b></p>
+      <p>Questo riquadro &egrave; l&rsquo;unica parte del sito che dipende da un altro server:
+      l&rsquo;albero &egrave; ospitato da <b>poeplanner.com</b>, e se &egrave; irraggiungibile
+      (o sei senza rete) qui non compare niente. Il resto della pagina funziona lo stesso.</p>
+      <p><a href="https://poeplanner.com/atlas-tree2/BQAFAAEIAtPGxGuM97odX2q__b85aDu6VBKD_07ygNbgaDUHZzKpVaBsxlT0SHm0eS0X9txbkvPliZoq5axTmKrmo0srVJqAjJNi42Na8tPXBwmZoHrYKLjksq8JPQHF8uY7KSowKeFYI4tzRWtA9dp11zPw9s6lj4z1c55d5Dk2nmiiG-0qxu1hGxT2EYbUHdg52dmYd2HYM_9k24WLhWBcQhboOe24OxB2RasWTTFYMFTguSwJD6T8JpthoHkxuLQCfY-Q9u0ZwY8wdH-nnzneqgWdskYMSk_7tTNHLWxXTuZ0hEfvzblEprZBSCFqszoU9SD12QOLnx6_Hflpjfe5j2VCC05U0VywYQhYMLLBLWHUbpLQquDgKYIv9LFriSvwtxe6bflSfMlP9wTktHw3wQcTuM29R0H5yFBm-UhfEj0_5xZiJVYeWsoc9ujSOs20bc3rkT5LnzAfRSN1SLaDCixgXL98mi5eQsidnkyHNPjSDyVhD3hMe_mEdqrRk7hbtGxtPzYZShVecUzVzBvT2je83Jg5eDpEdCUOGl5G2k6WBstjQkJAT02ihT4uv7bUhM4KL0VAB4g7y5ZjVZkxdvE0ANAEUz1yVy8hY9UiN3-G53GQUvl4Eg1d0qYP2883aoffqAhY1m834pIZUcL1mWbLA5GTLF1fdVpMdrof3ROz4fCX9XEOljb3m2WnZoBmDrpDY7U7x0HFFczjernBBH5QD1wghqtw3MUl-RCpJv6YNkHjUhGmzGNHieG26hVm77XKZAgnJZVclj_iRsH5SYs4LMY_9eizVDyNitbrygkWEWqPnAff9XZmKIa3HBfOYZ3cu5_FwmZ5PVJxb44DTlWEsA8AX3-8qqmbPyB5gjfUltcxBo-mzo5X8y2BCZ3oi2iwly2kqAz5R7rfnIx6DTqf3q6C0MUDrWErom798g20YwbpJzzfwvs0PhFba9RPA0KMfOhoO46fpHSjJrLDvsVk4ukkBxPf2ebJdx4NhCGiN-FESUD7zPqDhVuPWq8dZchNQYirvxr7Yoyjdr4rnln_gnavC1FNHpwH9C6M2DUocI6YJN86BwynadWpPE3rBRFO6WnRybMottkPfSIHkuvQbaPvFj_BHLpmlbAlgbOcuQJHpPNZJrFVZB7aybpXjuE8IrNV-otdotgHTds4g_C8Ncp2asFD1UJxKwxHEe8CeQQXO-kyCOTdcIdsAvQzfsIILU62jkjggaXKNrVNnNwqSxqqL6W8y55nxEtGizmzmh8sgfLfsdLzwyWQJNJ9_yRi_45omfM6L7Gmo0egcN4IJ_qO9DVJt_YtSdVZnM-2AHsBEpGmM8BA7VEBt-Jxoz6_xcXO2F9MoUXfBxhWN-pGz_bLJPrc_0-OLlM_ReHATuTtFAAfiwgAAAAAAAADAwAAAAAAAAAAAA==" target="_blank" rel="noopener">Aprire l&rsquo;albero direttamente su poeplanner &rarr;</a></p>
+    </div>
+    <iframe src="https://poeplanner.com/atlas-tree2/BQAFAAEIAtPGxGuM97odX2q__b85aDu6VBKD_07ygNbgaDUHZzKpVaBsxlT0SHm0eS0X9txbkvPliZoq5axTmKrmo0srVJqAjJNi42Na8tPXBwmZoHrYKLjksq8JPQHF8uY7KSowKeFYI4tzRWtA9dp11zPw9s6lj4z1c55d5Dk2nmiiG-0qxu1hGxT2EYbUHdg52dmYd2HYM_9k24WLhWBcQhboOe24OxB2RasWTTFYMFTguSwJD6T8JpthoHkxuLQCfY-Q9u0ZwY8wdH-nnzneqgWdskYMSk_7tTNHLWxXTuZ0hEfvzblEprZBSCFqszoU9SD12QOLnx6_Hflpjfe5j2VCC05U0VywYQhYMLLBLWHUbpLQquDgKYIv9LFriSvwtxe6bflSfMlP9wTktHw3wQcTuM29R0H5yFBm-UhfEj0_5xZiJVYeWsoc9ujSOs20bc3rkT5LnzAfRSN1SLaDCixgXL98mi5eQsidnkyHNPjSDyVhD3hMe_mEdqrRk7hbtGxtPzYZShVecUzVzBvT2je83Jg5eDpEdCUOGl5G2k6WBstjQkJAT02ihT4uv7bUhM4KL0VAB4g7y5ZjVZkxdvE0ANAEUz1yVy8hY9UiN3-G53GQUvl4Eg1d0qYP2883aoffqAhY1m834pIZUcL1mWbLA5GTLF1fdVpMdrof3ROz4fCX9XEOljb3m2WnZoBmDrpDY7U7x0HFFczjernBBH5QD1wghqtw3MUl-RCpJv6YNkHjUhGmzGNHieG26hVm77XKZAgnJZVclj_iRsH5SYs4LMY_9eizVDyNitbrygkWEWqPnAff9XZmKIa3HBfOYZ3cu5_FwmZ5PVJxb44DTlWEsA8AX3-8qqmbPyB5gjfUltcxBo-mzo5X8y2BCZ3oi2iwly2kqAz5R7rfnIx6DTqf3q6C0MUDrWErom798g20YwbpJzzfwvs0PhFba9RPA0KMfOhoO46fpHSjJrLDvsVk4ukkBxPf2ebJdx4NhCGiN-FESUD7zPqDhVuPWq8dZchNQYirvxr7Yoyjdr4rnln_gnavC1FNHpwH9C6M2DUocI6YJN86BwynadWpPE3rBRFO6WnRybMottkPfSIHkuvQbaPvFj_BHLpmlbAlgbOcuQJHpPNZJrFVZB7aybpXjuE8IrNV-otdotgHTds4g_C8Ncp2asFD1UJxKwxHEe8CeQQXO-kyCOTdcIdsAvQzfsIILU62jkjggaXKNrVNnNwqSxqqL6W8y55nxEtGizmzmh8sgfLfsdLzwyWQJNJ9_yRi_45omfM6L7Gmo0egcN4IJ_qO9DVJt_YtSdVZnM-2AHsBEpGmM8BA7VEBt-Jxoz6_xcXO2F9MoUXfBxhWN-pGz_bLJPrc_0-OLlM_ReHATuTtFAAfiwgAAAAAAAADAwAAAAAAAAAAAA=="
+            title="Albero dell'Atlante di Path of Exile 2 con 527 nodi allocati, su poeplanner.com"
+            referrerpolicy="no-referrer"
+            loading="eager"></iframe>
+  </div>
+
+  <section>
+    <h2 class="sec">I sette rami, e quanto ne &egrave; preso</h2>
+    <p class="muto">L&rsquo;albero non &egrave; un blocco solo: &egrave; un tronco pi&ugrave; sei cluster staccati, uno per meccanica. Il planner tiene un tetto <b>per ramo</b> &mdash; <code>[40, 8, 8, 8, 8, 8, 8]</code> &mdash; ma ne mostra solo il primo, ed &egrave; da l&igrave; che nasce l&rsquo;equivoco dei &laquo;40 punti&raquo;. I temi qui sotto sono dedotti dalle statistiche dei nodi, non da un&rsquo;etichetta del sito.</p>
+    <table class="tabella rami">
+      <thead><tr><th>Ramo</th><th>Tema</th><th class="n">Presi</th><th class="tot">Nodi</th></tr></thead>
+      <tbody>
+        <tr><td>Tronco</td><td>Essence, Strongbox, Shrine, Tablet &mdash; il corpo dell&rsquo;atlante</td><td class="n">330</td><td class="tot">337</td></tr>
+        <tr><td>Ramo 1</td><td>Breach</td><td class="n">31</td><td class="tot">33</td></tr>
+        <tr><td>Ramo 2</td><td>Expedition</td><td class="n">24</td><td class="tot">25</td></tr>
+        <tr><td>Ramo 3</td><td>Delirium e boss di mappa</td><td class="n">31</td><td class="tot">32</td></tr>
+        <tr><td>Ramo 4</td><td>Ritual</td><td class="n">34</td><td class="tot">35</td></tr>
+        <tr><td>Ramo 5</td><td>Abyss</td><td class="n">35</td><td class="tot">37</td></tr>
+        <tr><td>Ramo 6</td><td>Temple</td><td class="n">35</td><td class="tot">37</td></tr>
+      </tbody>
+    </table>
+    <p class="muto">In ogni ramo un nodo &egrave; il <b>punto di partenza</b> e non si conta: sette in tutto. Per questo 536 nodi fanno <b>529</b> allocabili, e i presi sono 520.</p>
+  </section>
+
+  <section>
+    <h2 class="sec">I nove nodi che restano spenti</h2>
+    <p class="muto">Sei sono nel tronco, tre nei rami. Uno &mdash; <b>Dark Bloodlines</b> &mdash; non &egrave; una scelta: &egrave; caduto in un passaggio precedente, quando da un albero <b>completo</b> il codice del link ne riportava indietro 535 su 536, sempre quello. <b>Questo</b> link invece &egrave; stabile: riaperto da zero restituisce <b>527 su 536</b>, gli stessi nove spenti e gli stessi conteggi per ramo &mdash; collaudato prima di pubblicarlo.</p>
+    <ul class="esclusi">
+      <li><b>Forest Biome: Gold Found</b> <span class="dove">tronco</span><br>5% increased Gold found in Forest Areas &mdash; due nodi gemelli, entrambi spenti</li>
+      <li><b>Water Biome: Gold Found</b> <span class="dove">tronco</span><br>5% increased Gold found in Water Areas</li>
+      <li><b>Escalating Rivalry</b> <span class="dove">tronco</span><br>Rogue Exiles have 5% chance to Flee to an adjacent Map and upgrade their Equipment</li>
+      <li><b>Survival of the Fittest</b> <span class="dove">tronco</span><br>I branchi rari nelle Desert Areas diventano <b>un solo raro con efficacia doppia</b> invece di averne uno in pi&ugrave;</li>
+      <li><b>Man Trap</b> <span class="dove">tronco</span><br>10% chance for Essence Monsters to be Rogue Exiles</li>
+      <li><b>Reactive Hiveseeding</b> <span class="dove">Breach</span><br>Completing Breaches has a 10% chance to add a Hive to a nearby map</li>
+      <li><b>Dark Bloodlines</b> <span class="dove">Abyss</span><br>Abyss Pits e Abyss Cracks: 25% di probabilit&agrave; che tutti i mostri siano almeno Magic &mdash; <b>perso dal link</b>, non deselezionato</li>
+      <li><b>The Lost Architect</b> <span class="dove">Temple</span><br>Zantipi&rsquo;s Medallion can be found from Unique Monsters in the Temple</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="sec">Cosa questa pagina non dice</h2>
+    <div class="card" style="padding:var(--s5)">
+      <p class="muto"><b>Non &egrave; una build, e non &egrave; un consiglio.</b> In gioco i punti dell&rsquo;atlante sono quelli che hai guadagnato: prendere tutto non &egrave; un&rsquo;opzione. Questo serve a <b>leggere l&rsquo;albero intero</b> &mdash; vedere dove sta ogni meccanica, quanto pesa un ramo, cosa c&rsquo;&egrave; in fondo a un cluster &mdash; non a copiarlo.</p>
+      <p class="muto">🔴 <b>L&rsquo;albero &egrave; la versione 0.5.0, la lega &egrave; la 0.5.5.</b> &Egrave; l&rsquo;albero che poeplanner serve oggi, ed &egrave; l&rsquo;unico che ha; se la 0.5.5 ha spostato qualcosa, qui non si vede. Da verificare in gioco prima di fidarsi di un nodo specifico.</p>
+      <p class="muto"><b>Il riquadro carica poeplanner.com, con la sua pubblicit&agrave; e i suoi tracker.</b> &Egrave; l&rsquo;unica eccezione alla regola &laquo;nessuna dipendenza esterna&raquo; di questo sito, ed &egrave; deliberata: l&rsquo;albero &egrave; interattivo e non si pu&ograve; riprodurre con uno screenshot. Tutto il resto della pagina funziona offline.</p>
+    </div>
+  </section>
+
+  <footer class="pie">
+    Albero ospitato da <a href="https://poeplanner.com/atlas-tree2" target="_blank" rel="noopener">poeplanner.com</a>,
+    versione 0.5.0 &middot; stato letto e misurato il 7 settembre 2026 &middot;
+    527 nodi su 536, 7 rami, 294 statistiche cumulative.
+  </footer>
+
+</div>
+<script src="../menu.js" defer></script>
+</body>
+</html>
