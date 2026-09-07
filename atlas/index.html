@@ -32,7 +32,20 @@
      y=48, le tab arrivano a 82 e il canvas dell'albero comincia li'.
      86 e' 82 con quattro pixel di margine: sbagliare per eccesso taglia
      qualche pixel di cielo, sbagliare per difetto rimette in scena la barra. */
-  .telaio{--taglio:86px}
+  .telaio{
+    --taglio:86px;
+    /* 🔴 La riga che impedisce alla rotella di fare due cose insieme.
+       Girata sul riquadro, la rotella zooma l'albero **e** faceva scorrere la
+       pagina sotto, cosi' l'albero scappava via mentre lo si guardava: il
+       planner gestisce l'evento ma non lo consuma, e lo scorrimento
+       "incatenava" al primo antenato che poteva scorrere, cioe' il documento.
+       ⚠️ E dal padre l'evento non si puo' fermare a mano: l'iframe e'
+       cross-origin, quindi entrando col puntatore questa pagina **non riceve
+       piu' niente** — ne' mouseenter ne' mousemove; misurato, un ascoltatore
+       li' non vedrebbe mai nulla. `contain` spezza la catena nel punto giusto,
+       che e' il contenitore, e non ha bisogno di una riga di JavaScript. */
+    overscroll-behavior:contain;
+  }
   .telaio iframe{
     position:absolute;left:0;right:0;
     top:calc(-1 * var(--taglio));
@@ -111,7 +124,7 @@
 
   <div class="fuori">
     <a href="https://poeplanner.com/atlas-tree2/BQAFAAEIAtPGxGuM97odX2q__b85aDu6VBKD_07ygNbgaDUHZzKpVaBsxlT0SHm0eS0X9txbkvPliZoq5axTmKrmo0srVJqAjJNi42Na8tPXBwmZoHrYKLjksq8JPQHF8uY7KSowKeFYI4tzRWtA9dp11zPw9s6lj4z1c55d5Dk2nmiiG-0qxu1hGxT2EYbUHdg52dmYd2HYM_9k24WLhWBcQhboOe24OxB2RasWTTFYMFTguSwJD6T8JpthoHkxuLQCfY-Q9u0ZwY8wdH-nnzneqgWdskYMSk_7tTNHLWxXTuZ0hEfvzblEprZBSCFqszoU9SD12QOLnx6_Hflpjfe5j2VCC05U0VywYQhYMLLBLWHUbpLQquDgKYIv9LFriSvwtxe6bflSfMlP9wTktHw3wQcTuM29R0H5yFBm-UhfEj0_5xZiJVYeWsoc9ujSOs20bc3rkT5LnzAfRSN1SLaDCixgXL98mi5eQsidnkyHNPjSDyVhD3hMe_mEdqrRk7hbtGxtPzYZShVecUzVzBvT2je83Jg5eDpEdCUOGl5G2k6WBstjQkJAT02ihT4uv7bUhM4KL0VAB4g7y5ZjVZkxdvE0ANAEUz1yVy8hY9UiN3-G53GQUvl4Eg1d0qYP2883aoffqAhY1m834pIZUcL1mWbLA5GTLF1fdVpMdrof3ROz4fCX9XEOljb3m2WnZoBmDrpDY7U7x0HFFczjernBBH5QD1wghqtw3MUl-RCpJv6YNkHjUhGmzGNHieG26hVm77XKZAgnJZVclj_iRsH5SYs4LMY_9eizVDyNitbrygkWEWqPnAff9XZmKIa3HBfOYZ3cu5_FwmZ5PVJxb44DTlWEsA8AX3-8qqmbPyB5gjfUltcxBo-mzo5X8y2BCZ3oi2iwly2kqAz5R7rfnIx6DTqf3q6C0MUDrWErom798g20YwbpJzzfwvs0PhFba9RPA0KMfOhoO46fpHSjJrLDvsVk4ukkBxPf2ebJdx4NhCGiN-FESUD7zPqDhVuPWq8dZchNQYirvxr7Yoyjdr4rnln_gnavC1FNHpwH9C6M2DUocI6YJN86BwynadWpPE3rBRFO6WnRybMottkPfSIHkuvQbaPvFj_BHLpmlbAlgbOcuQJHpPNZJrFVZB7aybpXjuE8IrNV-otdotgHTds4g_C8Ncp2asFD1UJxKwxHEe8CeQQXO-kyCOTdcIdsAvQzfsIILU62jkjggaXKNrVNnNwqSxqqL6W8y55nxEtGizmzmh8sgfLfsdLzwyWQJNJ9_yRi_45omfM6L7Gmo0egcN4IJ_qO9DVJt_YtSdVZnM-2AHsBEpGmM8BA7VEBt-Jxoz6_xcXO2F9MoUXfBxhWN-pGz_bLJPrc_0-OLlM_ReHATuTtFAAfiwgAAAAAAAADAwAAAAAAAAAAAA==" target="_blank" rel="noopener">Aprire su poeplanner &rarr;</a>
-    <span>Il riquadro qui sotto &egrave; <b>poeplanner.com</b> incorniciato &mdash; senza la sua intestazione, che &egrave; tagliata via: si trascina, si zooma e i nodi si cliccano come sul sito originale.</span>
+    <span>Il riquadro qui sotto &egrave; <b>poeplanner.com</b> incorniciato &mdash; senza la sua intestazione, che &egrave; tagliata via: si trascina, si zooma e i nodi si cliccano come sul sito originale. <b>Con il puntatore sul riquadro la rotella zooma l&rsquo;albero e la pagina non scorre</b>; per scorrere, il puntatore va spostato fuori.</span>
   </div>
 
   <div class="telaio">
