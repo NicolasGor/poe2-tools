@@ -43,14 +43,57 @@
   .filtro .conta{font-size:var(--t-xs);color:var(--label);font-family:var(--mono);
                  white-space:nowrap}
 
-  /* ---- la carta di un modificatore ---- */
-  /* 🔴 `min(26rem,100%)` e non `26rem`: su uno schermo da 375px una colonna
-     minima da 26rem (416px) non si stringe, sfonda il corpo e fa scorrere la
-     pagina di lato. Il `min()` lascia la colonna a 26rem finche' c'e' spazio e
-     la fa collassare alla larghezza dello schermo quando non ce n'e'. */
-  .lista{display:grid;gap:var(--s3);
-         grid-template-columns:repeat(auto-fit,minmax(min(26rem,100%),1fr));
-         align-items:start}
+  /* ---- le tre corsie ---- */
+  /* Liberi a sinistra, Dipende in mezzo, Evita a destra: la **posizione**
+     porta il verdetto, e scorrendo non si rilegge un'etichetta per carta.
+     🔴 `minmax(0,1fr)` e non `1fr`: il minimo implicito di una colonna di
+     griglia e' `auto`, cioe' la larghezza del contenuto piu' largo — con
+     dentro `<h3>` a font monospace e parole lunghe, tre colonne `1fr` si
+     allargano oltre il contenitore e fanno scorrere la pagina di lato. */
+  .corsie{display:grid;gap:var(--s3);
+          grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+  .corsia{display:grid;gap:var(--s3);align-content:start;min-width:0}
+  .corsia[hidden]{display:none}
+
+  /* 🔴 Quando il filtro lascia **una sola** corsia, tenerla larga un terzo
+     sprecherebbe due terzi di schermo: `.solo` la fa tornare una griglia
+     normale a piena larghezza. La classe la mette lo script. */
+  .corsie.solo{grid-template-columns:1fr}
+  .corsie.solo .corsia{grid-template-columns:repeat(auto-fit,minmax(min(26rem,100%),1fr))}
+  .corsie.solo .corsia-t{grid-column:1/-1}
+
+  /* L'intestazione resta appiccicata sotto le due barre: con corsie lunghe e
+     di altezza diversa, a meta' pagina non si saprebbe piu' in quale si e'.
+     Il `top` e' lo stesso calcolo dello scroll-margin di stile.css. */
+  .corsia-t{
+    position:sticky;top:calc(var(--nav-h) + var(--sezioni-h) + 2px);z-index:5;
+    display:flex;align-items:center;gap:.5rem;
+    margin:0;padding:var(--s2) var(--s3);
+    font-size:var(--t-sm);font-weight:650;letter-spacing:.01em;
+    background:var(--bg-alt);border:1px solid var(--line);border-radius:var(--r);
+  }
+  .corsia-t b{margin-left:auto;font-family:var(--mono);color:var(--label);font-weight:600}
+  .corsia-t .pun{width:.55rem;height:.55rem;border-radius:50%;flex:none}
+  .c-si .corsia-t{color:var(--good);border-color:rgba(95,211,160,.32)}
+  .c-si .pun{background:var(--good)}
+  .c-dipende .corsia-t{color:var(--warn);border-color:rgba(224,163,63,.32)}
+  .c-dipende .pun{background:var(--warn)}
+  .c-no .corsia-t{color:var(--bad);border-color:rgba(229,120,109,.32)}
+  .c-no .pun{background:var(--bad)}
+  .c-muto .corsia-t{color:var(--label)}
+  .c-muto .pun{background:var(--line2)}
+
+  /* I non giudicati stanno **fuori** dalle corsie e sotto: non sono un quarto
+     grado della stessa scala, sono l'assenza di un giudizio. In fila con gli
+     altri farebbero credere il contrario. */
+  .muti{display:grid;gap:var(--s3);margin-top:var(--s5);
+        grid-template-columns:repeat(auto-fit,minmax(min(26rem,100%),1fr))}
+  .muti[hidden]{display:none}
+  .muti > .corsia-t{grid-column:1/-1}
+
+  @media (max-width:64rem){
+    .corsie{grid-template-columns:1fr}
+  }
   .mod{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);
        padding:var(--s4);box-shadow:var(--ombra)}
   /* Il bordo a sinistra e' il verdetto: si legge scorrendo, senza rileggere
@@ -92,9 +135,14 @@
   .gradi td{padding:.22rem 0;color:var(--muted);border-bottom:1px solid var(--line)}
   .gradi tr:last-child td{border-bottom:0}
 
-  .perche{list-style:none;margin:var(--s3) 0 0;padding:0;display:grid;gap:var(--s2)}
-  .perche li{display:grid;grid-template-columns:auto auto 1fr;gap:.45rem;
-             align-items:baseline;font-size:var(--t-sm);color:var(--muted)}
+  /* 🔴 L'etichetta sta **sopra** al testo, non di fianco. Affiancata mangiava
+     una colonna a ogni riga, e dentro una corsia larga un terzo di schermo il
+     testo restava in una striscia da poche parole: la riga si leggeva a
+     singhiozzo. Sopra, il paragrafo si prende tutta la larghezza della carta. */
+  .perche{list-style:none;margin:var(--s3) 0 0;padding:0;display:grid;gap:var(--s3)}
+  .perche li{font-size:var(--t-sm);color:var(--muted)}
+  .perche .cap{display:flex;align-items:center;gap:.4rem;margin-bottom:.18rem}
+  .perche .tx{margin:0}
   .perche .et{font-size:var(--t-xs);font-weight:650;white-space:nowrap;
               padding:.05rem .35rem;border-radius:var(--r-sm);background:var(--panel2)}
   .perche .r-si > .et{color:var(--good)}
@@ -232,7 +280,7 @@
 
   <h2 class="sec" id="lista">I 33 modificatori, uno per uno</h2>
 
-  <p class="muto">Ordinati per verdetto: prima quelli che si cliccano, poi quelli che dipendono, poi quelli da evitare, e in fondo i <b>sette che il video non giudica</b> &mdash; dove trovi solo la lettura del testo, marcata come tale. Il pulsante apre il testo esatto di ogni grado.</p>
+  <p class="muto">Tre corsie, e la <b>posizione &egrave; il verdetto</b>: <b>Liberi</b>, poi <b>Dipende dalla build</b>, poi <b>Evita</b> &mdash; affiancate su schermo largo, una sotto l&rsquo;altra su schermo stretto. In fondo, fuori dalle corsie, gli <b>8 che il video non giudica</b> &mdash; dove trovi solo la lettura del testo, marcata come tale. Il pulsante sotto il nome apre il testo esatto di ogni grado.</p>
 
   <div class="filtro">
     <span class="conta" id="conta">33 modificatori</span>
@@ -244,7 +292,9 @@
     <input type="search" id="cerca" placeholder="cerca nel nome o nel testo&hellip;" aria-label="Cerca fra i modificatori" hidden>
   </div>
 
-  <div class="lista" id="lista-mod">
+  <div class="corsie" id="lista-mod">
+    <section class="corsia c-si" data-corsia="si">
+      <h3 class="corsia-t"><span class="pun"></span>Liberi <b>9</b></h3>
 
 <article class="mod v-si" id="volatile-fiends" data-v="si" data-cerca="volatile fiends il primo click di ogni run finché dura è rotto le volatili scoppiano all istante e non fanno danno video lo prende volta fino a t5 chiama un regalo prima della lega stesso autore dava come cliccare mai in nessuna circostanza ed esattamente per questo che la riga più fragile pagina bug bilanciamento giorno sistemano metà dei mostri lascia una mortale morendo i rari ne lasciano grosse cioè torna essere peggiore tutti si costruisce su senza aver visto esplodere">
   <header class="mod-t">
@@ -264,8 +314,8 @@
 <tr><th scope="row">T5</th><td>Monsters have a 50% chance to release deadly Volatiles on death. Rare monsters leave larger ones</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">È <b>rotto</b>: le volatili scoppiano all'istante e non fanno danno. Il video lo prende <b>ogni volta</b>, fino a T5, e lo chiama «un regalo». Prima della lega lo stesso autore lo dava come «non cliccare mai, in nessuna circostanza».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Ed è esattamente per questo che è la riga più fragile della pagina: <b>è un bug, non un bilanciamento</b>. Il giorno che lo sistemano, a T5 metà dei mostri lascia una volatile mortale morendo e i rari ne lasciano di più grosse — cioè torna a essere il peggiore di tutti. Non si costruisce una run su questo senza aver visto una volatile esplodere.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">È <b>rotto</b>: le volatili scoppiano all'istante e non fanno danno. Il video lo prende <b>ogni volta</b>, fino a T5, e lo chiama «un regalo». Prima della lega lo stesso autore lo dava come «non cliccare mai, in nessuna circostanza».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Ed è esattamente per questo che è la riga più fragile della pagina: <b>è un bug, non un bilanciamento</b>. Il giorno che lo sistemano, a T5 metà dei mostri lascia una volatile mortale morendo e i rari ne lasciano di più grosse — cioè torna a essere il peggiore di tutti. Non si costruisce una run su questo senza aver visto una volatile esplodere.</p></li>
   </ul>
 </article>
 
@@ -287,8 +337,8 @@
 <tr><th scope="row">T5</th><td>Monsters have 50% chance to inflict Bleed or Poison</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Una barzelletta, lo porto a cinque praticamente ogni run, totalmente gratis»: i mostri del trial non picchiano abbastanza forte perché uno stack di sanguinamento o veleno conti qualcosa.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">È l'unica riga della lista che scala col <b>numero</b> di colpi che prendi e non con il loro danno: a T5 è il 50% di probabilità su ogni colpo. Su vita bassa e senza rimedio a bleed il conto cambia — e il giudizio sopra è misurato su un personaggio da 2.000 di energy shield, non sul tuo.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Una barzelletta, lo porto a cinque praticamente ogni run, totalmente gratis»: i mostri del trial non picchiano abbastanza forte perché uno stack di sanguinamento o veleno conti qualcosa.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">È l'unica riga della lista che scala col <b>numero</b> di colpi che prendi e non con il loro danno: a T5 è il 50% di probabilità su ogni colpo. Su vita bassa e senza rimedio a bleed il conto cambia — e il giudizio sopra è misurato su un personaggio da 2.000 di energy shield, non sul tuo.</p></li>
   </ul>
 </article>
 
@@ -308,8 +358,8 @@
 <tr><th scope="row">T5</th><td>Many large runes will appear that will call deadly Lightning storms if you remain in them</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Parole esatte: «probabilmente uno dei più gratis che esistano». Sono rune disegnate a terra: fanno male <b>solo</b> se ci resti sopra.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">«Solo se ci resti sopra» è precisamente il problema di una build che si inchioda durante un'animazione — la stessa obiezione che il video muove a Petrification Statues, dove però la considera fatale invece che trascurabile.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Parole esatte: «probabilmente uno dei più gratis che esistano». Sono rune disegnate a terra: fanno male <b>solo</b> se ci resti sopra.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">«Solo se ci resti sopra» è precisamente il problema di una build che si inchioda durante un'animazione — la stessa obiezione che il video muove a Petrification Statues, dove però la considera fatale invece che trascurabile.</p></li>
   </ul>
 </article>
 
@@ -328,8 +378,8 @@
 <tr><th scope="row">T2</th><td>Globules of blood manifest nearby, tracking you. When above you they will fall, dealing Physical damage and creating damaging blood ground</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">La globula ha <b>traiettoria fissa</b>: prende la strada più breve verso di te. Le si va <b>incontro</b> per metà strada e poi si cammina via — «così non ti prende mai». La pozza che lascia a terra fa danno trascurabile.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">La tecnica richiede di <b>vederla</b> arrivare. Su una stanza già coperta di ostacoli — e T2 aggiunge il terreno di sangue — vale meno di quanto la spiegazione faccia sembrare.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">La globula ha <b>traiettoria fissa</b>: prende la strada più breve verso di te. Le si va <b>incontro</b> per metà strada e poi si cammina via — «così non ti prende mai». La pozza che lascia a terra fa danno trascurabile.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">La tecnica richiede di <b>vederla</b> arrivare. Su una stanza già coperta di ostacoli — e T2 aggiunge il terreno di sangue — vale meno di quanto la spiegazione faccia sembrare.</p></li>
   </ul>
 </article>
 
@@ -349,8 +399,8 @@
 <tr><th scope="row">T5</th><td>An ancient Vaal machination will deploy a powerful array of attacks against nearby intruders</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Lo prendo ogni volta»: a grado alto la macchina si ritrova con delle torrette di fuoco addosso, «che non ti ammazzano e fanno ridere».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Resta un'entità che spara mentre combatti: costa secondi nella stanza, e i secondi nella stanza sono la valuta vera del trial.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Lo prendo ogni volta»: a grado alto la macchina si ritrova con delle torrette di fuoco addosso, «che non ti ammazzano e fanno ridere».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Resta un'entità che spara mentre combatti: costa secondi nella stanza, e i secondi nella stanza sono la valuta vera del trial.</p></li>
   </ul>
 </article>
 
@@ -372,8 +422,8 @@
 <tr><th scope="row">T5</th><td>Monsters grant no Flask and Charm Charges on death</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">È gratis <b>adesso</b>, e non perché il mod sia debole: perché fra un piano e l'altro si fa <b>reset al checkpoint</b>, e se finisci le cariche e stai per morire <b>esci dal trial</b> senza perdere l'ultimatum.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">A T5 i mostri non danno <b>nessuna</b> carica, né di flask né di charm. Una build che vive di flask — rigenerazione su carica, immunità comprate col flask — perde la sua unica valvola, e l'uscita dal trial ripaga l'ultimatum, non i venti minuti.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">È gratis <b>adesso</b>, e non perché il mod sia debole: perché fra un piano e l'altro si fa <b>reset al checkpoint</b>, e se finisci le cariche e stai per morire <b>esci dal trial</b> senza perdere l'ultimatum.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">A T5 i mostri non danno <b>nessuna</b> carica, né di flask né di charm. Una build che vive di flask — rigenerazione su carica, immunità comprate col flask — perde la sua unica valvola, e l'uscita dal trial ripaga l'ultimatum, non i venti minuti.</p></li>
   </ul>
 </article>
 
@@ -393,8 +443,8 @@
 <tr><th scope="row">T5</th><td>In each encounter room, damage taken will increase by 1% every second, up to 50%</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Messo nella stessa frase di Drought: «anche questo è gratis».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Il perché non lo dice, ma sta nel testo: il tetto è <b>+50%</b> e <b>riparte a ogni stanza</b>. Su una stanza chiusa in venti secondi paghi una frazione di quel 50%; sulla stanza «uccidi tutti» lenta, o su quella a timer, il tetto lo raggiungi — a T5 in cinquanta secondi.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Messo nella stessa frase di Drought: «anche questo è gratis».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Il perché non lo dice, ma sta nel testo: il tetto è <b>+50%</b> e <b>riparte a ogni stanza</b>. Su una stanza chiusa in venti secondi paghi una frazione di quel 50%; sulla stanza «uccidi tutti» lenta, o su quella a timer, il tetto lo raggiungi — a T5 in cinquanta secondi.</p></li>
   </ul>
 </article>
 
@@ -414,8 +464,8 @@
 <tr><th scope="row">T5</th><td>Rare Monsters have an additional Modifier · 100% increased Rare Monsters</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«È solo un buff»: più rari, e a T5 i rari hanno <b>un modificatore in più</b> — cioè più roba a terra, che è il motivo per cui si entra.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Più rari vuol dire anche più corpi che lasciano volatili se hai preso Volatile Fiends, e più bersagli che il boss non è. È un buff <i>se</i> la build pulisce i rari senza fermarsi.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«È solo un buff»: più rari, e a T5 i rari hanno <b>un modificatore in più</b> — cioè più roba a terra, che è il motivo per cui si entra.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Più rari vuol dire anche più corpi che lasciano volatili se hai preso Volatile Fiends, e più bersagli che il boss non è. È un buff <i>se</i> la build pulisce i rari senza fermarsi.</p></li>
   </ul>
 </article>
 
@@ -435,11 +485,14 @@
 <tr><th scope="row">T5</th><td>Buffs on you expire 200% faster and Debuffs on you expire 100% slower</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Freebie, lo prendo comunque»: tre soli gradi, e il video lo clicca a occhi chiusi.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">🔴 <b>Mai insieme a Petrification Statues.</b> A T5 i debuff su di te scadono il <b>100% più lentamente</b>, e la pietrificazione è un debuff: il video la chiama morte certa, «non mi interessa quanto pensi di essere tanky». Il legame fra i due testi lo conferma.</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">E c'è un secondo caso che il video non nomina, perché la sua build non ne vive: a T5 i <b>buff</b> su di te scadono il <b>200% più in fretta</b>. Una build costruita su buff a scadenza — cariche, buff da skill, finestre temporanee — qui non ha un mod gratis, ha un mod che la spegne.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Freebie, lo prendo comunque»: tre soli gradi, e il video lo clicca a occhi chiusi.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">🔴 <b>Mai insieme a Petrification Statues.</b> A T5 i debuff su di te scadono il <b>100% più lentamente</b>, e la pietrificazione è un debuff: il video la chiama morte certa, «non mi interessa quanto pensi di essere tanky». Il legame fra i due testi lo conferma.</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">E c'è un secondo caso che il video non nomina, perché la sua build non ne vive: a T5 i <b>buff</b> su di te scadono il <b>200% più in fretta</b>. Una build costruita su buff a scadenza — cariche, buff da skill, finestre temporanee — qui non ha un mod gratis, ha un mod che la spegne.</p></li>
   </ul>
 </article>
+    </section>
+    <section class="corsia c-dipende" data-corsia="dipende">
+      <h3 class="corsia-t"><span class="pun"></span>Dipende dalla build <b>8</b></h3>
 
 <article class="mod v-dipende" id="prismatic-monsters" data-v="dipende" data-cerca="prismatic monsters gratis a cap di resistenze letale sotto praticamente è solo un 1 3 t5 i mostri guadagnano il 30 del danno come extra elemento casuale se non sei ti termina e combinato con reduced resistances vieni distrutto mod che trasforma buco nelle in una morte invece lasciarlo essere">
   <header class="mod-t">
@@ -459,8 +512,8 @@
 <tr><th scope="row">T5</th><td>Monsters gain 30% of Damage as Extra Damage of a random Element</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Praticamente gratis, è solo un 1,3×»: a T5 i mostri guadagnano il 30% del danno come danno extra di un elemento casuale.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Se non sei a cap di resistenze ti termina» — e combinato con Reduced Resistances «vieni distrutto». È il mod che trasforma un buco nelle resistenze in una morte, invece di lasciarlo essere un buco.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Praticamente gratis, è solo un 1,3×»: a T5 i mostri guadagnano il 30% del danno come danno extra di un elemento casuale.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Se non sei a cap di resistenze ti termina» — e combinato con Reduced Resistances «vieni distrutto». È il mod che trasforma un buco nelle resistenze in una morte, invece di lasciarlo essere un buco.</p></li>
   </ul>
 </article>
 
@@ -482,9 +535,9 @@
 <tr><th scope="row">T5</th><td>Monsters have +50% to all Resistances</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Portato a 5 ogni run, perché quella build fa <b>danno fisico puro</b>: +50% a tutte le resistenze su un danno che non è né elementale né da caos non toglie niente.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">✅ E c'è il caso in cui è un <b>buff vero</b>. <b>Rakiata's Flow</b> (Lineage Support, livello 65, moltiplicatore di costo 120%) fa sì che i colpi trattino le resistenze elementali del mostro come <b>invertite</b> — testo letto su poe2db il 9 settembre 2026. Con quella gemma socketata, +50% diventa −50%: il mod si clicca <i>per fare più danno</i>.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Qualsiasi build elementale senza quella gemma perde danno secco, a T5 su cinquanta punti di resistenza.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Portato a 5 ogni run, perché quella build fa <b>danno fisico puro</b>: +50% a tutte le resistenze su un danno che non è né elementale né da caos non toglie niente.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">✅ E c'è il caso in cui è un <b>buff vero</b>. <b>Rakiata's Flow</b> (Lineage Support, livello 65, moltiplicatore di costo 120%) fa sì che i colpi trattino le resistenze elementali del mostro come <b>invertite</b> — testo letto su poe2db il 9 settembre 2026. Con quella gemma socketata, +50% diventa −50%: il mod si clicca <i>per fare più danno</i>.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Qualsiasi build elementale senza quella gemma perde danno secco, a T5 su cinquanta punti di resistenza.</p></li>
   </ul>
 </article>
 
@@ -506,8 +559,8 @@
 <tr><th scope="row">T5</th><td>Monsters gain 50% of maximum Life as Extra maximum Energy Shield</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Gratis per la maggior parte»: se fai danno da caos «lo scudo lo sfondi comunque».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Se il piano è un <b>colpo secco preparato</b> — un Perfect Strike, una finestra da caricare — a T5 il 50% della vita massima in energy shield extra si mette esattamente in mezzo alla soglia che devi superare.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Gratis per la maggior parte»: se fai danno da caos «lo scudo lo sfondi comunque».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Se il piano è un <b>colpo secco preparato</b> — un Perfect Strike, una finestra da caricare — a T5 il 50% della vita massima in energy shield extra si mette esattamente in mezzo alla soglia che devi superare.</p></li>
   </ul>
 </article>
 
@@ -527,8 +580,8 @@
 <tr><th scope="row">T5</th><td>Monsters have 75% reduced Slowing Potency of Debuffs on them and 75% increased Stun Threshold</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Sarà gratis per la maggior parte di voi, soprattutto se siete caster».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Il video però lo evita, e la ragione vale più del giudizio: la sua build <b>stunna i boss</b> per potersi permettere di stare ferma a usare la skill. A T5 la soglia di stun è +75% e i rallentamenti valgono il 25% di quello che dicono. Se la tua sopravvivenza passa da stun, freeze o slow, questa riga sta in lista rossa, non gialla.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Sarà gratis per la maggior parte di voi, soprattutto se siete caster».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Il video però lo evita, e la ragione vale più del giudizio: la sua build <b>stunna i boss</b> per potersi permettere di stare ferma a usare la skill. A T5 la soglia di stun è +75% e i rallentamenti valgono il 25% di quello che dicono. Se la tua sopravvivenza passa da stun, freeze o slow, questa riga sta in lista rossa, non gialla.</p></li>
   </ul>
 </article>
 
@@ -550,9 +603,9 @@
 <tr><th scope="row">T5</th><td>Monsters have 500% increased Critical Hit Chance</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">T1 si clicca senza pensarci. Oltre no: «non portarlo su come se fosse un regalo».</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Diventa gratis a ogni grado in due casi precisi, entrambi dal video e <b>non verificati qui</b>: con <b>Ward</b> (sulla Brass Dome non prendi il bonus di danno critico) e da <b>Gemling</b>, che ne è immune.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">A T5 sono <b>+500%</b> di probabilità di colpo critico. Non aumenta il danno medio del mostro: aumenta la coda, cioè la probabilità del colpo che ti uccide.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">T1 si clicca senza pensarci. Oltre no: «non portarlo su come se fosse un regalo».</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Diventa gratis a ogni grado in due casi precisi, entrambi dal video e <b>non verificati qui</b>: con <b>Ward</b> (sulla Brass Dome non prendi il bonus di danno critico) e da <b>Gemling</b>, che ne è immune.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">A T5 sono <b>+500%</b> di probabilità di colpo critico. Non aumenta il danno medio del mostro: aumenta la coda, cioè la probabilità del colpo che ti uccide.</p></li>
   </ul>
 </article>
 
@@ -572,8 +625,8 @@
 <tr><th scope="row">T5</th><td>Monsters gain 20% increased Skill Speed and Movement Speed</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Non è così male»: tre gradi, dal +10% al +20% di velocità di skill e movimento.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">La riserva è pesante e sta tutta nella stanza del boss: <b>già a T1</b> non riesci più a schivare con la capriola l'attacco di calcio del boss-uccello, «perché attacca in successione e ti rincorre come se giocassi a Dark Souls». Il costo non è nelle stanze, è nei tre incontri che contano.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Non è così male»: tre gradi, dal +10% al +20% di velocità di skill e movimento.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">La riserva è pesante e sta tutta nella stanza del boss: <b>già a T1</b> non riesci più a schivare con la capriola l'attacco di calcio del boss-uccello, «perché attacca in successione e ti rincorre come se giocassi a Dark Souls». Il costo non è nelle stanze, è nei tre incontri che contano.</p></li>
   </ul>
 </article>
 
@@ -595,8 +648,8 @@
 <tr><th scope="row">T5</th><td>80% reduced Life, Mana, and Energy Shield Recovery Rate</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Da evitare se dipendi dalla rigenerazione per usare la skill, o dai flask per stare in piedi: a T5 è <b>−80%</b> al rateo di recupero di vita, mana <i>ed</i> energy shield insieme. «Se ti tocca cliccarlo, spera almeno di non doverlo portare su.»</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Una build che non spende mana per attaccare e non recupera durante il combattimento — danno secco, nessun leech, riserva parcheggiata — la sente appena. È l'unico mod della lista il cui costo si può portare a zero cambiando build, non equipaggiamento.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Da evitare se dipendi dalla rigenerazione per usare la skill, o dai flask per stare in piedi: a T5 è <b>−80%</b> al rateo di recupero di vita, mana <i>ed</i> energy shield insieme. «Se ti tocca cliccarlo, spera almeno di non doverlo portare su.»</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Una build che non spende mana per attaccare e non recupera durante il combattimento — danno secco, nessun leech, riserva parcheggiata — la sente appena. È l'unico mod della lista il cui costo si può portare a zero cambiando build, non equipaggiamento.</p></li>
   </ul>
 </article>
 
@@ -614,10 +667,13 @@
     <table class="gradi"><tr><th scope="row">T1 · T2 · T3</th><td>An invulnerable shade stalks you, inflicting Ruin with its hits, it gains additional skills at higher tiers</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">L'ombra è <b>invulnerabile</b>, ti segue per tutto il trial e i suoi colpi danno <b>Ruin</b>. Il video: «l'ho visto più lento di prima, a grado 1 è quasi gratis», ma a grado alto prende anche un attacco a proiettile «e a quel punto ti condiziona il movimento». Lo chiama «il meno brutto di quelli da evitare».</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">✅ Il numero che manca al giudizio sta su poe2db, alla voce <b>Ruin</b>: «On reaching 7 Ruin, you will fail the Trials». Sette colpi e la run è persa — il video dice sette, il dato lo conferma. Non è un mod che ti uccide: è un mod che ti <b>squalifica</b>, e una barra che non si vede finisce sempre per essere quella dimenticata.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">L'ombra è <b>invulnerabile</b>, ti segue per tutto il trial e i suoi colpi danno <b>Ruin</b>. Il video: «l'ho visto più lento di prima, a grado 1 è quasi gratis», ma a grado alto prende anche un attacco a proiettile «e a quel punto ti condiziona il movimento». Lo chiama «il meno brutto di quelli da evitare».</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">✅ Il numero che manca al giudizio sta su poe2db, alla voce <b>Ruin</b>: «On reaching 7 Ruin, you will fail the Trials». Sette colpi e la run è persa — il video dice sette, il dato lo conferma. Non è un mod che ti uccide: è un mod che ti <b>squalifica</b>, e una barra che non si vede finisce sempre per essere quella dimenticata.</p></li>
   </ul>
 </article>
+    </section>
+    <section class="corsia c-no" data-corsia="no">
+      <h3 class="corsia-t"><span class="pun"></span>Evita <b>8</b></h3>
 
 <article class="mod v-no" id="reduced-resistances" data-v="no" data-cerca="reduced resistances uno dei due peggiori per il massimale non resto video lo mette fra i della lista meno 55 a tutte le resistenze è terribile e vuol dire che certe cose ti uccidono in un colpo la parte si legge male 15 al compare da t3 tetto abbassato ricompri con l equipaggiamento durante run buco nelle qui permanente tutti piani restano">
   <header class="mod-t">
@@ -637,8 +693,8 @@
 <tr><th scope="row">T5</th><td>-55% to Elemental Resistances and -15% to Maximum Elemental Resistances</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Il video lo mette fra i <b>due peggiori della lista</b>: «meno 55 a tutte le resistenze è terribile, e vuol dire che certe cose ti uccidono in un colpo».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">E la parte che si legge male non è il −55%: è il <b>−15% al massimale</b>, che compare da T3. Il massimale è il tetto: abbassato, non lo ricompri con l'equipaggiamento durante la run. Un buco nelle resistenze qui è permanente per tutti i piani che restano.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Il video lo mette fra i <b>due peggiori della lista</b>: «meno 55 a tutte le resistenze è terribile, e vuol dire che certe cose ti uccidono in un colpo».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">E la parte che si legge male non è il −55%: è il <b>−15% al massimale</b>, che compare da T3. Il massimale è il tetto: abbassato, non lo ricompri con l'equipaggiamento durante la run. Un buco nelle resistenze qui è permanente per tutti i piani che restano.</p></li>
   </ul>
 </article>
 
@@ -660,8 +716,8 @@
 <tr><th scope="row">T5</th><td>80% less Armour, Evasion and Energy Shield</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Evitato «perché io <i>sto</i> usando una difesa». Diventa gratis solo con <b>Ward</b>, che non è né armour, né evasion, né energy shield.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">A T5 è <b>−80% ad armour, evasion ed energy shield</b> nella stessa riga: non esiste ibrido che lo aggiri spostando il peso su un'altra difesa.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Evitato «perché io <i>sto</i> usando una difesa». Diventa gratis solo con <b>Ward</b>, che non è né armour, né evasion, né energy shield.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">A T5 è <b>−80% ad armour, evasion ed energy shield</b> nella stessa riga: non esiste ibrido che lo aggiri spostando il peso su un'altra difesa.</p></li>
   </ul>
 </article>
 
@@ -683,9 +739,9 @@
 <tr><th scope="row">T5</th><td>80% less Area of Effect and Projectile Speed</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Sulla build del video toglie <b>danno</b>, non raggio: le copie che tornano a colpire hanno molta meno probabilità di arrivare. «Ti taglia il danno in modo grave.»</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">E il testo dice <b>due</b> cose in una riga: a T5 è −80% ad <b>area d'effetto</b> <i>e</i> a <b>velocità dei proiettili</b>. Chi vive di proiettili la paga come chi vive di area, e non è ovvio leggendo il nome.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Una build monobersaglio, corpo a corpo, senza proiettili e senza aree, la sente poco. Sono poche.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Sulla build del video toglie <b>danno</b>, non raggio: le copie che tornano a colpire hanno molta meno probabilità di arrivare. «Ti taglia il danno in modo grave.»</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">E il testo dice <b>due</b> cose in una riga: a T5 è −80% ad <b>area d'effetto</b> <i>e</i> a <b>velocità dei proiettili</b>. Chi vive di proiettili la paga come chi vive di area, e non è ovvio leggendo il nome.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Una build monobersaglio, corpo a corpo, senza proiettili e senza aree, la sente poco. Sono poche.</p></li>
   </ul>
 </article>
 
@@ -707,9 +763,9 @@
 <tr><th scope="row">T5</th><td>Monsters gain 29% of Damage as Extra Chaos Damage</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Lo evito come la peste», e la ragione è una sola: non è ancora <b>CI</b> (Chaos Inoculation). Il piano dichiarato è passare a CI e a quel punto «cliccare tutti i regali».</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">A T5, +29% del danno come danno extra da caos. ⚠️ <b>Come il caos interagisca con l'energy shield in questo gioco non è misurato qui</b>, ed è esattamente il punto dove la memoria dell'altro Path of Exile risponde con sicurezza e sbaglia. Qui vale solo la constatazione: chi ha CI lo clicca, chi non l'ha lo lascia.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">📌 E attenzione a non confonderlo con Toxic Monsters, che il video porta a 5 ogni volta: «i mostri tossici sono senza sforzo, i mostri caotici non li clicco».</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Lo evito come la peste», e la ragione è una sola: non è ancora <b>CI</b> (Chaos Inoculation). Il piano dichiarato è passare a CI e a quel punto «cliccare tutti i regali».</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">A T5, +29% del danno come danno extra da caos. ⚠️ <b>Come il caos interagisca con l'energy shield in questo gioco non è misurato qui</b>, ed è esattamente il punto dove la memoria dell'altro Path of Exile risponde con sicurezza e sbaglia. Qui vale solo la constatazione: chi ha CI lo clicca, chi non l'ha lo lascia.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">📌 E attenzione a non confonderlo con Toxic Monsters, che il video porta a 5 ogni volta: «i mostri tossici sono senza sforzo, i mostri caotici non li clicco».</p></li>
   </ul>
 </article>
 
@@ -729,8 +785,8 @@
 <tr><th scope="row">T5</th><td>Bosses have 100% increased Toughness and 30% increased Damage</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Non mi interessa che facciano più danno: mi interessa che il boss <b>muore più tardi</b>, e nel frattempo il pavimento è coperto di trappole.» A T5 i boss hanno +100% di robustezza e +30% di danno.</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">È la regola generale del trial detta su un mod solo: tutti gli altri modificatori che hai preso <b>girano nella stanza del boss</b>. Allungare quella stanza li moltiplica tutti.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Non mi interessa che facciano più danno: mi interessa che il boss <b>muore più tardi</b>, e nel frattempo il pavimento è coperto di trappole.» A T5 i boss hanno +100% di robustezza e +30% di danno.</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">È la regola generale del trial detta su un mod solo: tutti gli altri modificatori che hai preso <b>girano nella stanza del boss</b>. Allungare quella stanza li moltiplica tutti.</p></li>
   </ul>
 </article>
 
@@ -749,9 +805,9 @@
 <tr><th scope="row">T2</th><td>Rings and circles of Doom appear on the ground which grow over time, exploding for Physical damage once they reach a maximum area</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Circa <b>mille</b> di danno per esplosione: con l'armour si prende in faccia. Il rischio vero non è il danno, è lo <b>stun</b> che ne segue — «e quello sì che ti ammazza». Con Unwavering Stance il video non se ne accorge nemmeno.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">🔴 La riga da leggere è il salto di grado. A T1 l'anello è una <b>ciambella</b> e il buco in mezzo è il posto sicuro; <b>a T2 il buco non c'è più</b> e la stanza del boss è tutta coperta: «o lo uccidi prima che scoppi, o corri al bordo».</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="video e dato non concordano">⚠️</span><span class="tx">⚠️ <b>Qui il video e il dato non dicono la stessa cosa.</b> Il video parla di «mille danni da <i>caos</i>»; il testo su poe2db dice danno <b>fisico</b>. E la sua stessa raccomandazione — «con l'armour lo tanki» — funziona solo col fisico. Vale il dato.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Circa <b>mille</b> di danno per esplosione: con l'armour si prende in faccia. Il rischio vero non è il danno, è lo <b>stun</b> che ne segue — «e quello sì che ti ammazza». Con Unwavering Stance il video non se ne accorge nemmeno.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">🔴 La riga da leggere è il salto di grado. A T1 l'anello è una <b>ciambella</b> e il buco in mezzo è il posto sicuro; <b>a T2 il buco non c'è più</b> e la stanza del boss è tutta coperta: «o lo uccidi prima che scoppi, o corri al bordo».</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="video e dato non concordano">⚠️</span></p><p class="tx">⚠️ <b>Qui il video e il dato non dicono la stessa cosa.</b> Il video parla di «mille danni da <i>caos</i>»; il testo su poe2db dice danno <b>fisico</b>. E la sua stessa raccomandazione — «con l'armour lo tanki» — funziona solo col fisico. Vale il dato.</p></li>
   </ul>
 </article>
 
@@ -770,9 +826,9 @@
 <tr><th scope="row">T2</th><td>Pyramid objects appear, projecting four fast rotating lasers that inflict Corrupted Blood on Hit</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Evitato perché «condiziona come giochi», non perché uccida: i laser infliggono <b>Corrupted Blood</b>. T2 li fa girare più in fretta.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">🔑 <b>Ed è l'unico mod della lista con una contromisura che si compra.</b> Un jewel con l'incantesimo «Corrupted Blood cannot be inflicted on you» rende il mod <b>gratis</b>. Sul trade quelli già fatti costano molto; il video consiglia di <b>slammare jewel magici</b> — dice ~1 su 30 — e di <b>non</b> corrompere i propri jewel, «probabilità terribili». Nessuno di questi due numeri è misurato qui.</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Senza il jewel resta comunque il rimedio povero: il Corrupted Blood si spegne col flask, a costo di spendere le cariche — cioè a costo di aver preso Drought.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Evitato perché «condiziona come giochi», non perché uccida: i laser infliggono <b>Corrupted Blood</b>. T2 li fa girare più in fretta.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">🔑 <b>Ed è l'unico mod della lista con una contromisura che si compra.</b> Un jewel con l'incantesimo «Corrupted Blood cannot be inflicted on you» rende il mod <b>gratis</b>. Sul trade quelli già fatti costano molto; il video consiglia di <b>slammare jewel magici</b> — dice ~1 su 30 — e di <b>non</b> corrompere i propri jewel, «probabilità terribili». Nessuno di questi due numeri è misurato qui.</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Senza il jewel resta comunque il rimedio povero: il Corrupted Blood si spegne col flask, a costo di spendere le cariche — cioè a costo di aver preso Drought.</p></li>
   </ul>
 </article>
 
@@ -790,11 +846,16 @@
     <table class="gradi"><tr><th scope="row">T1 · T3 · T5</th><td>Challenge area contains several statues that Petrify you if you stand within their gaze for a duration</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Evitalo come la peste.» E la scappatoia che l'autore stesso consigliava in un video precedente — prendere le torrette di fuoco e fulmine <i>per escludere</i> le statue dal pool — <b>non funziona più</b>: «hanno cambiato come funzionano, ora possono uscire insieme».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">🔴 E con <b>Time Paradox</b> addosso è la combinazione che il video dichiara letale: «non mi interessa quanto tanky pensi di essere, muori» — circondato e fermo sullo schermo per una decina di secondi. Il legame lo conferma il testo dell'altro mod: a T5 i debuff su di te scadono il 100% più lentamente, e la pietrificazione è un debuff.</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">⚠️ Su poe2db i tre gradi hanno il <b>testo identico</b>: cosa cresca col grado — numero di statue, raggio dello sguardo, durata — dal dato non si legge.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Evitalo come la peste.» E la scappatoia che l'autore stesso consigliava in un video precedente — prendere le torrette di fuoco e fulmine <i>per escludere</i> le statue dal pool — <b>non funziona più</b>: «hanno cambiato come funzionano, ora possono uscire insieme».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">🔴 E con <b>Time Paradox</b> addosso è la combinazione che il video dichiara letale: «non mi interessa quanto tanky pensi di essere, muori» — circondato e fermo sullo schermo per una decina di secondi. Il legame lo conferma il testo dell'altro mod: a T5 i debuff su di te scadono il 100% più lentamente, e la pietrificazione è un debuff.</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">⚠️ Su poe2db i tre gradi hanno il <b>testo identico</b>: cosa cresca col grado — numero di statue, raggio dello sguardo, durata — dal dato non si legge.</p></li>
   </ul>
 </article>
+    </section>
+  </div>
+
+  <div class="muti c-muto" id="lista-muti">
+    <h3 class="corsia-t"><span class="pun"></span>Non giudicati &mdash; solo la lettura del testo <b>8</b></h3>
 
 <article class="mod v-muto" id="burning-turrets" data-v="muto" data-cerca="burning turrets il video non le giudica dice solo che trucco è morto compaiono nel per un motivo dire vecchio consiglio prendi torrette e statue ti escono vale più giudizio sul mod in sé c dal testo sparano proiettili avanti periodicamente numero crescente col grado sono ostacoli statici prevedibili costano posizionamento vita a meno la build resti bloccata animazione allora statico prevedibile significa sai anticipo cosa colpirà">
   <header class="mod-t">
@@ -812,9 +873,9 @@
 <tr><th scope="row">T5</th><td>Challenge area contains even more Fire turrets that will periodically fire Projectiles ahead</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Compaiono nel video per un motivo solo: dire che il vecchio consiglio «prendi le torrette e le statue non ti escono» <b>non vale più</b>. Un giudizio sul mod in sé non c'è.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Dal testo: torrette che sparano proiettili in avanti, periodicamente, in numero crescente col grado. Sono ostacoli <b>statici e prevedibili</b> — costano posizionamento, non vita.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">A meno che la build resti bloccata in un'animazione: allora «statico e prevedibile» significa che sai in anticipo cosa ti colpirà.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Compaiono nel video per un motivo solo: dire che il vecchio consiglio «prendi le torrette e le statue non ti escono» <b>non vale più</b>. Un giudizio sul mod in sé non c'è.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Dal testo: torrette che sparano proiettili in avanti, periodicamente, in numero crescente col grado. Sono ostacoli <b>statici e prevedibili</b> — costano posizionamento, non vita.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">A meno che la build resti bloccata in un'animazione: allora «statico e prevedibile» significa che sai in anticipo cosa ti colpirà.</p></li>
   </ul>
 </article>
 
@@ -834,8 +895,8 @@
 <tr><th scope="row">T5</th><td>Challenge area contains even more Lightning turrets that will periodically fire Projectiles ahead</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Nominate solo dentro lo stesso discorso sulle statue. Nessun giudizio.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Testo identico a Burning Turrets col fulmine al posto del fuoco, e stessi tre gradi. Valgono le stesse considerazioni — con l'aggiunta che il fulmine ha la varianza più alta dei tre elementi, quindi il colpo peggiore è più lontano dalla media.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Nominate solo dentro lo stesso discorso sulle statue. Nessun giudizio.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Testo identico a Burning Turrets col fulmine al posto del fuoco, e stessi tre gradi. Valgono le stesse considerazioni — con l'aggiunta che il fulmine ha la varianza più alta dei tre elementi, quindi il colpo peggiore è più lontano dalla media.</p></li>
   </ul>
 </article>
 
@@ -854,9 +915,9 @@
 <tr><th scope="row">T2</th><td>Challenge area contains many spikes that deal Physical damage to those who step on them</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Non trattato.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Spine a terra che fanno danno fisico a chi ci cammina sopra; a T2 «molte». Statiche e visibili: è una tassa sul movimento, non una minaccia.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Diventa una minaccia solo insieme a qualcosa che ti muove <i>senza</i> che tu decida — un rallentamento, uno stun, una capriola forzata.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Non trattato.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Spine a terra che fanno danno fisico a chi ci cammina sopra; a T2 «molte». Statiche e visibili: è una tassa sul movimento, non una minaccia.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Diventa una minaccia solo insieme a qualcosa che ti muove <i>senza</i> che tu decida — un rallentamento, uno stun, una capriola forzata.</p></li>
   </ul>
 </article>
 
@@ -874,9 +935,9 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>Your Projectiles fly in random directions</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Non nominato: la build del video non usa proiettili.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">🔴 Un grado solo, e senza sfumature: «i <b>tuoi</b> proiettili volano in direzioni casuali». Per una build a proiettili non è una tassa: è la fine del danno per il resto del trial, e non c'è un grado 1 da cui salvarsi.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Per tutte le altre è il click più gratuito dell'intera lista — più gratuito di quelli che il video chiama gratis, perché non ha nemmeno un caso limite.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Non nominato: la build del video non usa proiettili.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">🔴 Un grado solo, e senza sfumature: «i <b>tuoi</b> proiettili volano in direzioni casuali». Per una build a proiettili non è una tassa: è la fine del danno per il resto del trial, e non c'è un grado 1 da cui salvarsi.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Per tutte le altre è il click più gratuito dell'intera lista — più gratuito di quelli che il video chiama gratis, perché non ha nemmeno un caso limite.</p></li>
   </ul>
 </article>
 
@@ -894,9 +955,9 @@
     <table class="gradi"><tr><th scope="row">T2</th><td>You and your Minions deal no damage for 2 seconds every 8 seconds</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Non trattato.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">Un grado solo: tu e i tuoi minion non fate danno per <b>2 secondi ogni 8</b>. Cioè <b>il 25% del tempo a danno zero</b>, per tutti i piani che restano. Non ti uccide: allunga <i>tutto</i> — e nel trial è il tempo che uccide, perché tutti gli altri mod girano mentre aspetti.</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">⚠️ Su poe2db questa famiglia ha una voce sola, etichettata però <b>«Tier 2»</b>: se esista un grado 1 che il dato non mostra, non è verificato.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Non trattato.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">Un grado solo: tu e i tuoi minion non fate danno per <b>2 secondi ogni 8</b>. Cioè <b>il 25% del tempo a danno zero</b>, per tutti i piani che restano. Non ti uccide: allunga <i>tutto</i> — e nel trial è il tempo che uccide, perché tutti gli altri mod girano mentre aspetti.</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">⚠️ Su poe2db questa famiglia ha una voce sola, etichettata però <b>«Tier 2»</b>: se esista un grado 1 che il dato non mostra, non è verificato.</p></li>
   </ul>
 </article>
 
@@ -914,9 +975,9 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>Challenge area is enshrouded by a blood mist which makes monsters within it immune to damage</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Non trattato.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">Un grado solo, e cambia la <b>regola</b> della stanza invece dei numeri: la nebbia rende <b>immuni al danno</b> i mostri che ci stanno dentro. È l'unico mod della lista che non ti minaccia e ti costa comunque la run, se la stanza è quella a timer.</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Su una stanza «uccidi tutti» è tempo e pazienza: i mostri vanno tirati fuori dalla nebbia.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Non trattato.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">Un grado solo, e cambia la <b>regola</b> della stanza invece dei numeri: la nebbia rende <b>immuni al danno</b> i mostri che ci stanno dentro. È l'unico mod della lista che non ti minaccia e ti costa comunque la run, se la stanza è quella a timer.</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Su una stanza «uccidi tutti» è tempo e pazienza: i mostri vanno tirati fuori dalla nebbia.</p></li>
   </ul>
 </article>
 
@@ -934,7 +995,7 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>Monsters inflict Grasping Vines on Hit</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="video e dato non concordano">⚠️</span><span class="tx">⚠️ <b>Conflitto aperto.</b> Il video: «non credo sia più nel pool, non l'ho visto per tutta la lega». poe2db lo elenca ancora, con un grado solo: i mostri infliggono <b>Grasping Vines</b> colpendo. Chi dei due abbia ragione <b>qui non è misurato</b> — e la differenza non è accademica: se esce e non te l'aspetti, è un rallentamento.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="video e dato non concordano">⚠️</span></p><p class="tx">⚠️ <b>Conflitto aperto.</b> Il video: «non credo sia più nel pool, non l'ho visto per tutta la lega». poe2db lo elenca ancora, con un grado solo: i mostri infliggono <b>Grasping Vines</b> colpendo. Chi dei due abbia ragione <b>qui non è misurato</b> — e la differenza non è accademica: se esce e non te l'aspetti, è un rallentamento.</p></li>
   </ul>
 </article>
 
@@ -954,8 +1015,8 @@
 <tr><th scope="row">T5</th><td>Bloody hearts appear that apply tethers, Slowing you for 5 seconds. Breaking the tether will Stun you and cause you to take 15% increased damage for 5 seconds</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="video e dato non concordano">⚠️</span><span class="tx">⚠️ Stesso conflitto: «non ho visto nemmeno gli heart tether» in tutta la lega, mentre poe2db li elenca con tre gradi.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">E vale leggerlo, nel caso escano: cuori che ti <b>legano</b> rallentandoti 3-5 secondi, e rompere il legame ti <b>stunna</b> facendoti prendere il 5-15% di danno in più. Rallentamento più stun nella stanza del boss è la coppia che uccide — la stessa che rende Impending Doom pericoloso.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="video e dato non concordano">⚠️</span></p><p class="tx">⚠️ Stesso conflitto: «non ho visto nemmeno gli heart tether» in tutta la lega, mentre poe2db li elenca con tre gradi.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">E vale leggerlo, nel caso escano: cuori che ti <b>legano</b> rallentandoti 3-5 secondi, e rompere il legame ti <b>stunna</b> facendoti prendere il 5-15% di danno in più. Rallentamento più stun nella stanza del boss è la coppia che uccide — la stessa che rende Impending Doom pericoloso.</p></li>
   </ul>
 </article>
   </div>
@@ -971,7 +1032,9 @@
     l&rsquo;unica afflizione nelle stesse condizioni. Sono <b>10</b> caselle su 42.
   </div>
 
-  <div class="lista">
+  <div class="corsie">
+    <section class="corsia c-si" data-corsia="si">
+      <h3 class="corsia-t"><span class="pun"></span>Liberi <b>4</b></h3>
 
 <article class="mod v-si" id="wager-of-the-present" data-v="si" data-cerca="wager of the present quello che stai cercando parole esatte è raddoppia tutte le ricompense in valuta già sospeso ideale all ultimo piano raddoppi la finestra piena e il 1 grado ai mod non ha più piani per farti male ed quasi gratis anche presto quando hai pochi da alzare ma allora c niente raddoppiare se lo lasci passare può essere riofferto video l visto ricomparire al 20 dopo averlo rifiutato 2 costo cresce con quanti addosso col a metà run riga cara del gruppo">
   <header class="mod-t">
@@ -987,9 +1050,9 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>All previously chosen Modifiers gain +1 Tier · All pending Currency Item Rewards are Doubled</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Parole esatte: «è quello che stai cercando». Raddoppia <b>tutte le ricompense in valuta già in sospeso</b>. Ideale all'<b>ultimo</b> piano: raddoppi la finestra piena e il +1 grado ai mod non ha più piani per farti male.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Ed è quasi gratis anche <b>presto</b>, quando hai pochi mod da alzare — ma allora non c'è quasi niente da raddoppiare. Se lo lasci passare <b>può essere riofferto</b>: il video l'ha visto ricomparire al piano 20 dopo averlo rifiutato al 2.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Il costo cresce con quanti mod hai già addosso, non col grado: a metà run è la riga più cara del gruppo.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Parole esatte: «è quello che stai cercando». Raddoppia <b>tutte le ricompense in valuta già in sospeso</b>. Ideale all'<b>ultimo</b> piano: raddoppi la finestra piena e il +1 grado ai mod non ha più piani per farti male.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Ed è quasi gratis anche <b>presto</b>, quando hai pochi mod da alzare — ma allora non c'è quasi niente da raddoppiare. Se lo lasci passare <b>può essere riofferto</b>: il video l'ha visto ricomparire al piano 20 dopo averlo rifiutato al 2.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Il costo cresce con quanti mod hai già addosso, non col grado: a metà run è la riga più cara del gruppo.</p></li>
   </ul>
 </article>
 
@@ -1007,8 +1070,8 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>All offered Modifiers gain +1 Tier · All offered Currency Item Rewards have their Stack Size Doubled</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Ovviamente è pazzesco, non c'è nemmeno da spiegarlo»: tutte le ricompense in valuta <b>offerte</b> hanno lo stack raddoppiato.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">La differenza con <i>Present</i> è tutta nella parola «offerte»: qui il +1 grado colpisce ciò che ti verrà proposto <b>da qui in avanti</b>. Preso presto è un moltiplicatore su tutta la run e un peggioramento su tutta la run — l'esatto contrario di Present, che si prende tardi.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Ovviamente è pazzesco, non c'è nemmeno da spiegarlo»: tutte le ricompense in valuta <b>offerte</b> hanno lo stack raddoppiato.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">La differenza con <i>Present</i> è tutta nella parola «offerte»: qui il +1 grado colpisce ciò che ti verrà proposto <b>da qui in avanti</b>. Preso presto è un moltiplicatore su tutta la run e un peggioramento su tutta la run — l'esatto contrario di Present, che si prende tardi.</p></li>
   </ul>
 </article>
 
@@ -1026,8 +1089,8 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>When any offered Modifier is chosen, a previously chosen Modifier also gains +1 Tier · When a Room is Completed, a pending Currency Item or Soul Core Reward gains +1 to its Stack Size</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Molto bello»: a ogni stanza completata, una valuta o un soul core in sospeso guadagna <b>+1 allo stack</b>. «Se becca la tua divine, sei contento.»</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Il costo è composto: <b>ogni</b> scelta successiva alza anche un mod vecchio. Preso all'ultimo piano è quasi gratis; preso al secondo è la cosa più cara di tutta la pagina.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Molto bello»: a ogni stanza completata, una valuta o un soul core in sospeso guadagna <b>+1 allo stack</b>. «Se becca la tua divine, sei contento.»</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Il costo è composto: <b>ogni</b> scelta successiva alza anche un mod vecchio. Preso all'ultimo piano è quasi gratis; preso al secondo è la cosa più cara di tutta la pagina.</p></li>
   </ul>
 </article>
 
@@ -1046,11 +1109,14 @@
 <tr><th scope="row">T1</th><td>Upgrade all previously chosen Modifiers · All Rooms offer 2 additional Rewards</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">Due versioni: la prima alza 2 mod già scelti e fa offrire a <b>tutte</b> le stanze una ricompensa in più; la seconda alza <b>tutti</b> i mod già scelti e ne fa offrire <b>due</b>.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">È l'unico wager che aumenta il <b>numero</b> delle ricompense invece del loro valore: paga tanto più quanti più piani ti restano. Si prende <b>presto</b> — esattamente al contrario di <i>Present</i>.</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Raro: il video l'ha visto <b>una volta sola</b> in tre giorni di run continuate.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">Due versioni: la prima alza 2 mod già scelti e fa offrire a <b>tutte</b> le stanze una ricompensa in più; la seconda alza <b>tutti</b> i mod già scelti e ne fa offrire <b>due</b>.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">È l'unico wager che aumenta il <b>numero</b> delle ricompense invece del loro valore: paga tanto più quanti più piani ti restano. Si prende <b>presto</b> — esattamente al contrario di <i>Present</i>.</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Raro: il video l'ha visto <b>una volta sola</b> in tre giorni di run continuate.</p></li>
   </ul>
 </article>
+    </section>
+    <section class="corsia c-dipende" data-corsia="dipende">
+      <h3 class="corsia-t"><span class="pun"></span>Dipende dalla build <b>2</b></h3>
 
 <article class="mod v-dipende" id="wager-of-rerolling" data-v="dipende" data-cerca="wager of rerolling si clicca per quello che non ti fa prendere versione valuta è ottimo se hai niente di buono in finestra ho una divine lo premo quasi sempre vale soul core questa spazzatura la clicco perché almeno così prendo un debuff ma aspetto con piacere e qui c regola tutti i occupano il posto modificatore mediocre batte comunque afflizione vero premio aver preso ed motivo cui video cosa chiama">
   <header class="mod-t">
@@ -1067,9 +1133,9 @@
 <tr><th scope="row">T1</th><td>Upgrade 2 previously chosen Modifiers · All pending Soul Core Rewards are Rerolled</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Versione valuta: «è ottimo se non hai niente di buono in finestra — se non ho una divine lo premo quasi sempre. Se ho una divine, non vale».</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Versione soul core: «questa è spazzatura. La clicco perché almeno così non prendo un debuff, ma non la aspetto con piacere».</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">🔑 E qui c'è la regola che vale per tutti i wager: <b>occupano il posto di un modificatore</b>. Un wager mediocre batte comunque un'afflizione, perché il vero premio è non aver preso il debuff — ed è il motivo per cui il video clicca una cosa che chiama spazzatura.</span></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Versione valuta: «è ottimo se non hai niente di buono in finestra — se non ho una divine lo premo quasi sempre. Se ho una divine, non vale».</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Versione soul core: «questa è spazzatura. La clicco perché almeno così non prendo un debuff, ma non la aspetto con piacere».</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">🔑 E qui c'è la regola che vale per tutti i wager: <b>occupano il posto di un modificatore</b>. Un wager mediocre batte comunque un'afflizione, perché il vero premio è non aver preso il debuff — ed è il motivo per cui il video clicca una cosa che chiama spazzatura.</p></li>
   </ul>
 </article>
 
@@ -1087,11 +1153,14 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>Modifiers offered at Boss Rooms are offered at their Maximum Tier · Boss Rooms offer an additional Reward</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Non so se l'ho mai visto»: assieme a <i>Chaos</i>, il video lo dà per uno dei due più rari.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">I mod offerti nelle <b>stanze dei boss</b> arrivano al <b>grado massimo</b>. È precisamente il punto in cui il trial fa male, e nessuno dei giudizi «T1 sì, T5 no» di questa pagina sopravvive lì dentro.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">In cambio le stanze dei boss offrono una ricompensa in più. È un wager per una build che uccide i boss in pochi secondi — cioè per chi non entra mai davvero nella parte cattiva del testo.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Non so se l'ho mai visto»: assieme a <i>Chaos</i>, il video lo dà per uno dei due più rari.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">I mod offerti nelle <b>stanze dei boss</b> arrivano al <b>grado massimo</b>. È precisamente il punto in cui il trial fa male, e nessuno dei giudizi «T1 sì, T5 no» di questa pagina sopravvive lì dentro.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">In cambio le stanze dei boss offrono una ricompensa in più. È un wager per una build che uccide i boss in pochi secondi — cioè per chi non entra mai davvero nella parte cattiva del testo.</p></li>
   </ul>
 </article>
+    </section>
+    <section class="corsia c-no" data-corsia="no">
+      <h3 class="corsia-t"><span class="pun"></span>Evita <b>3</b></h3>
 
 <article class="mod v-no" id="wager-of-mystery" data-v="no" data-cerca="wager of mystery ti toglie l unica leva che hai non cliccarlo in nessuna circostanza se la build ha uno dei problemi elencati sopra il motivo è semplice vedi cosa stai scegliendo tre punti di domanda tuo personaggio thanos può andare morire nel trial io lo cliccherei mai cambio tutte le ricompense offerte sono lucky vengono tirate due volte e tieni migliore delle invece un exalted uscirti greater o annullamento costo detto astratto questo contenuto scegliere male minore spegne tutto resto questa pagina serve a mod rende inutile averla letta">
   <header class="mod-t">
@@ -1107,9 +1176,9 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>All offered Modifiers are Hidden · All offered Rewards are Lucky</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">«Non cliccarlo in nessuna circostanza» se la build ha uno dei problemi elencati sopra. Il motivo è semplice: <b>non vedi cosa stai scegliendo</b>, tre punti di domanda. «Se il tuo personaggio è Thanos può andare; se il tuo personaggio <i>può</i> morire nel trial, io non lo cliccherei mai.»</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">In cambio, tutte le ricompense offerte sono <b>Lucky</b>: vengono tirate due volte e tieni la migliore delle due — «invece di un exalted può uscirti un greater exalted, o un annullamento».</span></li>
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span><span class="tx">Il costo, detto in astratto: in questo contenuto <b>l'unica leva che hai è scegliere il male minore</b>. Mystery la spegne. Tutto il resto di questa pagina serve a scegliere; questo mod rende inutile averla letta.</span></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">«Non cliccarlo in nessuna circostanza» se la build ha uno dei problemi elencati sopra. Il motivo è semplice: <b>non vedi cosa stai scegliendo</b>, tre punti di domanda. «Se il tuo personaggio è Thanos può andare; se il tuo personaggio <i>può</i> morire nel trial, io non lo cliccherei mai.»</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">In cambio, tutte le ricompense offerte sono <b>Lucky</b>: vengono tirate due volte e tieni la migliore delle due — «invece di un exalted può uscirti un greater exalted, o un annullamento».</p></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="lettura del testo del mod, non misurata">🧮</span></p><p class="tx">Il costo, detto in astratto: in questo contenuto <b>l'unica leva che hai è scegliere il male minore</b>. Mystery la spegne. Tutto il resto di questa pagina serve a scegliere; questo mod rende inutile averla letta.</p></li>
   </ul>
 </article>
 
@@ -1127,8 +1196,8 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>All pending Rewards are Destroyed · 100% more Item Rarity</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Non trattato nel video.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">Ma il testo si legge da solo: <b>tutte le ricompense in sospeso sono distrutte</b>, in cambio di +100% di rarità. Ha senso al <b>primo piano</b>, con la finestra vuota, dove distruggere zero costa zero. Da metà run in poi è un pulsante che annulla la run.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Non trattato nel video.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">Ma il testo si legge da solo: <b>tutte le ricompense in sospeso sono distrutte</b>, in cambio di +100% di rarità. Ha senso al <b>primo piano</b>, con la finestra vuota, dove distruggere zero costa zero. Da metà run in poi è un pulsante che annulla la run.</p></li>
   </ul>
 </article>
 
@@ -1146,11 +1215,12 @@
     <table class="gradi"><tr><th scope="row">T1</th><td>An invulnerable Shade stalks you, inflicting Ruin with its Hits · Your current Ruin is set to 5 · Unique Trial Bosses drop a Rare Unique Item</td></tr></table>
   </details>
   <ul class="perche">
-<li class="r-nota"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span><span class="tx">Non trattato nel video.</span></li>
-<li class="r-no"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">🔴 Ed è il wager con il numero più pericoloso della pagina. Ti mette addosso l'ombra invulnerabile <i>e</i> porta il tuo <b>Ruin a 5</b>. Su poe2db, voce Ruin: «On reaching 7 Ruin, you will fail the Trials». Cioè: <b>due colpi di margine</b> per tutti i piani che restano.</span></li>
-<li class="r-si"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span><span class="tx">In cambio i boss unici del trial lasciano <b>un oggetto unico raro</b> — cioè compra direttamente la ricompensa per cui si farma questo contenuto. Non è un click: è una scommessa, e il nome lo dice.</span></li>
+<li class="r-nota"><p class="cap"><span class="et">Da sapere</span><span class="fo" title="giudizio del video">🎥</span></p><p class="tx">Non trattato nel video.</p></li>
+<li class="r-no"><p class="cap"><span class="et">Perch&eacute; no</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">🔴 Ed è il wager con il numero più pericoloso della pagina. Ti mette addosso l'ombra invulnerabile <i>e</i> porta il tuo <b>Ruin a 5</b>. Su poe2db, voce Ruin: «On reaching 7 Ruin, you will fail the Trials». Cioè: <b>due colpi di margine</b> per tutti i piani che restano.</p></li>
+<li class="r-si"><p class="cap"><span class="et">Perch&eacute; s&igrave;</span><span class="fo" title="dato verificato su poe2db, trade2 o poe.ninja">✅</span></p><p class="tx">In cambio i boss unici del trial lasciano <b>un oggetto unico raro</b> — cioè compra direttamente la ricompensa per cui si farma questo contenuto. Non è un click: è una scommessa, e il nome lo dice.</p></li>
   </ul>
 </article>
+    </section>
   </div>
 
   <h2 class="sec" id="combo">Le combinazioni che uccidono</h2>
@@ -1274,7 +1344,7 @@
       <li>🔴 <b>Tre &laquo;gratis&raquo; poggiano su bug.</b> <a href="#volatile-fiends">Volatile Fiends</a> che non esplode, il reset al checkpoint che salta il corridoio, l&rsquo;uscita dal trial che non costa l&rsquo;ultimatum. Sono comportamenti che l&rsquo;autore stesso si aspetta di vedere corretti: il giorno che succede, questa pagina va rifatta, non ritoccata.</li>
       <li>⚠️ <b>Due mod sono in conflitto fra le fonti.</b> <a href="#entangling-monsters">Entangling Monsters</a> e <a href="#heart-tethers">Heart Tethers</a>: poe2db li elenca, il video dice di non averli visti in tutta la lega. Non &egrave; risolto.</li>
       <li>⚠️ <b>Un mod ha un conflitto sul tipo di danno.</b> <a href="#impending-doom">Impending Doom</a>: il dato dice fisico, il video dice caos. Qui vale il dato, ma in gioco non &egrave; stato verificato.</li>
-      <li>⚠️ <b>Sette modificatori non hanno un giudizio</b>, solo la lettura del testo: le due torrette, Temple Traps, Random Projectiles, Occasional Impotence, Blood Mist e i due contesi. Sono marcati &laquo;Non giudicato&raquo;, e nessuno di loro &egrave; stato provato in gioco da qui.</li>
+      <li>⚠️ <b>Otto modificatori non hanno un giudizio</b>, solo la lettura del testo: le due torrette, Temple Traps, Random Projectiles, Occasional Impotence, Blood Mist e i due contesi (Entangling Monsters, Heart Tethers). Sono marcati &laquo;Non giudicato&raquo;, e nessuno di loro &egrave; stato provato in gioco da qui.</li>
       <li>⚠️ <b>Cosa cresca col grado di <a href="#petrification-statues">Petrification Statues</a> non si sa</b>: i tre gradi hanno testo identico su poe2db.</li>
       <li>📌 <b>I prezzi sono una fotografia del 9 settembre 2026</b>, quattro giorni dopo il cambio di scala fra divine ed exalted (<b>69,62 &rarr; 255,6 ex per divine</b>). Un prezzo in exalted scritto qui non si rilegge: si ricalcola.</li>
       <li>📌 <b>Niente di questa pagina viene dall&rsquo;altro Path of Exile.</b> L&rsquo;Ultimatum esiste anche l&agrave;, con nomi identici e numeri diversi: qui i testi sono quelli letti da poe2db per <b>PoE 2</b>, il 9 settembre 2026.</li>
@@ -1299,12 +1369,14 @@
 <script src="../menu.js" defer></script>
 <script>
 /* Il filtro. Accende i propri controlli da s&eacute;: nel markup nascono `hidden`,
-   cos&igrave; una pagina senza JavaScript mostra le 33 carte invece di mostrare una
+   cos&igrave; una pagina senza JavaScript mostra tutte le carte invece di mostrare una
    barra di pulsanti che non fanno niente. */
 (() => {
-  const lista = document.getElementById("lista-mod");
-  if (!lista) return;
-  const carte = [...lista.querySelectorAll(".mod")];
+  const corsie = document.getElementById("lista-mod");
+  const muti = document.getElementById("lista-muti");
+  if (!corsie || !muti) return;
+  const gruppi = [...corsie.querySelectorAll(".corsia"), muti];
+  const carte = gruppi.flatMap((g) => [...g.querySelectorAll(".mod")]);
   const bottoni = [...document.querySelectorAll(".filtro button")];
   const cerca = document.getElementById("cerca");
   const conta = document.getElementById("conta");
@@ -1321,6 +1393,21 @@
       c.hidden = !ok;
       if (ok) visti++;
     }
+    /* Una corsia rimasta senza carte sparisce con la sua intestazione: un
+       titolo «Evita 8» sopra il vuoto direbbe una cosa falsa. */
+    let corsieVive = 0;
+    for (const g of gruppi) {
+      const vive = [...g.querySelectorAll(".mod")].filter((c) => !c.hidden).length;
+      g.hidden = vive === 0;
+      const n = g.querySelector(".corsia-t b");
+      if (n) n.textContent = vive;
+      if (!g.hidden && g !== muti) corsieVive++;
+    }
+    corsie.hidden = corsieVive === 0;
+    /* Con una corsia sola, tenerla larga un terzo sprecherebbe due terzi di
+       schermo: `.solo` la riporta a griglia piena. */
+    corsie.classList.toggle("solo", corsieVive === 1);
+
     conta.textContent = visti === carte.length
       ? carte.length + " modificatori"
       : visti + " di " + carte.length;
