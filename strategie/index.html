@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategie di farming &mdash; Expedition 0.5.5 | PoE 2 Tools</title>
+<meta name="description" content="Le quattro strategie di Expedition della 0.5.5 di Path of Exile 2, con i tablet, i nodi dell'atlante e le rune da cercare — e i prezzi rimisurati il 10 settembre 2026, che smentiscono quattro cifre su cinque della fonte.">
+<link rel="stylesheet" href="../stile.css">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+  .testata{padding:var(--s7) 0 var(--s5)}
+  .testata h1{font-size:clamp(1.9rem,4.5vw,2.8rem);letter-spacing:-.025em;margin-bottom:var(--s3)}
+  .testata h1 span{color:var(--gold)}
+  .testata .sub{color:var(--muted);font-size:var(--t-md);max-width:52rem}
+
+  /* La legenda delle fonti: come su /caos/, perche' anche qui la pagina mescola
+     opinione dichiarata e misura, e la riga da sola non basta a distinguerle. */
+  .legenda{display:grid;gap:var(--s2);grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr));
+           margin:var(--s4) 0 var(--s6)}
+  .legenda div{display:flex;gap:var(--s2);align-items:flex-start;font-size:var(--t-sm);
+               color:var(--muted);padding:var(--s2) var(--s3);
+               background:var(--panel2);border:1px solid var(--line);border-radius:var(--r)}
+  .legenda b{color:var(--text);font-weight:600}
+  .legenda .s{flex:none;font-size:1.05rem;line-height:1.4}
+
+  /* ---- la scheda strategia ---- */
+  /* Intestazione, quattro misuratori, corpo a due colonne. Il corpo sta dentro
+     un <details>: quattro strategie aperte tutte insieme sono sei schermate di
+     testo, e la decisione «quale corro» si prende dai misuratori. */
+  .strat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);
+         margin:var(--s5) 0;overflow:hidden;box-shadow:var(--ombra)}
+  .strat > header{padding:var(--s5) var(--s5) var(--s4)}
+  .strat h2{margin:0 0 var(--s2);font-size:var(--t-xl);color:var(--gold);display:flex;
+            align-items:center;gap:var(--s3);flex-wrap:wrap;line-height:1.25}
+  .strat .sommario{margin:0;color:var(--text);font-size:var(--t-md)}
+  .strat .quando{margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--label);
+                 text-transform:uppercase;letter-spacing:.09em}
+
+  .misure{display:grid;gap:var(--s4) var(--s5);grid-template-columns:repeat(4,1fr);
+          padding:var(--s4) var(--s5);
+          border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+          background:var(--panel2)}
+  .misura .et{font-size:var(--t-xs);color:var(--label);text-transform:uppercase;letter-spacing:.09em}
+  .misura .val{font-size:var(--t-base);margin:.15rem 0 .4rem;line-height:1.35}
+  .misura .val small{display:block;font-size:var(--t-xs);color:var(--muted);
+                     font-weight:400;line-height:1.5;margin-top:.15rem}
+  .tacche{display:flex;gap:4px}
+  .tacche i{flex:1;height:5px;border-radius:2px;background:var(--line)}
+  .tacche i.on{background:var(--gold)}
+  .tacche.rischio i.on{background:var(--bad)}
+  .tacche.resa i.on{background:var(--good)}
+
+  .corpo{display:grid;gap:var(--s5);grid-template-columns:1.55fr 1fr;
+         padding:var(--s5)}
+  /* 880px e' il punto in cui la colonna stretta smette di reggere una tabella;
+     620px quello in cui quattro misuratori affiancati diventano illeggibili. */
+  @media(max-width:880px){.corpo{grid-template-columns:1fr}
+                          .misure{grid-template-columns:repeat(2,1fr)}}
+  /* La riga dell'accordion nasce con --s6 di padding orizzontale, che qui la
+     farebbe rientrare rispetto al resto della scheda: si riallinea a --s5. */
+  .strat > details > summary{padding-left:var(--s5);padding-right:var(--s5)}
+  @media(max-width:620px){.strat > header,.misure,.corpo,
+                          .strat > details > summary{padding-left:var(--s4);padding-right:var(--s4)}}
+  .corpo h3{font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;
+            color:var(--gold);margin:0 0 var(--s2)}
+  .corpo h3.rosso{color:var(--bad)}
+  .corpo h3.piu{margin-top:var(--s5)}
+  .corpo p{margin:0 0 var(--s4);font-size:var(--t-sm);line-height:1.62;color:var(--muted)}
+  .corpo p b,.corpo li b,.corpo td b{color:var(--text)}
+  .corpo ul{margin:0 0 var(--s4);padding-left:1.1rem;font-size:var(--t-sm);
+            line-height:1.62;color:var(--muted)}
+  .corpo li{margin-bottom:.3rem}
+  .corpo ul:last-child,.corpo p:last-child{margin-bottom:0}
+
+  .pannello{background:var(--panel2);border:1px solid var(--line);border-radius:var(--r);
+            padding:var(--s4);margin-bottom:var(--s4)}
+  .pannello:last-child{margin-bottom:0}
+  .pannello h3{margin-bottom:var(--s3)}
+  .voce{display:flex;justify-content:space-between;gap:var(--s3);padding:.35rem 0;
+        border-bottom:1px dashed var(--line);font-size:var(--t-sm);color:var(--muted)}
+  .voce:last-child{border-bottom:0}
+  .voce .n{min-width:0}
+  .voce .n b{color:var(--text);font-weight:600}
+  .voce .n small{display:block;font-size:var(--t-xs);color:var(--label);line-height:1.45}
+  .voce .p{font-family:var(--mono);color:var(--gold);white-space:nowrap;text-align:right}
+  .voce .p.nulla{color:var(--label)}
+  .voce .p small{display:block;font-size:var(--t-xs);color:var(--label);font-family:var(--font)}
+
+  /* Il bottone verso il trade: e' navigazione in uscita, non una dipendenza. */
+  .verso{display:inline-block;margin-top:var(--s3);font-size:var(--t-xs);font-weight:600;
+         color:var(--bg);background:var(--gold);border-radius:var(--r-full);
+         padding:.35rem .85rem}
+  .verso:hover{background:var(--gold-scuro)}
+  .verso.secondario{color:var(--gold);background:transparent;border:1px solid var(--line2)}
+  .verso.secondario:hover{background:var(--panel-alto)}
+
+  /* tabelle: la .tabella condivisa, ma qui le colonne numeriche sono strette */
+  .tabella td.v,.tabella th.v{text-align:right;font-family:var(--mono);white-space:nowrap}
+  .voto{font-family:var(--mono);font-weight:700}
+  .voto.s{color:var(--good)}
+  .voto.a{color:var(--gold)}
+  .voto.b{color:var(--muted)}
+  .voto.c{color:var(--label)}
+  .voto.d{color:var(--bad)}
+  /* Una tabella non si stringe sotto il suo contenuto: le si da' il suo
+     contenitore che scorre, invece di far scorrere di lato tutta la pagina. */
+  .scorre{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  .fonti{font-size:var(--t-sm);color:var(--muted)}
+  .fonti li{margin-bottom:.35rem}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="marchio" href="../index.html">PoE 2 <span>Tools</span></a>
+    <div class="nav-link">
+      <a href="../partenza/">Partenza</a>
+      <a href="../twister/">Twister</a>
+      <a href="../atlas/">Atlante</a>
+      <a href="../caos/">Caos</a>
+      <a href="./" aria-current="page">Strategie</a>
+    </div>
+    <span class="nav-patch">patch 0.5.5</span>
+  </div>
+</nav>
+
+<div class="sezioni">
+  <div class="sezioni-in">
+    <a href="#come">Come funziona</a>
+    <a href="#strategie">Le quattro strategie</a>
+    <a href="#rune">Le rune</a>
+    <a href="#rumor">I rumor</a>
+    <a href="#prezzi">I prezzi di oggi</a>
+    <a href="#limiti">Cosa non dice</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="testata">
+    <h1>Strategie di <span>farming</span></h1>
+    <p class="sub">L&rsquo;<b>Expedition</b> della 0.5.5, in quattro strategie che non si scelgono a gusto: si scelgono in base a <b>quanto reggi</b>. Per ognuna i tablet da comprare, i nodi dell&rsquo;atlante da prendere e cosa guardare mentre corri. 🔴 E i prezzi rifatti oggi, che smentiscono <b>quattro cifre su cinque</b> della fonte &mdash; sempre verso l&rsquo;alto.</p>
+    <div class="badges">
+      <span class="badge oro">patch <b>0.5.5</b></span>
+      <span class="badge">lega <b>Forbidden Rites</b></span>
+      <span class="badge">prezzi del <b>10 settembre 2026</b></span>
+      <span class="badge">1 div = <b>246,6 ex</b></span>
+    </div>
+  </header>
+
+  <div class="avviso">
+    🔴 <b>Due fonti, e non hanno lo stesso peso.</b> Le <b>strategie</b> &mdash; cosa
+    cliccare, cosa saltare, in che ordine &mdash; vengono da
+    <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">un
+    video di XTheFarmerX</a> dell&rsquo;<b>8 settembre 2026</b>, e sono l&rsquo;opinione di
+    <b>un</b> giocatore che gioca un <b>Twister Gemling</b> gi&agrave; forte: dice lui stesso
+    che pulisce tutto il gioco ma che <b>sui mostri dell&rsquo;expedition fa fatica</b>.
+    I <b>prezzi e i conteggi di mercato</b> invece sono stati rimisurati qui il
+    <b>10 settembre</b>, sul trade2 e su poe.ninja, partendo dai <b>suoi stessi
+    link di ricerca</b>. Dove le due cose divergono, la riga lo dice.
+  </div>
+
+  <div class="legenda">
+    <div><span class="s">🎥</span><span><b>Dal video</b> &mdash; strategia dichiarata, non misurata.</span></div>
+    <div><span class="s">✅</span><span><b>Misurato il 10 settembre</b> &mdash; trade2, poe.ninja o dati del gioco.</span></div>
+    <div><span class="s">🧮</span><span><b>Conto mio</b> &mdash; derivato da due numeri verificati.</span></div>
+    <div><span class="s">🔴</span><span><b>Smentito</b> &mdash; il video dice una cifra, la misura ne dice un&rsquo;altra.</span></div>
+  </div>
+
+  <h2 class="sec" id="come">Come funziona, in sei righe</h2>
+
+  <div class="card" style="padding:var(--s5)">
+    <ul style="margin:0;padding-left:1.1rem;color:var(--muted);line-height:1.7">
+      <li>Si sblocca l&rsquo;oceano con la quest a <b>Kingsmarch</b>, e da l&igrave; si esplora.</li>
+      <li>Per andare pi&ugrave; a fondo si consumano <b>Expedition Logbook</b> sulle acque inesplorate: ogni logbook apre altre mappe.</li>
+      <li>Sul logbook si attivano le <b>Saga</b>, che <b>garantiscono</b> l&rsquo;incontro con un boss preciso &mdash; Uhtred, Olroth, Vorana, Medved, Aldur.</li>
+      <li>I <b>rumor</b> del logbook dicono in anticipo che tipo di expedition ci sar&agrave;: uno buono basta a giustificare la spesa.</li>
+      <li>Sull&rsquo;atlante nascono due cose diverse: le <b>Grand Expedition</b> (il contenuto grasso) e le <b>travel map</b>, che si attraversano per arrivarci.</li>
+      <li>Dentro una Grand Expedition si piazzano gli esplosivi lungo una catena di <b>Verisium Remnant</b>: ognuno porta una ricompensa e delle <b>rune</b>, e le rune col bordo si <b>propagano al remnant successivo</b>.</li>
+    </ul>
+    <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>L&rsquo;ultima riga &egrave; il motore di tutto.</b> Le rune che si propagano sono la ragione per cui esistono due strategie diverse sulla stessa mappa: una che sceglie i remnant per <b>quello che pagano</b>, e una che li sceglie per <b>quello che aggiungono ai mostri</b>. La seconda rende di pi&ugrave; e ti ammazza.</p>
+  </div>
+
+  <h2 class="sec" id="strategie">Le quattro strategie</h2>
+
+  <!-- 🔴 I due pulsanti nascono `hidden` e li accende lo script: le schede si
+       aprono da sole col <details>, questi due no. Un comando morto in pagina e'
+       peggio di un comando assente. -->
+  <div class="comandi" id="comandi" hidden>
+    <button type="button" data-tutti="1">Apri tutti i dettagli</button>
+    <button type="button" data-tutti="0">Chiudi tutti</button>
+  </div>
+
+  <!-- ===================== 1 ===================== -->
+  <article class="strat" id="travel">
+    <header>
+      <h2>1 &middot; Travel map &mdash; Delirium boss rush <span class="badge">di passaggio</span> <span class="badge">0,49 div di splinter</span></h2>
+      <p class="sommario">Le mappe che attraversi <b>comunque</b> per arrivare alle Grand Expedition. Non si aggiunge niente al percorso: si apre lo specchio, si corre, si chiude.</p>
+      <p class="quando">Quando: sempre, su ogni mappa che non &egrave; una Grand Expedition</p>
+    </header>
+
+    <div class="misure">
+      <div class="misura"><div class="et">Difficolt&agrave;</div>
+        <div class="val">Bassa<small>🎥 il delirio aggiunge robustezza e danno, niente di pi&ugrave;</small></div>
+        <div class="tacche rischio"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Investimento</div>
+        <div class="val">🔴 ~200 ex a tablet<small>il video dice <b>10-20 ex</b>. Misurato: mediana <b>200 ex</b>, e in tutta la lega <b>ce ne sono dieci</b></small></div>
+        <div class="tacche"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+      <div class="misura"><div class="et">Resa</div>
+        <div class="val">0,49 div a mappa<small>✅ i <b>71</b> splinter della mappa mostrata, ai prezzi di oggi. 🎥 il conteggio &egrave; suo</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Ritmo</div>
+        <div class="val">Zero tempo aggiunto<small>🎥 &laquo;<i>no additional time added on</i>&raquo; &mdash; si uccide solo ci&ograve; che si sarebbe ucciso comunque</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+    </div>
+
+    <details class="dettaglio">
+      <summary>Dettaglio &mdash; come si corre, i tablet, l&rsquo;atlante</summary>
+      <div class="corpo">
+        <div>
+          <h3>Come si corre</h3>
+          <ul>
+            <li>Si prende lo <b>specchio del delirio</b> e si fa la mappa <b>normalmente</b>, fino al boss.</li>
+            <li>Si uccide il boss, si aprono gli specchi rimasti nella stanza, si <b>chiude</b> il delirio. Fine.</li>
+            <li>⚠️ <b>Nella stanza del boss il delirio pu&ograve; ammassare tutto insieme</b> &mdash; mostri e uno specchio nello stesso punto. &Egrave; l&rsquo;unico momento in cui questa strategia morde.</li>
+            <li>I <b>point of interest arancioni</b> sono boss garantiti: se &egrave; un boss del delirio lascia 🎥 10-15 splinter, che poi vengono moltiplicati da tablet e atlante. Vanno uccisi.</li>
+          </ul>
+
+          <h3 class="piu">Perch&eacute; Delirium e non Breach o Abyss</h3>
+          <p>🎥 Il criterio che d&agrave; &egrave; buono e vale oltre il caso: <b>si sceglie la meccanica che non ti fa aspettare</b>. Breach vuole che il cerchio si apra e si chiuda, Abyss che i mostri saltino dentro e poi escano. Il delirio no: cammina con te.</p>
+          <p>🧮 Il che rende questa la strategia meno fragile delle quattro. Se domani il delirio venisse nerfato, il criterio &laquo;niente attese&raquo; sopravvive al nerf; una lista di tablet no.</p>
+        </div>
+
+        <div>
+          <div class="pannello">
+            <h3>I tablet &mdash; cosa cerca il suo filtro</h3>
+            <div class="voce"><span class="n"><b>Implicito</b><small>Adds a Mirror of Delirium to a Map</small></span><span class="p">≥ 10 usi</span></div>
+            <div class="voce"><span class="n"><b>Un prefisso qualsiasi</b><small>rarity, effectiveness, monster rarity o rare monsters</small></span><span class="p">≥ 1</span></div>
+            <div class="voce"><span class="n"><b>Un suffisso delirio</b><small>unique boss, fracturing mirrors o stack di Simulacrum Splinter</small></span><span class="p">≥ 20%</span></div>
+            <div class="voce"><span class="n">🔴 Inserzioni nella lega</span><span class="p nulla">10<small>✅ collaudato oggi</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAAACp2SzWqFMBCF32XWoczkR5O8SpFLqikEYhSNxSJ592JLby1XF-2shjnznZyEbDBnl5cZ7AbDmMOQwMLs22VyL9FDYZ_6DPZ5g_w-erDgUgcMXkPMfvoSQgcWQj_G0Ib8tAM3oWuDRIIEMHhzcfH7CX1IYAlLaQq7-7XDkvKZo19_ORqqpTYkOezwyQbHSilETuZqQ5LklRJaXHqI2ghSCjWH0jwkL_-JXXFTIaJ-eAiO5SKFUoQSuZF_YIQWlVJEpj6Fzi7THNJvkCfX-dthcGjHKbQ_aFpiZNC79bu9_xy_uph9B2WvD2ljBYBcAgAA" target="_blank" rel="noopener">Apri la ricerca ↗</a>
+          </div>
+
+          <div class="pannello">
+            <h3>Atlante &mdash; Jado&rsquo;s Spycraft</h3>
+            <div class="voce"><span class="n"><b>Partial Translations</b><small>0-40% increased effect of Explicit Modifiers on Tablets</small></span><span class="p">chiave</span></div>
+            <div class="voce"><span class="n"><b>Unexpected Missions</b><small>waystone corrotte: +1 modificatore casuale</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Eastern Knowledge</b><small>rerolla i Verisium Remnant</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Keen Appraisal</b><small>50% increased Exceptional Items found</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n">Nodi Delirium</span><span class="p">6 punti<small>🎥 basta quello degli splinter</small></span></div>
+          </div>
+
+          <div class="pannello">
+            <h3>Il prezzo che regge</h3>
+            <div class="voce"><span class="n"><b>Simulacrum Splinter</b></span><span class="p">1,7 ex</span></div>
+            <div class="voce"><span class="n">300 splinter = 1 Simulacrum</span><span class="p">2,07 div</span></div>
+            <div class="voce"><span class="n">Simulacrum sul mercato</span><span class="p">2,17 div</span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Il video dice &laquo;<i>around two div for a whole simulacrum</i>&raquo;: <b>esatto</b>. &Egrave; l&rsquo;unica sua cifra che deriva da un rapporto interno al gioco invece che dalla memoria del prezzo di ieri &mdash; e infatti &egrave; l&rsquo;unica che regge.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+  </article>
+
+  <!-- ===================== 2 ===================== -->
+  <article class="strat" id="forzieri">
+    <header>
+      <h2>2 &middot; Grand Expedition &mdash; priorit&agrave; ai forzieri <span class="badge">budget</span> <span class="badge">variante sicura</span></h2>
+      <p class="sommario">Si prendono <b>solo</b> i remnant che pagano, si saltano gli altri e si va sui forzieri. &Egrave; quella con cui l&rsquo;autore dice di aver fatto le sue prime dieci ore.</p>
+      <p class="quando">Quando: finch&eacute; i mostri della catena di rune ti uccidono</p>
+    </header>
+
+    <div class="misure">
+      <div class="misura"><div class="et">Difficolt&agrave;</div>
+        <div class="val">Media<small>🎥 i mostri restano quelli base del remnant, senza rune accumulate</small></div>
+        <div class="tacche rischio"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Investimento</div>
+        <div class="val">🔴 ~55 ex a mappa<small>3 Irradiated Tablet da 10 usi a <b>184-207 ex</b>. Il video dice <b>60 ex</b> il tablet: oggi sono <b>~3&times;</b></small></div>
+        <div class="tacche"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Resa</div>
+        <div class="val">🎥 1-2 div dai forzieri<small>&laquo;<i>one or two per map if you prioritize them</i>&raquo; &mdash; dichiarata, mai cronometrata</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Ritmo</div>
+        <div class="val">Veloce<small>🧮 si salta met&agrave; della catena: meno combattimenti della strategia 3</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+    </div>
+
+    <details class="dettaglio">
+      <summary>Dettaglio &mdash; la regola dei remnant, i forzieri, i tablet, l&rsquo;atlante</summary>
+      <div class="corpo">
+        <div>
+          <h3>La regola, in due righe</h3>
+          <ul>
+            <li><b>Ricompensa buona → si prende. Ricompensa scadente → si salta.</b> La soglia che d&agrave; &egrave; 🎥 <b>un terzo di divine</b>: sotto, si rerolla con <b>Liquid Verisium</b>; se resta sotto, si salta il remnant e si va altrove.</li>
+            <li>Gli esplosivi che avanzano si usano per <b>raggiungere i forzieri</b>, non per allungare la catena.</li>
+          </ul>
+
+          <h3 class="piu">I forzieri, che sono il vero motivo</h3>
+          <ul>
+            <li>🎥 <b>Icona con le chaos orb</b> &rarr; valuta. <b>Icona a stella</b> &rarr; mappe. <b>Rossi</b> &rarr; item generici.</li>
+            <li>🎥 <b>Dorato invece che giallo spento = potenziato.</b> Un forziere di valuta dorato d&agrave; <b>il doppio</b>.</li>
+            <li>🔑 <b>Quelli con la chiave inglese danno gear garantito</b>, e se sono dorati danno <b>Exceptional Item garantiti</b>. &Egrave; la ragione per cui l&rsquo;autore vuole mappe di area level alta: dice che un Exceptional a <b>ilvl 82</b> pu&ograve; valere 100+ div.</li>
+            <li>✅ La rarity dei tablet <b>si applica anche ai forzieri</b> secondo il video &mdash; ed &egrave; coerente col fatto che il suo filtro chieda <b>sempre</b> almeno un mod di rarity.</li>
+          </ul>
+
+          <h3 class="piu rosso">La catena degli item level &egrave; sua, non misurata</h3>
+          <p>✅ Verificato: il tablet si chiama davvero <b>Irradiated</b>, e fra i nodi dell&rsquo;atlante esiste <i>Grand Expeditions have +1 Area Level</i>. 🎥 Il resto della catena &mdash; T16 &rarr; ilvl 81 &rarr; <b>82 dai mostri rari</b> &rarr; basi che valgono &mdash; &egrave; affermata dal video e non &egrave; stata verificata qui.</p>
+        </div>
+
+        <div>
+          <div class="pannello">
+            <h3>I tablet &mdash; cosa cerca il suo filtro</h3>
+            <div class="voce"><span class="n"><b>Irradiated Tablet</b><small>il <code>type</code>, non un mod</small></span><span class="p">esatto</span></div>
+            <div class="voce"><span class="n"><b>Un mod di quantit&agrave; mostri</b><small>effectiveness, rare monsters o monster rarity</small></span><span class="p">≥ 1</span></div>
+            <div class="voce"><span class="n"><b>Rarity of Items found in Map</b><small>il mod che tocca anche i forzieri</small></span><span class="p">≥ 1</span></div>
+            <div class="voce"><span class="n">Usi rimasti</span><span class="p">≥ 10</span></div>
+            <div class="voce"><span class="n">✅ Inserzioni nella lega</span><span class="p">2.391</span></div>
+            <div class="voce"><span class="n">✅ Le pi&ugrave; economiche</span><span class="p">8-9 chaos<small>184-207 ex</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAAACpWPy2rDMBBFf6XM2gRZihxbf5B9dsEIxZqUAVsyeoQUo38vSsiqKaWrWdxzD3c2iMmkHEFt4NdE3oGCiFMO5jIjlAbS14qg4BiCsWQS2o9TjRI0j2oEdd5e0OSzq8GV5oThGZEFBXhfZ5oo7WpFc9ZJyRhvByjNW0IcBtFKyXr-G7Fv97yTohccytjAzcwZ6xMLOVBtqa1_jhKsY4z3h-EvoXH2nW6NmK3fPY92eblg0P6qc8SoAy6GHLlP-KFmpYxlLN-EBJdkigEAAA" target="_blank" rel="noopener">Apri la ricerca ↗</a>
+          </div>
+
+          <div class="pannello">
+            <h3>Come si rollano le mappe</h3>
+            <div class="voce"><span class="n"><b>Sei mod</b><small>tutti buoni tranne uno</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n">🔴 <b>Pack size</b><small>&laquo;<i>completely useless for this strategy</i>&raquo;</small></span><span class="p nulla">no</span></div>
+            <div class="voce"><span class="n"><b>Chaotic Quantity</b><small>fa uscire i mod senza pack size</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Corrompere</b><small>serve a <i>Unexpected Missions</i></small></span><span class="p">s&igrave;</span></div>
+          </div>
+
+          <div class="pannello">
+            <h3>Atlante &mdash; la variante debole</h3>
+            <p style="margin:0 0 var(--s3);font-size:var(--t-sm);color:var(--muted)">🎥 Se i mostri ti uccidono, si lascia <b>Jado</b> e si va su <b>Doryani&rsquo;s Science</b>: rende un po&rsquo; meno ma d&agrave; una vita in pi&ugrave;.</p>
+            <div class="voce"><span class="n"><b>Stitch the Flesh</b><small>Your Maps have an additional Revival</small></span><span class="p">il motivo</span></div>
+            <div class="voce"><span class="n"><b>Evolutionary Pressure</b></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Improved Calibration</b></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Careful Procurement</b><small>al posto di <i>Hidden Patterns</i></small></span><span class="p">s&igrave;</span></div>
+          </div>
+        </div>
+      </div>
+    </details>
+  </article>
+
+  <!-- ===================== 3 ===================== -->
+  <article class="strat" id="catena">
+    <header>
+      <h2>3 &middot; Grand Expedition &mdash; catena di rune <span class="badge">highend</span> <span class="badge">🎥 8-9 div a mappa</span></h2>
+      <p class="sommario">Si prendono <b>tutti</b> i remnant, e si sceglie in base alle <b>rune</b> invece che alla ricompensa. I mostri finiscono con 10-20 modificatori addosso: &laquo;<i>way harder than bosses</i>&raquo;, parole sue.</p>
+      <p class="quando">Quando: quando la strategia 2 non ti uccide pi&ugrave; mai</p>
+    </header>
+
+    <div class="misure">
+      <div class="misura"><div class="et">Difficolt&agrave;</div>
+        <div class="val">Molto alta<small>🎥 &laquo;<i>if they have the wrong combination of mods, be literally unkillable</i>&raquo;</small></div>
+        <div class="tacche rischio"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+      <div class="misura"><div class="et">Investimento</div>
+        <div class="val">🔴 ~55 ex a mappa<small>identico alla strategia 2: cambia il modo di correrla, non la spesa</small></div>
+        <div class="tacche"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Resa</div>
+        <div class="val">🎥 8-9 div a mappa<small>&laquo;<i>an average map</i>&raquo;, dichiarata su <b>una</b> mappa mostrata: 6 div grezze, 2 annulment, 9 chaos</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+      <div class="misura"><div class="et">Ritmo</div>
+        <div class="val">Lento<small>🧮 si combatte tutta la catena, con ondate multiple sui remnant a 7 rune</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+    </div>
+
+    <details class="dettaglio">
+      <summary>Dettaglio &mdash; le rune che si propagano, la regola di scelta, il pericolo</summary>
+      <div class="corpo">
+        <div>
+          <h3>Il meccanismo &mdash; ed &egrave; l&rsquo;unica cosa da capire</h3>
+          <ul>
+            <li>Ogni remnant porta delle rune, e <b>ogni runa aggiunge un modificatore ai mostri</b>.</li>
+            <li>🔑 <b>Le rune col bordo luminoso si propagano al remnant successivo</b>, e continuano lungo tutta la catena. Quelle senza bordo valgono solo l&igrave;.</li>
+            <li>⚠️ <b>Non si duplicano.</b> Due rune uguali che si propagano restano una.</li>
+            <li>Quindi <b>una runa presa presto vale molto pi&ugrave; della stessa runa presa tardi</b>, ed &egrave; il motivo per cui vale la pena prendere un remnant che non paga niente.</li>
+          </ul>
+
+          <h3 class="piu">La regola di scelta</h3>
+          <ul>
+            <li>🎥 <b>Si ignora la ricompensa.</b> Nel video prende <i>Betrayal of Aldur</i> e <i>Reign of Blades</i> dicendo che non valgono nulla, solo per la runa che portano.</li>
+            <li>🎥 <b>Preferisci i remnant con molte rune</b>: sette rune significano pi&ugrave; ondate di mostri, cio&egrave; pi&ugrave; bottino sullo stesso esplosivo.</li>
+            <li>🎥 <b>Una runa che non si propaga vale poco</b>: nel video rerolla un remnant che aveva la <b>Opulent</b> senza bordo.</li>
+            <li>🎥 Se non hai voglia di leggere i mod: <b>oro &gt; viola &gt; blu</b>, e basta.</li>
+            <li>✅ <b>Le meccaniche di zona contano.</b> Alcune expedition portano un effetto in pi&ugrave; &mdash; <i>Sulphite</i> d&agrave; increased rarity: in questa strategia si va l&igrave;.</li>
+          </ul>
+
+          <h3 class="piu rosso">Il pericolo, detto da uno che muore</h3>
+          <p>🎥 Un raro mostrato nel video aveva <b>7 modificatori runici pi&ugrave; 6 normali = 13</b>, e non era ancora la fine della catena. &laquo;<i>Each one of these mobs ends up becoming pretty much as difficult as an act boss</i>&raquo;. Dice di aver visto morire build da <b>venti mirror</b> su questi mostri.</p>
+          <p>🧮 Vale la pena leggerla al contrario: se una build da venti mirror muore qui, la difficolt&agrave; <b>non &egrave; una funzione del tuo gear</b> ma della combinazione di rune. La leva sicura non &egrave; farmare di pi&ugrave;: &egrave; <b>non prendere la runa sbagliata</b>.</p>
+        </div>
+
+        <div>
+          <div class="pannello">
+            <h3>Le rune, come le ordina lui</h3>
+            <div class="voce"><span class="n"><b>Opulent</b><small>higher monster rarity &mdash; l&rsquo;unica dorata</small></span><span class="p"><span class="voto s">S+</span></span></div>
+            <div class="voce"><span class="n"><b>Bond</b><small>more rares, more modifiers</small></span><span class="p"><span class="voto s">S+</span></span></div>
+            <div class="voce"><span class="n"><b>Death</b><small>i morti si fondono in mostri pi&ugrave; forti</small></span><span class="p"><span class="voto a">A</span></span></div>
+            <div class="voce"><span class="n"><b>Time</b><small>i morti tornano di rarit&agrave; pi&ugrave; alta</small></span><span class="p"><span class="voto a">A</span></span></div>
+            <div class="voce"><span class="n"><b>Power</b><small>enrages mobs &mdash; paga senza dare fastidio</small></span><span class="p"><span class="voto b">B</span></span></div>
+            <div class="voce"><span class="n">Oath<small>evoca alleati</small></span><span class="p"><span class="voto c">C</span></span></div>
+            <div class="voce"><span class="n">Soul<small>union of souls</small></span><span class="p"><span class="voto c">C</span></span></div>
+            <div class="voce"><span class="n">Life<small>condivide la vita</small></span><span class="p"><span class="voto c">C</span></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🎥 Dal suo cheatsheet. <b>Senza Opulent la mappa rende circa met&agrave;</b>, dice &mdash; ed &egrave; l&rsquo;unica volta in cui quantifica un nodo della sua stessa strategia.</p>
+          </div>
+
+          <div class="pannello">
+            <h3>Atlante &mdash; Jado&rsquo;s Spycraft</h3>
+            <div class="voce"><span class="n"><b>Eastern Knowledge</b><small>10% chance di rerollare il remnant tenendo l&rsquo;esito pi&ugrave; raro</small></span><span class="p">il perno</span></div>
+            <div class="voce"><span class="n"><b>Partial Translations</b><small>0-40% effetto dei mod sui tablet</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Unexpected Missions</b></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Keen Appraisal</b><small>50% increased Exceptional Items found</small></span><span class="p">s&igrave;</span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">⚠️ Testi presi da una fonte esterna, non letti in gioco.</p>
+          </div>
+
+          <div class="pannello">
+            <h3>Il reroll</h3>
+            <div class="voce"><span class="n"><b>Liquid Verisium</b><small>si compra da <b>Farrow</b> scambiando Verisium</small></span><span class="p">1 reroll</span></div>
+            <div class="voce"><span class="n">🎥 Tasso dichiarato</span><span class="p nulla">600 : 1<small>non verificato</small></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Che Farrow lo venda &egrave; scritto in un nodo dell&rsquo;atlante &mdash; <i>Farrow now sells Liquid Verisium in exchange for Verisium</i>. Il <b>tasso</b> no.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+  </article>
+
+  <!-- ===================== 4 ===================== -->
+  <article class="strat" id="boss">
+    <header>
+      <h2>4 &middot; Boss map &mdash; la saga <span class="badge">45 secondi</span> <span class="badge">lotteria</span></h2>
+      <p class="sommario">Mappa bianca, nessun tablet, si va dritti al boss. Si compra una <b>Saga</b>, si prende una <b>Lineage Support</b> se il dado gira. &Egrave; la strategia pi&ugrave; corta e la pi&ugrave; fraintendibile.</p>
+      <p class="quando">Quando: ogni volta che hai una saga in inventario</p>
+    </header>
+
+    <div class="misure">
+      <div class="misura"><div class="et">Difficolt&agrave;</div>
+        <div class="val">Nessuna<small>🎥 mappa bianca o blu: cinque o sei vite, e i boss non sono difficili</small></div>
+        <div class="tacche rischio"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Investimento</div>
+        <div class="val">🔴 223 ex la saga<small>il video dice <b>45 ex</b>, &laquo;<i>less than half of a div</i>&raquo;. Oggi <b>0,904 div</b>: ~5&times; in exalted</small></div>
+        <div class="tacche"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Resa</div>
+        <div class="val">🔴 lotteria, e sottile<small>la gem che cita vale <b>80 div</b> (non 38) ma sul mercato c&rsquo;&egrave; <b>una</b> offerta</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="misura"><div class="et">Ritmo</div>
+        <div class="val">45 secondi<small>🎥 &laquo;<i>it takes you like 45 seconds to run the map</i>&raquo;</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+    </div>
+
+    <details class="dettaglio">
+      <summary>Dettaglio &mdash; il calcolo rifatto, quale saga, l&rsquo;atlante</summary>
+      <div class="corpo">
+        <div>
+          <h3>Come si corre</h3>
+          <ul>
+            <li>Mappa <b>bianca o blu</b>, nessun tablet: 🎥 &laquo;<i>nothing affects the drop rate of lineage gems</i>&raquo; tranne un nodo.</li>
+            <li>Quel nodo &egrave; <b>Untold Histories</b>, che si prende <b>al posto di Keen Appraisal</b>.</li>
+            <li>Si va al boss, lo si uccide, si esce.</li>
+          </ul>
+
+          <h3 class="piu rosso">Il conto, rifatto ai prezzi di oggi</h3>
+          <p>🎥 Il suo ragionamento: <i>45 ex per una probabilit&agrave; ~1 su 20 di un item da 35 div, in 45 secondi</i>. 🧮 Rifatto oggi con la saga a <b>223 ex</b> e la gem a <b>80 div</b>, il valore atteso resterebbe largamente positivo &mdash; circa <b>4 div a saga</b> contro 0,9 di costo.</p>
+          <p>🔴 <b>Ma il numero che rompe il conto non &egrave; il prezzo: &egrave; la profondit&agrave;.</b> Di <i>Olroth&rsquo;s Conviction</i> sul mercato c&rsquo;&egrave; <b>una sola offerta</b>. Un prezzo su una inserzione &egrave; una quotazione, non un mercato: la seconda che cade non si vende per forza a 80 div. E l&rsquo;&laquo;1 su 20&raquo; lui stesso lo dice con un <i>probably</i>.</p>
+
+          <h3 class="piu">⚠️ Untold Histories ha un malus che il video non nomina</h3>
+          <p>Il testo del nodo &egrave; <i>35% increased chance to find Lineage Supports</i> <b>ma anche</b> <i>Pinnacle Bosses take <b>35% less Damage</b></i>. Sui boss delle saga non morde &mdash; non sono pinnacle &mdash; ma <b>resta allocato quando vai a fare altro</b>. Va tolto prima di un pinnacle, non dopo.</p>
+        </div>
+
+        <div>
+          <div class="pannello">
+            <h3>Le saga, prezzo e volume</h3>
+            <div class="voce"><span class="n"><b>Uhtred&rsquo;s Saga</b><small>volume 720 div</small></span><span class="p">1,20 div<small>296 ex</small></span></div>
+            <div class="voce"><span class="n"><b>Olroth&rsquo;s Saga</b><small>volume 306 div &mdash; quella che consiglia</small></span><span class="p">0,904 div<small>223 ex</small></span></div>
+            <div class="voce"><span class="n">Medved&rsquo;s Saga</span><span class="p">0,128 div</span></div>
+            <div class="voce"><span class="n">Vorana&rsquo;s Saga</span><span class="p">0,091 div</span></div>
+            <div class="voce"><span class="n">Expedition Logbook</span><span class="p">0,231 div<small>57 ex</small></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ poe.ninja, 10 settembre 2026.</p>
+          </div>
+
+          <div class="pannello">
+            <h3>⚠️ La fonte contraddice s&eacute; stessa</h3>
+            <p style="margin:0 0 var(--s3);font-size:var(--t-sm);color:var(--muted)">Il video consiglia <b>Olroth</b>. Il <b>suo stesso cheatsheet</b> valuta la boss map di <b>Uhtred</b> (<i>Stardrinker</i> / Secluded Temple) <span class="voto a">A+</span> e quella di Olroth (<i>Origin of the Fall</i> / Obscure Island) <span class="voto b">B</span>.</p>
+            <p style="margin:0;font-size:var(--t-sm);color:var(--muted)">🧮 La ragione che d&agrave; per Olroth riguarda il <b>quest item</b> dell&rsquo;Uhtred, che si prende <b>una volta per account</b> &mdash; un discorso diverso dalle gem che il boss lascia. E il mercato sta col cheatsheet: <b>720 div di volume contro 306</b>.</p>
+          </div>
+
+          <div class="pannello">
+            <h3>Le Lineage Support, oggi</h3>
+            <div class="voce"><span class="n"><b>Olroth&rsquo;s Conviction</b><small>🔴 il video dice 38 div</small></span><span class="p">80 div<small>1 offerta</small></span></div>
+            <div class="voce"><span class="n">Uhtred&rsquo;s Constellation</span><span class="p">10 div<small>2 offerte</small></span></div>
+            <div class="voce"><span class="n">Olroth&rsquo;s Hubris</span><span class="p">1 div<small>5 offerte</small></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🔑 Le Lineage Support <b>non hanno un <code>name</code></b> sul trade: si comprano dal <b>Currency Exchange</b> con l&rsquo;id-slug. Cercarle per nome risponde <b>HTTP 400</b>, non &laquo;zero risultati&raquo;.</p>
+            <a class="verso secondario" href="https://www.pathofexile.com/trade2/exchange/poe2/Forbidden%20Rites?q=%7B%22query%22%3A%7B%22status%22%3A%7B%22option%22%3A%22online%22%7D%2C%22have%22%3A%5B%22divine%22%5D%2C%22want%22%3A%5B%22olroths-conviction%22%5D%7D%2C%22sort%22%3A%7B%22have%22%3A%22asc%22%7D%2C%22engine%22%3A%22new%22%7D" target="_blank" rel="noopener">Conviction sull&rsquo;exchange ↗</a>
+          </div>
+        </div>
+      </div>
+    </details>
+  </article>
+
+  <h2 class="sec" id="rune">Le rune, in una tabella</h2>
+
+  <div class="card" style="padding:var(--s5)">
+    <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 <b>&Egrave; la tier list dell&rsquo;autore</b>, presa dal foglio che linka nella descrizione. Non porta un campione, un numero o una misura: sta qui perch&eacute; &egrave; la parte operativa della strategia 3, non perch&eacute; sia verificata. Gli effetti sono <b>come li descrive lui</b>, non il testo del gioco.</p>
+    <div class="scorre">
+      <table class="tabella">
+        <thead><tr><th>Runa</th><th class="v">Voto</th><th>Effetto, come lo descrive</th><th>Perch&eacute;</th></tr></thead>
+        <tbody>
+          <tr><td class="n"><b>Opulent</b></td><td class="v"><span class="voto s">S+</span></td><td>Higher Monster rarity</td><td>l&rsquo;unica dorata &mdash; senza, la mappa rende circa met&agrave;</td></tr>
+          <tr><td class="n"><b>Bond</b></td><td class="v"><span class="voto s">S+</span></td><td>More Rares, more modifiers</td><td>moltiplica i rari, cio&egrave; il bottino</td></tr>
+          <tr><td class="n"><b>Death</b></td><td class="v"><span class="voto a">A</span></td><td>Slain Monsters merge into Stronger Mobs</td><td>concentra il bottino su meno bersagli</td></tr>
+          <tr><td class="n"><b>Time</b></td><td class="v"><span class="voto a">A</span></td><td>Slain Monsters revive as Higher Rarity</td><td>ogni morte &egrave; una promozione</td></tr>
+          <tr><td class="n"><b>Power</b></td><td class="v"><span class="voto b">B</span></td><td>Enrages Mobs</td><td>paga senza rendere la mappa odiosa</td></tr>
+          <tr><td class="n">Oath</td><td class="v"><span class="voto c">C</span></td><td>Monster Summons Allies</td><td><i>super annoying</i></td></tr>
+          <tr><td class="n">Soul</td><td class="v"><span class="voto c">C</span></td><td>Union of Souls</td><td><i>super annoying</i></td></tr>
+          <tr><td class="n">Life</td><td class="v"><span class="voto c">C</span></td><td>Shares Life</td><td><i>super annoying</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>Le tre C hanno la stessa motivazione, e non &egrave; il bottino: &egrave; il fastidio.</b> Sono le rune che allungano il combattimento invece di renderlo pi&ugrave; ricco &mdash; e in una strategia il cui unico costo &egrave; il tempo, quello &egrave; il criterio giusto.</p>
+  </div>
+
+  <h2 class="sec" id="rumor">I rumor delle Grand Expedition</h2>
+
+  <div class="card" style="padding:var(--s5)">
+    <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 Stessa fonte, stesso peso: &egrave; una <b>sua classifica</b>. La regola operativa che d&agrave; nel video &egrave; semplice &mdash; <b>un rumor solido pi&ugrave; almeno tre rumor in tutto, e il logbook si consuma</b>.</p>
+    <div class="scorre">
+      <table class="tabella">
+        <thead><tr><th>Rumor</th><th>Mappa</th><th>Cosa porta</th><th class="v">Voto</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td class="n"><b>Fallen Stars</b></td><td>Moor</td><td>Runestones</td><td class="v"><span class="voto s">S++++</span></td><td>si punta a Perfect Flux o Aldur&rsquo;s Saga, quale vale di pi&ugrave;</td></tr>
+          <tr><td class="n"><b>Cold as Ice</b></td><td>Frigid Bluffs</td><td>Old Expedition</td><td class="v"><span class="voto a">A+</span></td><td>quello che nel video basta da solo</td></tr>
+          <tr><td class="n"><b>Nothing to Drink</b></td><td>Stagnant Basin</td><td>Oil</td><td class="v"><span class="voto a">A+</span></td><td></td></tr>
+          <tr><td class="n"><b>Sulphite!</b></td><td>Scorched Cay</td><td>Increased Rarity</td><td class="v"><span class="voto a">A</span></td><td>il preferito per la <b>catena di rune</b></td></tr>
+          <tr><td class="n"><b>Endless Cliffs</b></td><td>Craggy Peninsula</td><td>Rarity / Rogue Exiles</td><td class="v"><span class="voto a">A</span></td><td></td></tr>
+          <tr><td class="n">Unknown Ruins</td><td>Exhumed Ruins</td><td>Precursor Leylines</td><td class="v"><span class="voto b">B</span></td><td></td></tr>
+          <tr><td class="n">It&rsquo;s Warm</td><td>Lush Island</td><td>Exp / Beyond / Hoards</td><td class="v"><span class="voto b">B&minus;</span></td><td>⚠️ mostri in zone irraggiungibili</td></tr>
+          <tr><td class="n">Something Fishy</td><td>Bleached Shoals</td><td>Gold</td><td class="v"><span class="voto c">C</span></td><td></td></tr>
+          <tr><td class="n">Bleak and Awful</td><td>Barren Atoll</td><td>Strongbox</td><td class="v"><span class="voto c">C</span></td><td>⚠️ mostri invisibili e invulnerabili</td></tr>
+          <tr><td class="n">It&rsquo;s Dry at Least</td><td>Sloughed Gully</td><td>Monster effectiveness</td><td class="v"><span class="voto d">D</span></td><td></td></tr>
+          <tr><td class="n">Wild, Roaming Free</td><td>Grazed Prairie</td><td>Azmeri Spirits</td><td class="v"><span class="voto d">D</span></td><td>⚠️ mostri in zone irraggiungibili</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin:var(--s5) 0 var(--s3);font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;color:var(--gold)">E le quattro boss map</h3>
+    <div class="scorre">
+      <table class="tabella">
+        <thead><tr><th>Rumor</th><th>Mappa</th><th>Boss</th><th class="v">Voto</th></tr></thead>
+        <tbody>
+          <tr><td class="n"><b>Stardrinker</b></td><td>Secluded Temple</td><td>Uhtred</td><td class="v"><span class="voto a">A+</span></td></tr>
+          <tr><td class="n"><b>Origin of the Fall</b></td><td>Obscure Island</td><td>Olroth</td><td class="v"><span class="voto b">B</span></td></tr>
+          <tr><td class="n">Last to Fall</td><td>Mournful Cliffside</td><td>Vorana</td><td class="v"><span class="voto d">F</span></td></tr>
+          <tr><td class="n">End of the Circle</td><td>Sprawling Jungle</td><td>Medved</td><td class="v"><span class="voto d">F</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="sec" id="prezzi">I prezzi di oggi, e le quattro smentite</h2>
+
+  <div class="avviso">
+    🔴 <b>Quattro cifre su cinque del video sono sbagliate, e sono sbagliate tutte
+    nello stesso verso: verso il basso.</b> Non &egrave; disonest&agrave; &mdash; il video ha due
+    giorni e l&rsquo;economia di una lega giovane si muove in fretta &mdash; ma &egrave; esattamente
+    il modo di sbagliare che conta per chi deve decidere quanto pagare.
+  </div>
+
+  <div class="kpi">
+    <div><b>246,6 ex</b><span>per divine, oggi</span></div>
+    <div><b>2.391</b><span>Irradiated Tablet in vendita</span></div>
+    <div><b>10</b><span>🔴 deli tablet in tutta la lega</span></div>
+    <div><b>1</b><span>🔴 offerta di Olroth&rsquo;s Conviction</span></div>
+  </div>
+
+  <div class="scorre" style="margin-top:var(--s5)">
+    <table class="tabella">
+      <thead><tr><th>Cosa</th><th>Dice il video</th><th>Misurato il 10 settembre</th><th>Scarto</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="n"><b>Irradiated Tablet</b><br><span class="lim">la sua ricerca esatta</span></td>
+          <td>~3 chaos &middot; 60 ex &middot; ⅓ div</td>
+          <td class="val">8-9 chaos &middot; <b>184-207 ex</b> &middot; 0,75-0,84 div</td>
+          <td>🔴 <b>~3&times;</b></td>
+        </tr>
+        <tr>
+          <td class="n"><b>Delirium Tablet</b><br><span class="lim">la sua ricerca esatta</span></td>
+          <td>10-20 ex &laquo;<i>incredibly cheap</i>&raquo;</td>
+          <td class="val">mediana <b>200 ex</b> &middot; <b>10 inserzioni</b> in tutto</td>
+          <td>🔴 <b>~10&times;</b>, e non &egrave; un mercato</td>
+        </tr>
+        <tr>
+          <td class="n"><b>Olroth&rsquo;s Saga</b></td>
+          <td>45 ex &middot; &laquo;<i>less than half a div</i>&raquo;</td>
+          <td class="val"><b>223 ex</b> &middot; 0,904 div</td>
+          <td>🔴 <b>~5&times;</b> in exalted</td>
+        </tr>
+        <tr>
+          <td class="n"><b>Olroth&rsquo;s Conviction</b></td>
+          <td>38 div</td>
+          <td class="val"><b>80 div</b>, su <b>una</b> offerta</td>
+          <td>🔴 <b>2,1&times;</b> &mdash; e sottile</td>
+        </tr>
+        <tr>
+          <td class="n"><b>Simulacrum Splinter</b></td>
+          <td>~2 div per 300 splinter</td>
+          <td class="val">1,7 ex l&rsquo;uno &rarr; <b>2,07 div</b> per 300</td>
+          <td>✅ <b>esatto</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="padding:var(--s5);margin-top:var(--s5)">
+    <p style="margin:0 0 var(--s3);color:var(--muted)">🔑 <b>La riga verde spiega le quattro rosse.</b> L&rsquo;unica cifra che regge &egrave; l&rsquo;unica che lui non ricava da un prezzo ma da un <b>rapporto interno al gioco</b>: 300 splinter fanno un Simulacrum, e quel rapporto non invecchia. Tutte le altre erano prezzi ricordati, e un prezzo ricordato in una lega di sei giorni &egrave; gi&agrave; vecchio quando lo pronunci.</p>
+    <p style="margin:0;color:var(--muted)">🧮 <b>Non ribalta le strategie</b>: 55 ex di tablet contro le 8-9 divine a mappa che dichiara restano spiccioli. Ribalta <b>due decisioni d&rsquo;acquisto</b>: il set di deli tablet da dieci mappe <b>oggi non &egrave; comprabile</b>, e la Lineage Support da 80 div <b>non &egrave; vendibile a quel prezzo</b> finch&eacute; il mercato ha una riga sola.</p>
+  </div>
+
+  <h2 class="sec" id="limiti">Cosa questa pagina non dice</h2>
+
+  <div class="card" style="padding:var(--s5)">
+    <ul class="fonti" style="margin:0;padding-left:1.1rem">
+      <li>🔴 <b>La resa non &egrave; misurata, in nessuna delle quattro strategie.</b> &laquo;8-9 div a mappa&raquo;, &laquo;150 div in un giorno&raquo;, e il <b>&laquo;30D+/HR&raquo; del titolo</b> sono dichiarazioni. ⚠️ Quel numero <b>non compare mai nel corpo del video</b>, e non c&rsquo;&egrave; un cronometro da nessuna parte: 🧮 per arrivarci con 8-9 div a mappa servirebbero <b>~3,5 mappe l&rsquo;ora</b>.</li>
+      <li><b>Vale per la sua build.</b> Un Twister Gemling gi&agrave; forte, che per sua stessa ammissione <b>fatica sui mostri dell&rsquo;expedition</b>. La strategia 3 non &egrave; una scelta di gusto: &egrave; una soglia di danno e di sopravvivenza che o hai o non hai.</li>
+      <li><b>Il tasso di Farrow non &egrave; verificato.</b> ✅ Che venda Liquid Verisium in cambio di Verisium sta in un nodo dell&rsquo;atlante; il <b>600 : 1</b> &egrave; solo suo.</li>
+      <li><b>La catena degli item level non &egrave; verificata.</b> ✅ Verificati il nome <i>Irradiated</i> e il nodo <i>Grand Expeditions have +1 Area Level</i>; il &laquo;+1 dal mostro raro&raquo; e l&rsquo;<b>ilvl 82 garantito</b> no.</li>
+      <li><b>L&rsquo;&laquo;1 su 20&raquo; delle Lineage Support</b> &egrave; detto dal video con un <i>probably</i>, e su quello poggia tutto il conto della strategia 4.</li>
+      <li><b>I testi dei nodi dell&rsquo;atlante vengono da una fonte esterna</b>, non dal client. Chi li rilegge in gioco pu&ograve; promuoverli.</li>
+      <li>⚠️ <b>I due link di trade sono suoi e sono stati collaudati qui</b> (HTTP 200, <code>total</code> 2.391 e 10). Ma sono link alla lega <b>Forbidden Rites</b>: al prossimo cambio di lega vanno rigenerati, non riletti.</li>
+    </ul>
+  </div>
+
+  <footer class="pie">
+    <p>Strategie da <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">XTheFarmerX &mdash; <i>Updated 0.5.5 Expedition Guide</i></a> (8 settembre 2026) e dal <a href="https://docs.google.com/spreadsheets/d/14FFZPebLxeWIBGlbD-zKCxIy33lkOWpILO5JleVBnUw/edit?gid=1428949269#gid=1428949269" target="_blank" rel="noopener">suo cheatsheet</a>. Prezzi da <a href="https://poe.ninja/poe2/economy/forbidden-rites" target="_blank" rel="noopener">poe.ninja</a> e dal <a href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites" target="_blank" rel="noopener">trade2</a>, letti il <b>10 settembre 2026</b>. Patch 0.5.5, lega Forbidden Rites.</p>
+  </footer>
+
+</div>
+
+<script src="../menu.js"></script>
+<script>
+/* Apri / chiudi tutti. I pulsanti esistono solo se lo script gira. */
+(() => {
+  const comandi = document.getElementById("comandi");
+  const schede = [...document.querySelectorAll(".strat > details")];
+  if (!comandi || !schede.length) return;
+  comandi.hidden = false;
+  comandi.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-tutti]");
+    if (!b) return;
+    for (const d of schede) d.open = b.dataset.tutti === "1";
+  });
+})();
+
+/* Il menu delle sezioni si illumina su quella che stai leggendo. Stesso pezzo
+   di /caos/: il CSS prevede gia' `aria-current="true"`, qui lo si scrive. */
+(() => {
+  const voci = [...document.querySelectorAll(".sezioni-in a")];
+  const bersagli = voci.map((a) => document.getElementById(a.hash.slice(1)))
+                       .filter(Boolean);
+  if (!bersagli.length || !("IntersectionObserver" in window)) return;
+  const vista = new Set();
+  const osserva = new IntersectionObserver((voci_) => {
+    for (const e of voci_) e.isIntersecting ? vista.add(e.target) : vista.delete(e.target);
+    let alto = null;
+    for (const b of vista) if (!alto || b.offsetTop < alto.offsetTop) alto = b;
+    for (const a of voci)
+      alto && a.hash.slice(1) === alto.id
+        ? a.setAttribute("aria-current", "true")
+        : a.removeAttribute("aria-current");
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  for (const b of bersagli) osserva.observe(b);
+})();
+</script>
+</body>
+</html>
