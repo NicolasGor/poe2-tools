@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Strategie di farming &mdash; Expedition 0.5.5 | PoE 2 Tools</title>
-<meta name="description" content="Le quattro strategie di Expedition della 0.5.5 di Path of Exile 2, con i tablet, i nodi dell'atlante e le rune da cercare — e i prezzi rimisurati il 10 settembre 2026, che smentiscono quattro cifre su cinque della fonte.">
+<meta name="description" content="Farmare l'Expedition nella 0.5.5 di Path of Exile 2: una strategia sola, tre fasi e un bivio, coi tablet, i nodi dell'atlante e le rune da cercare — e i prezzi rimisurati il 10 settembre 2026, che smentiscono quattro cifre su cinque della fonte.">
 <link rel="stylesheet" href="../stile.css">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>
@@ -23,10 +23,13 @@
   .legenda b{color:var(--text);font-weight:600}
   .legenda .s{flex:none;font-size:1.05rem;line-height:1.4}
 
-  /* ---- la scheda strategia ---- */
-  /* Intestazione, quattro misuratori, corpo a due colonne. Il corpo sta dentro
-     un <details>: quattro strategie aperte tutte insieme sono sei schermate di
-     testo, e la decisione «quale corro» si prende dai misuratori. */
+  /* ---- la scheda strategia ----
+     🔴 UNA scheda per strategia, e dentro le sue fasi. La prima versione di
+     questa pagina ne aveva quattro affiancate — travel map, due varianti di
+     Grand Expedition, boss map — ma quelle non sono alternative fra cui
+     scegliere: sono i pezzi della stessa sessione. Quattro schede identiche
+     dicono «scegline una», ed era la cosa sbagliata da dire. L'unico vero
+     bivio sta dentro la fase 2, e ha il suo blocco apposta. */
   .strat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);
          margin:var(--s5) 0;overflow:hidden;box-shadow:var(--ombra)}
   .strat > header{padding:var(--s5) var(--s5) var(--s4)}
@@ -50,17 +53,46 @@
   .tacche.rischio i.on{background:var(--bad)}
   .tacche.resa i.on{background:var(--good)}
 
+  /* Il ciclo: dice che le fasi si compongono, non che si scelgono. La freccia
+     e' un ::after cosi' l'ultima non ce l'ha e non serve markup in piu'. */
+  .ciclo{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:stretch;
+         padding:var(--s4) var(--s5);border-bottom:1px solid var(--line)}
+  .ciclo a{flex:1 1 14rem;display:block;padding:var(--s3);border-radius:var(--r);
+           background:var(--panel2);border:1px solid var(--line);position:relative;
+           color:var(--muted);font-size:var(--t-sm);line-height:1.45}
+  .ciclo a:hover{border-color:var(--line2);background:var(--panel-alto)}
+  .ciclo a b{display:block;color:var(--gold);font-size:var(--t-xs);
+             text-transform:uppercase;letter-spacing:.09em;margin-bottom:.2rem}
+  .ciclo a:not(:last-child)::after{content:"\2192";position:absolute;right:-.95rem;top:50%;
+                                   transform:translateY(-50%);color:var(--line2);font-size:1.1rem}
+  @media(max-width:760px){.ciclo a::after{display:none!important}}
+
+  /* Le fasi dentro la scheda: accordion annidato, quindi la riga e' piu' sobria
+     di quella di stile.css — se fosse gold pieno come la scheda, tre righe di
+     seguito sembrerebbero tre schede, che e' il difetto che sto togliendo. */
+  .fase{border-bottom:1px solid var(--line)}
+  .fase:last-of-type{border-bottom:0}
+  .fase > summary{list-style:none;cursor:pointer;padding:var(--s3) var(--s5);
+                  display:flex;align-items:baseline;gap:var(--s3);flex-wrap:wrap;
+                  background:var(--panel2)}
+  .fase > summary::-webkit-details-marker{display:none}
+  .fase > summary:hover{background:var(--panel-alto)}
+  .fase > summary::before{content:"\25b8";color:var(--gold);font-size:.9em;
+                          transition:transform .12s;align-self:center}
+  .fase[open] > summary::before{transform:rotate(90deg)}
+  .fase > summary .n{font-family:var(--mono);color:var(--gold);font-weight:700}
+  .fase > summary .t{color:var(--text);font-weight:600}
+  .fase > summary .d{color:var(--label);font-size:var(--t-xs);margin-left:auto}
+  @media(max-width:620px){.fase > summary .d{margin-left:0;flex-basis:100%}}
+
   .corpo{display:grid;gap:var(--s5);grid-template-columns:1.55fr 1fr;
          padding:var(--s5)}
   /* 880px e' il punto in cui la colonna stretta smette di reggere una tabella;
      620px quello in cui quattro misuratori affiancati diventano illeggibili. */
   @media(max-width:880px){.corpo{grid-template-columns:1fr}
                           .misure{grid-template-columns:repeat(2,1fr)}}
-  /* La riga dell'accordion nasce con --s6 di padding orizzontale, che qui la
-     farebbe rientrare rispetto al resto della scheda: si riallinea a --s5. */
-  .strat > details > summary{padding-left:var(--s5);padding-right:var(--s5)}
-  @media(max-width:620px){.strat > header,.misure,.corpo,
-                          .strat > details > summary{padding-left:var(--s4);padding-right:var(--s4)}}
+  @media(max-width:620px){.strat > header,.misure,.ciclo,.corpo,
+                          .fase > summary{padding-left:var(--s4);padding-right:var(--s4)}}
   .corpo h3{font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;
             color:var(--gold);margin:0 0 var(--s2)}
   .corpo h3.rosso{color:var(--bad)}
@@ -71,6 +103,19 @@
             line-height:1.62;color:var(--muted)}
   .corpo li{margin-bottom:.3rem}
   .corpo ul:last-child,.corpo p:last-child{margin-bottom:0}
+
+  /* Il bivio: l'unico punto della pagina in cui si sceglie davvero, e per questo
+     e' l'unica cosa disegnata come due colonne affiancate. */
+  .bivio{display:grid;gap:var(--s4);grid-template-columns:1fr 1fr;margin:var(--s4) 0}
+  @media(max-width:880px){.bivio{grid-template-columns:1fr}}
+  .ramo{background:var(--panel2);border:1px solid var(--line);border-radius:var(--r);
+        padding:var(--s4)}
+  .ramo.pesante{border-color:var(--bad)}
+  .ramo > .tit{font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;
+               color:var(--gold);margin-bottom:var(--s2)}
+  .ramo.pesante > .tit{color:var(--bad)}
+  .ramo > .tit b{display:block;color:var(--text);font-size:var(--t-base);
+                 text-transform:none;letter-spacing:0;margin-top:.15rem}
 
   .pannello{background:var(--panel2);border:1px solid var(--line);border-radius:var(--r);
             padding:var(--s4);margin-bottom:var(--s4)}
@@ -129,7 +174,7 @@
 <div class="sezioni">
   <div class="sezioni-in">
     <a href="#come">Come funziona</a>
-    <a href="#strategie">Le quattro strategie</a>
+    <a href="#expedition">La strategia</a>
     <a href="#rune">Le rune</a>
     <a href="#rumor">I rumor</a>
     <a href="#prezzi">I prezzi di oggi</a>
@@ -141,7 +186,7 @@
 
   <header class="testata">
     <h1>Strategie di <span>farming</span></h1>
-    <p class="sub">L&rsquo;<b>Expedition</b> della 0.5.5, in quattro strategie che non si scelgono a gusto: si scelgono in base a <b>quanto reggi</b>. Per ognuna i tablet da comprare, i nodi dell&rsquo;atlante da prendere e cosa guardare mentre corri. 🔴 E i prezzi rifatti oggi, che smentiscono <b>quattro cifre su cinque</b> della fonte &mdash; sempre verso l&rsquo;alto.</p>
+    <p class="sub">Una strategia per scheda, con dentro le sue fasi. Oggi ce n&rsquo;&egrave; <b>una</b>: farmare l&rsquo;<b>Expedition</b> della 0.5.5 &mdash; tre fasi che si montano in sequenza e <b>un solo bivio vero</b>, quello che dipende da quanto reggi. Coi tablet da comprare, i nodi dell&rsquo;atlante e cosa guardare mentre corri. 🔴 E i prezzi rifatti oggi, che smentiscono <b>quattro cifre su cinque</b> della fonte &mdash; sempre verso l&rsquo;alto.</p>
     <div class="badges">
       <span class="badge oro">patch <b>0.5.5</b></span>
       <span class="badge">lega <b>Forbidden Rites</b></span>
@@ -151,10 +196,10 @@
   </header>
 
   <div class="avviso">
-    🔴 <b>Due fonti, e non hanno lo stesso peso.</b> Le <b>strategie</b> &mdash; cosa
-    cliccare, cosa saltare, in che ordine &mdash; vengono da
+    🔴 <b>Due fonti, e non hanno lo stesso peso.</b> La <b>strategia</b> &mdash; cosa
+    cliccare, cosa saltare, in che ordine &mdash; viene da
     <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">un
-    video di XTheFarmerX</a> dell&rsquo;<b>8 settembre 2026</b>, e sono l&rsquo;opinione di
+    video di XTheFarmerX</a> dell&rsquo;<b>8 settembre 2026</b>, ed &egrave; l&rsquo;opinione di
     <b>un</b> giocatore che gioca un <b>Twister Gemling</b> gi&agrave; forte: dice lui stesso
     che pulisce tutto il gioco ma che <b>sui mostri dell&rsquo;expedition fa fatica</b>.
     I <b>prezzi e i conteggi di mercato</b> invece sono stati rimisurati qui il
@@ -169,11 +214,11 @@
     <a href="https://poe.ninja/poe2/builds/forbiddenrites/character/xthefarmerx-5994/xthefarmerxMILKED" target="_blank" rel="noopener">su poe.ninja</a>.
     🔑 Il riscontro che chiude l&rsquo;identificazione non &egrave; il nome: sul suo Barrage
     sono socketate <b>Uhtred&rsquo;s Constellation</b> e <b>Olroth&rsquo;s Conviction</b>,
-    cio&egrave; <b>le due Lineage Support di cui parla il video</b>. La soglia che le
-    strategie 3 e 4 presuppongono, in numeri: <b>1.702 vita</b>, <b>3.218 ES</b>,
-    <b>EHP 21.166</b>, resistenze 75/75/75, <b>6 cariche frenzy</b>, <b>136% item
-    rarity</b>. ⚠️ &Egrave; <b>un</b> suo personaggio: che sia <b>quello</b> del video non
-    &egrave; dimostrabile da fuori.</p>
+    cio&egrave; <b>le due Lineage Support di cui parla il video</b>. La soglia che il
+    ramo pesante della fase 2 presuppone, in numeri: <b>1.702 vita</b>,
+    <b>3.218 ES</b>, <b>EHP 21.166</b>, resistenze 75/75/75, <b>6 cariche
+    frenzy</b>, <b>136% item rarity</b>. ⚠️ &Egrave; <b>un</b> suo personaggio: che sia
+    <b>quello</b> del video non &egrave; dimostrabile da fuori.</p>
   </div>
 
   <div class="legenda">
@@ -194,57 +239,55 @@
       <li>Sull&rsquo;atlante nascono due cose diverse: le <b>Grand Expedition</b> (il contenuto grasso) e le <b>travel map</b>, che si attraversano per arrivarci.</li>
       <li>Dentro una Grand Expedition si piazzano gli esplosivi lungo una catena di <b>Verisium Remnant</b>: ognuno porta una ricompensa e delle <b>rune</b>, e le rune col bordo si <b>propagano al remnant successivo</b>.</li>
     </ul>
-    <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>L&rsquo;ultima riga &egrave; il motore di tutto.</b> Le rune che si propagano sono la ragione per cui esistono due strategie diverse sulla stessa mappa: una che sceglie i remnant per <b>quello che pagano</b>, e una che li sceglie per <b>quello che aggiungono ai mostri</b>. La seconda rende di pi&ugrave; e ti ammazza.</p>
+    <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>L&rsquo;ultima riga &egrave; il motore di tutto.</b> Le rune che si propagano sono la ragione per cui la fase 2 ha un bivio: si possono scegliere i remnant per <b>quello che pagano</b>, oppure per <b>quello che aggiungono ai mostri</b>. Il secondo modo rende di pi&ugrave; e ti ammazza.</p>
   </div>
 
-  <h2 class="sec" id="strategie">Le quattro strategie</h2>
+  <h2 class="sec" id="expedition">La strategia</h2>
 
-  <!-- 🔴 I due pulsanti nascono `hidden` e li accende lo script: le schede si
-       aprono da sole col <details>, questi due no. Un comando morto in pagina e'
-       peggio di un comando assente. -->
-  <div class="comandi" id="comandi" hidden>
-    <button type="button" data-tutti="1">Apri tutti i dettagli</button>
-    <button type="button" data-tutti="0">Chiudi tutti</button>
-  </div>
-
-  <!-- ===================== 1 ===================== -->
-  <article class="strat" id="travel">
+  <article class="strat" id="ciclo">
     <header>
-      <h2>1 &middot; Travel map &mdash; Delirium boss rush <span class="badge">di passaggio</span> <span class="badge">0,49 div di splinter</span></h2>
-      <p class="sommario">Le mappe che attraversi <b>comunque</b> per arrivare alle Grand Expedition. Non si aggiunge niente al percorso: si apre lo specchio, si corre, si chiude.</p>
-      <p class="quando">Quando: sempre, su ogni mappa che non &egrave; una Grand Expedition</p>
+      <h2>Expedition &mdash; una strategia, tre fasi <span class="badge">0.5.5</span> <span class="badge">🎥 8-9 div a mappa</span></h2>
+      <p class="sommario">Non si sceglie una fase contro un&rsquo;altra: <b>si montano in sequenza, nella stessa sessione</b>. Le travel map sono il modo in cui arrivi alle Grand Expedition, e la boss map &egrave; cosa fai quando ti cade una saga. 🔑 <b>L&rsquo;unico bivio vero sta dentro la fase 2</b>, ed &egrave; quello che il video vende come <i>budget</i> contro <i>highend</i>.</p>
+      <p class="quando">Quando: quando l&rsquo;oceano &egrave; sbloccato e hai logbook da bruciare</p>
     </header>
 
     <div class="misure">
       <div class="misura"><div class="et">Difficolt&agrave;</div>
-        <div class="val">Bassa<small>🎥 il delirio aggiunge robustezza e danno, niente di pi&ugrave;</small></div>
-        <div class="tacche rischio"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+        <div class="val">Tutta nella fase 2<small>🎥 le fasi 1 e 3 non uccidono nessuno; il ramo pesante della 2 &laquo;<i>way harder than bosses</i>&raquo;</small></div>
+        <div class="tacche rischio"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
       <div class="misura"><div class="et">Investimento</div>
-        <div class="val">🔴 ~200 ex a tablet<small>il video dice <b>10-20 ex</b>. Misurato: mediana <b>200 ex</b>, e in tutta la lega <b>ce ne sono dieci</b></small></div>
-        <div class="tacche"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+        <div class="val">🔴 ~55 ex a mappa<small>3 Irradiated Tablet, pi&ugrave; ~200 ex il tablet deli e 223 ex la saga. Il video li stima <b>tutti e tre</b> troppo bassi</small></div>
+        <div class="tacche"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
       <div class="misura"><div class="et">Resa</div>
-        <div class="val">0,49 div a mappa<small>✅ i <b>71</b> splinter della mappa mostrata, ai prezzi di oggi. 🎥 il conteggio &egrave; suo</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+        <div class="val">🎥 dichiarata, mai misurata<small>8-9 div a Grand Expedition e 0,49 div di splinter a travel map &mdash; ✅ solo il secondo numero regge alla misura</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
       <div class="misura"><div class="et">Ritmo</div>
-        <div class="val">Zero tempo aggiunto<small>🎥 &laquo;<i>no additional time added on</i>&raquo; &mdash; si uccide solo ci&ograve; che si sarebbe ucciso comunque</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+        <div class="val">🎥 mai cronometrato<small>45 s la boss map, &laquo;zero tempo aggiunto&raquo; la travel map, la fase 2 nessuno lo dice</small></div>
+        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
     </div>
 
-    <details class="dettaglio">
-      <summary>Dettaglio &mdash; come si corre, i tablet, l&rsquo;atlante</summary>
+    <div class="ciclo">
+      <a href="#fase1"><b>Fase 1 &middot; di passaggio</b>Travel map con setup Delirium &mdash; le mappe che attraversi comunque, senza aggiungere tempo.</a>
+      <a href="#fase2"><b>Fase 2 &middot; il grasso</b>Grand Expedition &mdash; dove stanno le divine, e dove sta il bivio budget / highend.</a>
+      <a href="#fase3"><b>Fase 3 &middot; la lotteria</b>Boss map con la saga &mdash; 45 secondi su mappa bianca, per le Lineage Support.</a>
+    </div>
+
+    <!-- =============== FASE 1 =============== -->
+    <details class="fase" id="fase1">
+      <summary><span class="n">1</span> <span class="t">Travel map &mdash; Delirium boss rush</span> <span class="d">✅ 0,49 div di splinter a mappa &middot; 🔴 tablet a ~200 ex, e ce ne sono <b>dieci</b> in tutta la lega</span></summary>
       <div class="corpo">
         <div>
           <h3>Come si corre</h3>
           <ul>
             <li>Si prende lo <b>specchio del delirio</b> e si fa la mappa <b>normalmente</b>, fino al boss.</li>
             <li>Si uccide il boss, si aprono gli specchi rimasti nella stanza, si <b>chiude</b> il delirio. Fine.</li>
-            <li>⚠️ <b>Nella stanza del boss il delirio pu&ograve; ammassare tutto insieme</b> &mdash; mostri e uno specchio nello stesso punto. &Egrave; l&rsquo;unico momento in cui questa strategia morde.</li>
+            <li>⚠️ <b>Nella stanza del boss il delirio pu&ograve; ammassare tutto insieme</b> &mdash; mostri e uno specchio nello stesso punto. &Egrave; l&rsquo;unico momento in cui questa fase morde.</li>
             <li>I <b>point of interest arancioni</b> sono boss garantiti: se &egrave; un boss del delirio lascia 🎥 10-15 splinter, che poi vengono moltiplicati da tablet e atlante. Vanno uccisi.</li>
           </ul>
 
           <h3 class="piu">Perch&eacute; Delirium e non Breach o Abyss</h3>
           <p>🎥 Il criterio che d&agrave; &egrave; buono e vale oltre il caso: <b>si sceglie la meccanica che non ti fa aspettare</b>. Breach vuole che il cerchio si apra e si chiuda, Abyss che i mostri saltino dentro e poi escano. Il delirio no: cammina con te.</p>
-          <p>🧮 Il che rende questa la strategia meno fragile delle quattro. Se domani il delirio venisse nerfato, il criterio &laquo;niente attese&raquo; sopravvive al nerf; una lista di tablet no.</p>
+          <p>🧮 Il che rende questa la fase meno fragile della strategia. Se domani il delirio venisse nerfato, il criterio &laquo;niente attese&raquo; sopravvive al nerf; una lista di tablet no.</p>
         </div>
 
         <div>
@@ -264,6 +307,7 @@
             <div class="voce"><span class="n"><b>Eastern Knowledge</b><small>rerolla i Verisium Remnant</small></span><span class="p">s&igrave;</span></div>
             <div class="voce"><span class="n"><b>Keen Appraisal</b><small>50% increased Exceptional Items found</small></span><span class="p">s&igrave;</span></div>
             <div class="voce"><span class="n">Nodi Delirium</span><span class="p">6 punti<small>🎥 basta quello degli splinter</small></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🔑 <b>&Egrave; lo stesso setup della fase 2</b>, e non &egrave; un caso: le due fasi si corrono di seguito, quindi l&rsquo;atlante non si tocca fra l&rsquo;una e l&rsquo;altra.</p>
           </div>
 
           <div class="pannello">
@@ -276,47 +320,51 @@
         </div>
       </div>
     </details>
-  </article>
 
-  <!-- ===================== 2 ===================== -->
-  <article class="strat" id="forzieri">
-    <header>
-      <h2>2 &middot; Grand Expedition &mdash; priorit&agrave; ai forzieri <span class="badge">budget</span> <span class="badge">variante sicura</span></h2>
-      <p class="sommario">Si prendono <b>solo</b> i remnant che pagano, si saltano gli altri e si va sui forzieri. &Egrave; quella con cui l&rsquo;autore dice di aver fatto le sue prime dieci ore.</p>
-      <p class="quando">Quando: finch&eacute; i mostri della catena di rune ti uccidono</p>
-    </header>
-
-    <div class="misure">
-      <div class="misura"><div class="et">Difficolt&agrave;</div>
-        <div class="val">Media<small>🎥 i mostri restano quelli base del remnant, senza rune accumulate</small></div>
-        <div class="tacche rischio"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
-      <div class="misura"><div class="et">Investimento</div>
-        <div class="val">🔴 ~55 ex a mappa<small>3 Irradiated Tablet da 10 usi a <b>184-207 ex</b>. Il video dice <b>60 ex</b> il tablet: oggi sono <b>~3&times;</b></small></div>
-        <div class="tacche"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
-      <div class="misura"><div class="et">Resa</div>
-        <div class="val">🎥 1-2 div dai forzieri<small>&laquo;<i>one or two per map if you prioritize them</i>&raquo; &mdash; dichiarata, mai cronometrata</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
-      <div class="misura"><div class="et">Ritmo</div>
-        <div class="val">Veloce<small>🧮 si salta met&agrave; della catena: meno combattimenti della strategia 3</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
-    </div>
-
-    <details class="dettaglio">
-      <summary>Dettaglio &mdash; la regola dei remnant, i forzieri, i tablet, l&rsquo;atlante</summary>
+    <!-- =============== FASE 2 =============== -->
+    <details class="fase" id="fase2">
+      <summary><span class="n">2</span> <span class="t">Grand Expedition &mdash; e il bivio</span> <span class="d">🎥 8-9 div a mappa &middot; 🔴 tablet a 8-9 chaos, ~3&times; quello che dice</span></summary>
       <div class="corpo">
         <div>
-          <h3>La regola, in due righe</h3>
+          <h3 class="rosso">Il bivio, ed &egrave; l&rsquo;unico della pagina</h3>
+          <p>La mappa &egrave; la stessa, i tablet sono gli stessi, la spesa &egrave; la stessa. 🔑 <b>Cambia solo il criterio con cui scegli i Verisium Remnant</b>, e da quel criterio dipende se la mappa ti paga il doppio o ti uccide.</p>
+
+          <div class="bivio">
+            <div class="ramo">
+              <div class="tit">Ramo A &middot; budget<b>Si sceglie per la ricompensa</b></div>
+              <ul style="margin:0;padding-left:1.1rem;font-size:var(--t-sm);line-height:1.6;color:var(--muted)">
+                <li>Si prendono <b>solo</b> i remnant che pagano. 🎥 Soglia: <b>un terzo di divine</b> &mdash; sotto si rerolla con Liquid Verisium, se resta sotto <b>si salta</b>.</li>
+                <li>Gli esplosivi che avanzano servono a <b>raggiungere i forzieri</b>, non ad allungare la catena.</li>
+                <li>🎥 &Egrave; quello con cui l&rsquo;autore dice di aver fatto le sue prime dieci ore.</li>
+              </ul>
+            </div>
+            <div class="ramo pesante">
+              <div class="tit">Ramo B &middot; highend<b>Si sceglie per le rune</b></div>
+              <ul style="margin:0;padding-left:1.1rem;font-size:var(--t-sm);line-height:1.6;color:var(--muted)">
+                <li>Si prendono <b>tutti</b> i remnant, anche quelli che non pagano niente, per le rune che portano.</li>
+                <li>🎥 I mostri arrivano a <b>13+ modificatori</b> e diventano &laquo;<i>way harder than bosses</i>&raquo;.</li>
+                <li>🔴 Dice di aver visto morire build da <b>venti mirror</b> su questi mostri.</li>
+              </ul>
+            </div>
+          </div>
+          <p>🧮 <b>La soglia non &egrave; una preferenza, ed &egrave; misurabile</b>: la build dell&rsquo;autore, quella che sceglie il ramo B, sta a <b>EHP 21.166</b> con un colpo massimo incassabile di <b>5.267</b>. Sotto quei numeri il ramo B non &egrave; &laquo;pi&ugrave; rischioso&raquo;, &egrave; una mappa persa.</p>
+
+          <h3 class="piu">Il meccanismo delle rune &mdash; l&rsquo;unica cosa da capire</h3>
           <ul>
-            <li><b>Ricompensa buona → si prende. Ricompensa scadente → si salta.</b> La soglia che d&agrave; &egrave; 🎥 <b>un terzo di divine</b>: sotto, si rerolla con <b>Liquid Verisium</b>; se resta sotto, si salta il remnant e si va altrove.</li>
-            <li>Gli esplosivi che avanzano si usano per <b>raggiungere i forzieri</b>, non per allungare la catena.</li>
+            <li>Ogni remnant porta delle rune, e <b>ogni runa aggiunge un modificatore ai mostri</b>.</li>
+            <li>🔑 <b>Le rune col bordo luminoso si propagano al remnant successivo</b>, e continuano lungo tutta la catena. Quelle senza bordo valgono solo l&igrave;.</li>
+            <li>⚠️ <b>Non si duplicano.</b> Due rune uguali che si propagano restano una.</li>
+            <li>Quindi <b>una runa presa presto vale molto pi&ugrave; della stessa presa tardi</b> &mdash; ed &egrave; il motivo per cui nel ramo B vale la pena prendere un remnant che non paga niente.</li>
+            <li>🎥 Se non hai voglia di leggere i mod: <b>oro &gt; viola &gt; blu</b>, e basta.</li>
+            <li>✅ <b>Le meccaniche di zona contano</b>: alcune expedition portano un effetto in pi&ugrave; &mdash; <i>Sulphite</i> d&agrave; increased rarity, e nel ramo B si va l&igrave;.</li>
           </ul>
 
-          <h3 class="piu">I forzieri, che sono il vero motivo</h3>
+          <h3 class="piu">I forzieri, che pagano in tutti e due i rami</h3>
           <ul>
             <li>🎥 <b>Icona con le chaos orb</b> &rarr; valuta. <b>Icona a stella</b> &rarr; mappe. <b>Rossi</b> &rarr; item generici.</li>
             <li>🎥 <b>Dorato invece che giallo spento = potenziato.</b> Un forziere di valuta dorato d&agrave; <b>il doppio</b>.</li>
-            <li>🔑 <b>Quelli con la chiave inglese danno gear garantito</b>, e se sono dorati danno <b>Exceptional Item garantiti</b>. &Egrave; la ragione per cui l&rsquo;autore vuole mappe di area level alta: dice che un Exceptional a <b>ilvl 82</b> pu&ograve; valere 100+ div.</li>
-            <li>✅ La rarity dei tablet <b>si applica anche ai forzieri</b> secondo il video &mdash; ed &egrave; coerente col fatto che il suo filtro chieda <b>sempre</b> almeno un mod di rarity.</li>
+            <li>🔑 <b>Quelli con la chiave inglese danno gear garantito</b>, e se sono dorati danno <b>Exceptional Item garantiti</b>. &Egrave; la ragione per cui l&rsquo;autore vuole area level alta: dice che un Exceptional a <b>ilvl 82</b> pu&ograve; valere 100+ div.</li>
+            <li>✅ La rarity dei tablet <b>si applica anche ai forzieri</b> secondo il video &mdash; coerente col fatto che il suo filtro chieda <b>sempre</b> almeno un mod di rarity.</li>
           </ul>
 
           <h3 class="piu rosso">La catena degli item level &egrave; sua, non misurata</h3>
@@ -344,8 +392,15 @@
           </div>
 
           <div class="pannello">
-            <h3>Atlante &mdash; la variante debole</h3>
-            <p style="margin:0 0 var(--s3);font-size:var(--t-sm);color:var(--muted)">🎥 Se i mostri ti uccidono, si lascia <b>Jado</b> e si va su <b>Doryani&rsquo;s Science</b>: rende un po&rsquo; meno ma d&agrave; una vita in pi&ugrave;.</p>
+            <h3>Il reroll</h3>
+            <div class="voce"><span class="n"><b>Liquid Verisium</b><small>si compra da <b>Farrow</b> scambiando Verisium</small></span><span class="p">1 reroll</span></div>
+            <div class="voce"><span class="n">🎥 Tasso dichiarato</span><span class="p nulla">600 : 1<small>non verificato</small></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Che Farrow lo venda &egrave; scritto in un nodo dell&rsquo;atlante &mdash; <i>Farrow now sells Liquid Verisium in exchange for Verisium</i>. Il <b>tasso</b> no.</p>
+          </div>
+
+          <div class="pannello">
+            <h3>Se il ramo B ti uccide</h3>
+            <p style="margin:0 0 var(--s3);font-size:var(--t-sm);color:var(--muted)">🎥 Non si cambia strategia: si cambia <b>master</b>. Si lascia Jado e si va su <b>Doryani&rsquo;s Science</b> &mdash; rende un po&rsquo; meno, ma d&agrave; una vita in pi&ugrave;.</p>
             <div class="voce"><span class="n"><b>Stitch the Flesh</b><small>Your Maps have an additional Revival</small></span><span class="p">il motivo</span></div>
             <div class="voce"><span class="n"><b>Evolutionary Pressure</b></span><span class="p">s&igrave;</span></div>
             <div class="voce"><span class="n"><b>Improved Calibration</b></span><span class="p">s&igrave;</span></div>
@@ -354,123 +409,17 @@
         </div>
       </div>
     </details>
-  </article>
 
-  <!-- ===================== 3 ===================== -->
-  <article class="strat" id="catena">
-    <header>
-      <h2>3 &middot; Grand Expedition &mdash; catena di rune <span class="badge">highend</span> <span class="badge">🎥 8-9 div a mappa</span></h2>
-      <p class="sommario">Si prendono <b>tutti</b> i remnant, e si sceglie in base alle <b>rune</b> invece che alla ricompensa. I mostri finiscono con 10-20 modificatori addosso: &laquo;<i>way harder than bosses</i>&raquo;, parole sue.</p>
-      <p class="quando">Quando: quando la strategia 2 non ti uccide pi&ugrave; mai</p>
-    </header>
-
-    <div class="misure">
-      <div class="misura"><div class="et">Difficolt&agrave;</div>
-        <div class="val">Molto alta<small>🎥 &laquo;<i>if they have the wrong combination of mods, be literally unkillable</i>&raquo;</small></div>
-        <div class="tacche rischio"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
-      <div class="misura"><div class="et">Investimento</div>
-        <div class="val">🔴 ~55 ex a mappa<small>identico alla strategia 2: cambia il modo di correrla, non la spesa</small></div>
-        <div class="tacche"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
-      <div class="misura"><div class="et">Resa</div>
-        <div class="val">🎥 8-9 div a mappa<small>&laquo;<i>an average map</i>&raquo;, dichiarata su <b>una</b> mappa mostrata: 6 div grezze, 2 annulment, 9 chaos</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
-      <div class="misura"><div class="et">Ritmo</div>
-        <div class="val">Lento<small>🧮 si combatte tutta la catena, con ondate multiple sui remnant a 7 rune</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
-    </div>
-
-    <details class="dettaglio">
-      <summary>Dettaglio &mdash; le rune che si propagano, la regola di scelta, il pericolo</summary>
-      <div class="corpo">
-        <div>
-          <h3>Il meccanismo &mdash; ed &egrave; l&rsquo;unica cosa da capire</h3>
-          <ul>
-            <li>Ogni remnant porta delle rune, e <b>ogni runa aggiunge un modificatore ai mostri</b>.</li>
-            <li>🔑 <b>Le rune col bordo luminoso si propagano al remnant successivo</b>, e continuano lungo tutta la catena. Quelle senza bordo valgono solo l&igrave;.</li>
-            <li>⚠️ <b>Non si duplicano.</b> Due rune uguali che si propagano restano una.</li>
-            <li>Quindi <b>una runa presa presto vale molto pi&ugrave; della stessa runa presa tardi</b>, ed &egrave; il motivo per cui vale la pena prendere un remnant che non paga niente.</li>
-          </ul>
-
-          <h3 class="piu">La regola di scelta</h3>
-          <ul>
-            <li>🎥 <b>Si ignora la ricompensa.</b> Nel video prende <i>Betrayal of Aldur</i> e <i>Reign of Blades</i> dicendo che non valgono nulla, solo per la runa che portano.</li>
-            <li>🎥 <b>Preferisci i remnant con molte rune</b>: sette rune significano pi&ugrave; ondate di mostri, cio&egrave; pi&ugrave; bottino sullo stesso esplosivo.</li>
-            <li>🎥 <b>Una runa che non si propaga vale poco</b>: nel video rerolla un remnant che aveva la <b>Opulent</b> senza bordo.</li>
-            <li>🎥 Se non hai voglia di leggere i mod: <b>oro &gt; viola &gt; blu</b>, e basta.</li>
-            <li>✅ <b>Le meccaniche di zona contano.</b> Alcune expedition portano un effetto in pi&ugrave; &mdash; <i>Sulphite</i> d&agrave; increased rarity: in questa strategia si va l&igrave;.</li>
-          </ul>
-
-          <h3 class="piu rosso">Il pericolo, detto da uno che muore</h3>
-          <p>🎥 Un raro mostrato nel video aveva <b>7 modificatori runici pi&ugrave; 6 normali = 13</b>, e non era ancora la fine della catena. &laquo;<i>Each one of these mobs ends up becoming pretty much as difficult as an act boss</i>&raquo;. Dice di aver visto morire build da <b>venti mirror</b> su questi mostri.</p>
-          <p>🧮 Vale la pena leggerla al contrario: se una build da venti mirror muore qui, la difficolt&agrave; <b>non &egrave; una funzione del tuo gear</b> ma della combinazione di rune. La leva sicura non &egrave; farmare di pi&ugrave;: &egrave; <b>non prendere la runa sbagliata</b>.</p>
-        </div>
-
-        <div>
-          <div class="pannello">
-            <h3>Le rune, come le ordina lui</h3>
-            <div class="voce"><span class="n"><b>Opulent</b><small>higher monster rarity &mdash; l&rsquo;unica dorata</small></span><span class="p"><span class="voto s">S+</span></span></div>
-            <div class="voce"><span class="n"><b>Bond</b><small>more rares, more modifiers</small></span><span class="p"><span class="voto s">S+</span></span></div>
-            <div class="voce"><span class="n"><b>Death</b><small>i morti si fondono in mostri pi&ugrave; forti</small></span><span class="p"><span class="voto a">A</span></span></div>
-            <div class="voce"><span class="n"><b>Time</b><small>i morti tornano di rarit&agrave; pi&ugrave; alta</small></span><span class="p"><span class="voto a">A</span></span></div>
-            <div class="voce"><span class="n"><b>Power</b><small>enrages mobs &mdash; paga senza dare fastidio</small></span><span class="p"><span class="voto b">B</span></span></div>
-            <div class="voce"><span class="n">Oath<small>evoca alleati</small></span><span class="p"><span class="voto c">C</span></span></div>
-            <div class="voce"><span class="n">Soul<small>union of souls</small></span><span class="p"><span class="voto c">C</span></span></div>
-            <div class="voce"><span class="n">Life<small>condivide la vita</small></span><span class="p"><span class="voto c">C</span></span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🎥 Dal suo cheatsheet. <b>Senza Opulent la mappa rende circa met&agrave;</b>, dice &mdash; ed &egrave; l&rsquo;unica volta in cui quantifica un nodo della sua stessa strategia.</p>
-          </div>
-
-          <div class="pannello">
-            <h3>Atlante &mdash; Jado&rsquo;s Spycraft</h3>
-            <div class="voce"><span class="n"><b>Eastern Knowledge</b><small>10% chance di rerollare il remnant tenendo l&rsquo;esito pi&ugrave; raro</small></span><span class="p">il perno</span></div>
-            <div class="voce"><span class="n"><b>Partial Translations</b><small>0-40% effetto dei mod sui tablet</small></span><span class="p">s&igrave;</span></div>
-            <div class="voce"><span class="n"><b>Unexpected Missions</b></span><span class="p">s&igrave;</span></div>
-            <div class="voce"><span class="n"><b>Keen Appraisal</b><small>50% increased Exceptional Items found</small></span><span class="p">s&igrave;</span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">⚠️ Testi presi da una fonte esterna, non letti in gioco.</p>
-          </div>
-
-          <div class="pannello">
-            <h3>Il reroll</h3>
-            <div class="voce"><span class="n"><b>Liquid Verisium</b><small>si compra da <b>Farrow</b> scambiando Verisium</small></span><span class="p">1 reroll</span></div>
-            <div class="voce"><span class="n">🎥 Tasso dichiarato</span><span class="p nulla">600 : 1<small>non verificato</small></span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Che Farrow lo venda &egrave; scritto in un nodo dell&rsquo;atlante &mdash; <i>Farrow now sells Liquid Verisium in exchange for Verisium</i>. Il <b>tasso</b> no.</p>
-          </div>
-        </div>
-      </div>
-    </details>
-  </article>
-
-  <!-- ===================== 4 ===================== -->
-  <article class="strat" id="boss">
-    <header>
-      <h2>4 &middot; Boss map &mdash; la saga <span class="badge">45 secondi</span> <span class="badge">lotteria</span></h2>
-      <p class="sommario">Mappa bianca, nessun tablet, si va dritti al boss. Si compra una <b>Saga</b>, si prende una <b>Lineage Support</b> se il dado gira. &Egrave; la strategia pi&ugrave; corta e la pi&ugrave; fraintendibile.</p>
-      <p class="quando">Quando: ogni volta che hai una saga in inventario</p>
-    </header>
-
-    <div class="misure">
-      <div class="misura"><div class="et">Difficolt&agrave;</div>
-        <div class="val">Nessuna<small>🎥 mappa bianca o blu: cinque o sei vite, e i boss non sono difficili</small></div>
-        <div class="tacche rischio"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
-      <div class="misura"><div class="et">Investimento</div>
-        <div class="val">🔴 223 ex la saga<small>il video dice <b>45 ex</b>, &laquo;<i>less than half of a div</i>&raquo;. Oggi <b>0,904 div</b>: ~5&times; in exalted</small></div>
-        <div class="tacche"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
-      <div class="misura"><div class="et">Resa</div>
-        <div class="val">🔴 lotteria, e sottile<small>la gem che cita vale <b>80 div</b> (non 38) ma sul mercato c&rsquo;&egrave; <b>una</b> offerta</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
-      <div class="misura"><div class="et">Ritmo</div>
-        <div class="val">45 secondi<small>🎥 &laquo;<i>it takes you like 45 seconds to run the map</i>&raquo;</small></div>
-        <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
-    </div>
-
-    <details class="dettaglio">
-      <summary>Dettaglio &mdash; il calcolo rifatto, quale saga, l&rsquo;atlante</summary>
+    <!-- =============== FASE 3 =============== -->
+    <details class="fase" id="fase3">
+      <summary><span class="n">3</span> <span class="t">Boss map &mdash; la saga</span> <span class="d">🎥 45 secondi &middot; 🔴 saga a 223 ex, la gem su <b>una</b> offerta</span></summary>
       <div class="corpo">
         <div>
           <h3>Come si corre</h3>
           <ul>
             <li>Mappa <b>bianca o blu</b>, nessun tablet: 🎥 &laquo;<i>nothing affects the drop rate of lineage gems</i>&raquo; tranne un nodo.</li>
             <li>Quel nodo &egrave; <b>Untold Histories</b>, che si prende <b>al posto di Keen Appraisal</b>.</li>
-            <li>Si va al boss, lo si uccide, si esce.</li>
+            <li>Si va al boss, lo si uccide, si esce. 🎥 Cinque o sei vite, e i boss non sono difficili.</li>
           </ul>
 
           <h3 class="piu rosso">Il conto, rifatto ai prezzi di oggi</h3>
@@ -511,10 +460,18 @@
     </details>
   </article>
 
+  <!-- 🔴 I due pulsanti nascono `hidden` e li accende lo script: le fasi si
+       aprono da sole col <details>, questi due no. Un comando morto in pagina
+       e' peggio di un comando assente. -->
+  <div class="comandi" id="comandi" hidden>
+    <button type="button" data-tutti="1">Apri tutte le fasi</button>
+    <button type="button" data-tutti="0">Chiudi tutte</button>
+  </div>
+
   <h2 class="sec" id="rune">Le rune, in una tabella</h2>
 
   <div class="card" style="padding:var(--s5)">
-    <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 <b>&Egrave; la tier list dell&rsquo;autore</b>, presa dal foglio che linka nella descrizione. Non porta un campione, un numero o una misura: sta qui perch&eacute; &egrave; la parte operativa della strategia 3, non perch&eacute; sia verificata. Gli effetti sono <b>come li descrive lui</b>, non il testo del gioco.</p>
+    <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 <b>&Egrave; la tier list dell&rsquo;autore</b>, presa dal foglio che linka nella descrizione. Non porta un campione, un numero o una misura: sta qui perch&eacute; &egrave; la parte operativa del <b>ramo B</b> della fase 2, non perch&eacute; sia verificata. Gli effetti sono <b>come li descrive lui</b>, non il testo del gioco.</p>
     <div class="scorre">
       <table class="tabella">
         <thead><tr><th>Runa</th><th class="v">Voto</th><th>Effetto, come lo descrive</th><th>Perch&eacute;</th></tr></thead>
@@ -530,7 +487,7 @@
         </tbody>
       </table>
     </div>
-    <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>Le tre C hanno la stessa motivazione, e non &egrave; il bottino: &egrave; il fastidio.</b> Sono le rune che allungano il combattimento invece di renderlo pi&ugrave; ricco &mdash; e in una strategia il cui unico costo &egrave; il tempo, quello &egrave; il criterio giusto.</p>
+    <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>Le tre C hanno la stessa motivazione, e non &egrave; il bottino: &egrave; il fastidio.</b> Sono le rune che allungano il combattimento invece di renderlo pi&ugrave; ricco &mdash; e in una fase il cui unico costo &egrave; il tempo, quello &egrave; il criterio giusto.</p>
   </div>
 
   <h2 class="sec" id="rumor">I rumor delle Grand Expedition</h2>
@@ -544,7 +501,7 @@
           <tr><td class="n"><b>Fallen Stars</b></td><td>Moor</td><td>Runestones</td><td class="v"><span class="voto s">S++++</span></td><td>si punta a Perfect Flux o Aldur&rsquo;s Saga, quale vale di pi&ugrave;</td></tr>
           <tr><td class="n"><b>Cold as Ice</b></td><td>Frigid Bluffs</td><td>Old Expedition</td><td class="v"><span class="voto a">A+</span></td><td>quello che nel video basta da solo</td></tr>
           <tr><td class="n"><b>Nothing to Drink</b></td><td>Stagnant Basin</td><td>Oil</td><td class="v"><span class="voto a">A+</span></td><td></td></tr>
-          <tr><td class="n"><b>Sulphite!</b></td><td>Scorched Cay</td><td>Increased Rarity</td><td class="v"><span class="voto a">A</span></td><td>il preferito per la <b>catena di rune</b></td></tr>
+          <tr><td class="n"><b>Sulphite!</b></td><td>Scorched Cay</td><td>Increased Rarity</td><td class="v"><span class="voto a">A</span></td><td>il preferito per il <b>ramo B</b></td></tr>
           <tr><td class="n"><b>Endless Cliffs</b></td><td>Craggy Peninsula</td><td>Rarity / Rogue Exiles</td><td class="v"><span class="voto a">A</span></td><td></td></tr>
           <tr><td class="n">Unknown Ruins</td><td>Exhumed Ruins</td><td>Precursor Leylines</td><td class="v"><span class="voto b">B</span></td><td></td></tr>
           <tr><td class="n">It&rsquo;s Warm</td><td>Lush Island</td><td>Exp / Beyond / Hoards</td><td class="v"><span class="voto b">B&minus;</span></td><td>⚠️ mostri in zone irraggiungibili</td></tr>
@@ -591,31 +548,31 @@
       <thead><tr><th>Cosa</th><th>Dice il video</th><th>Misurato il 10 settembre</th><th>Scarto</th></tr></thead>
       <tbody>
         <tr>
-          <td class="n"><b>Irradiated Tablet</b><br><span class="lim">la sua ricerca esatta</span></td>
+          <td class="n"><b>Irradiated Tablet</b><br><span class="lim">fase 2, la sua ricerca esatta</span></td>
           <td>~3 chaos &middot; 60 ex &middot; ⅓ div</td>
           <td class="val">8-9 chaos &middot; <b>184-207 ex</b> &middot; 0,75-0,84 div</td>
           <td>🔴 <b>~3&times;</b></td>
         </tr>
         <tr>
-          <td class="n"><b>Delirium Tablet</b><br><span class="lim">la sua ricerca esatta</span></td>
+          <td class="n"><b>Delirium Tablet</b><br><span class="lim">fase 1, la sua ricerca esatta</span></td>
           <td>10-20 ex &laquo;<i>incredibly cheap</i>&raquo;</td>
           <td class="val">mediana <b>200 ex</b> &middot; <b>10 inserzioni</b> in tutto</td>
           <td>🔴 <b>~10&times;</b>, e non &egrave; un mercato</td>
         </tr>
         <tr>
-          <td class="n"><b>Olroth&rsquo;s Saga</b></td>
+          <td class="n"><b>Olroth&rsquo;s Saga</b><br><span class="lim">fase 3</span></td>
           <td>45 ex &middot; &laquo;<i>less than half a div</i>&raquo;</td>
           <td class="val"><b>223 ex</b> &middot; 0,904 div</td>
           <td>🔴 <b>~5&times;</b> in exalted</td>
         </tr>
         <tr>
-          <td class="n"><b>Olroth&rsquo;s Conviction</b></td>
+          <td class="n"><b>Olroth&rsquo;s Conviction</b><br><span class="lim">fase 3, il premio</span></td>
           <td>38 div</td>
           <td class="val"><b>80 div</b>, su <b>una</b> offerta</td>
           <td>🔴 <b>2,1&times;</b> &mdash; e sottile</td>
         </tr>
         <tr>
-          <td class="n"><b>Simulacrum Splinter</b></td>
+          <td class="n"><b>Simulacrum Splinter</b><br><span class="lim">fase 1, la resa</span></td>
           <td>~2 div per 300 splinter</td>
           <td class="val">1,7 ex l&rsquo;uno &rarr; <b>2,07 div</b> per 300</td>
           <td>✅ <b>esatto</b></td>
@@ -626,43 +583,54 @@
 
   <div class="card" style="padding:var(--s5);margin-top:var(--s5)">
     <p style="margin:0 0 var(--s3);color:var(--muted)">🔑 <b>La riga verde spiega le quattro rosse.</b> L&rsquo;unica cifra che regge &egrave; l&rsquo;unica che lui non ricava da un prezzo ma da un <b>rapporto interno al gioco</b>: 300 splinter fanno un Simulacrum, e quel rapporto non invecchia. Tutte le altre erano prezzi ricordati, e un prezzo ricordato in una lega di sei giorni &egrave; gi&agrave; vecchio quando lo pronunci.</p>
-    <p style="margin:0;color:var(--muted)">🧮 <b>Non ribalta le strategie</b>: 55 ex di tablet contro le 8-9 divine a mappa che dichiara restano spiccioli. Ribalta <b>due decisioni d&rsquo;acquisto</b>: il set di deli tablet da dieci mappe <b>oggi non &egrave; comprabile</b>, e la Lineage Support da 80 div <b>non &egrave; vendibile a quel prezzo</b> finch&eacute; il mercato ha una riga sola.</p>
+    <p style="margin:0;color:var(--muted)">🧮 <b>Non ribalta la strategia</b>: 55 ex di tablet contro le 8-9 divine a mappa che dichiara restano spiccioli. Ribalta <b>due decisioni d&rsquo;acquisto</b>: il set di deli tablet da dieci mappe <b>oggi non &egrave; comprabile</b>, e la Lineage Support da 80 div <b>non &egrave; vendibile a quel prezzo</b> finch&eacute; il mercato ha una riga sola.</p>
   </div>
 
   <h2 class="sec" id="limiti">Cosa questa pagina non dice</h2>
 
   <div class="card" style="padding:var(--s5)">
     <ul class="fonti" style="margin:0;padding-left:1.1rem">
-      <li>🔴 <b>La resa non &egrave; misurata, in nessuna delle quattro strategie.</b> &laquo;8-9 div a mappa&raquo;, &laquo;150 div in un giorno&raquo;, e il <b>&laquo;30D+/HR&raquo; del titolo</b> sono dichiarazioni. ⚠️ Quel numero <b>non compare mai nel corpo del video</b>, e non c&rsquo;&egrave; un cronometro da nessuna parte: 🧮 per arrivarci con 8-9 div a mappa servirebbero <b>~3,5 mappe l&rsquo;ora</b>.</li>
-      <li><b>Vale per la sua build.</b> Un Twister Gemling gi&agrave; forte, che per sua stessa ammissione <b>fatica sui mostri dell&rsquo;expedition</b>. La strategia 3 non &egrave; una scelta di gusto: &egrave; una soglia di danno e di sopravvivenza che o hai o non hai.</li>
+      <li>🔴 <b>La resa non &egrave; misurata, in nessuna delle tre fasi.</b> &laquo;8-9 div a mappa&raquo;, &laquo;150 div in un giorno&raquo;, e il <b>&laquo;30D+/HR&raquo; del titolo</b> sono dichiarazioni. ⚠️ Quel numero <b>non compare mai nel corpo del video</b>, e non c&rsquo;&egrave; un cronometro da nessuna parte: 🧮 per arrivarci con 8-9 div a mappa servirebbero <b>~3,5 mappe l&rsquo;ora</b>.</li>
+      <li><b>Vale per la sua build.</b> Un Twister Gemling gi&agrave; forte, che per sua stessa ammissione <b>fatica sui mostri dell&rsquo;expedition</b>. Il ramo B della fase 2 non &egrave; una scelta di gusto: &egrave; una soglia di danno e di sopravvivenza che o hai o non hai.</li>
       <li><b>Il tasso di Farrow non &egrave; verificato.</b> ✅ Che venda Liquid Verisium in cambio di Verisium sta in un nodo dell&rsquo;atlante; il <b>600 : 1</b> &egrave; solo suo.</li>
       <li><b>La catena degli item level non &egrave; verificata.</b> ✅ Verificati il nome <i>Irradiated</i> e il nodo <i>Grand Expeditions have +1 Area Level</i>; il &laquo;+1 dal mostro raro&raquo; e l&rsquo;<b>ilvl 82 garantito</b> no.</li>
-      <li><b>L&rsquo;&laquo;1 su 20&raquo; delle Lineage Support</b> &egrave; detto dal video con un <i>probably</i>, e su quello poggia tutto il conto della strategia 4.</li>
+      <li><b>L&rsquo;&laquo;1 su 20&raquo; delle Lineage Support</b> &egrave; detto dal video con un <i>probably</i>, e su quello poggia tutto il conto della fase 3.</li>
       <li><b>I testi dei nodi dell&rsquo;atlante vengono da una fonte esterna</b>, non dal client. Chi li rilegge in gioco pu&ograve; promuoverli.</li>
       <li>⚠️ <b>I due link di trade sono suoi e sono stati collaudati qui</b> (HTTP 200, <code>total</code> 2.391 e 10). Ma sono link alla lega <b>Forbidden Rites</b>: al prossimo cambio di lega vanno rigenerati, non riletti.</li>
-      <li>⚠️ <b>Il personaggio linkato qui sopra &egrave; suo, ma non &egrave; detto che sia quello del video.</b> Su poe.ninja risulta <b>visto l&rsquo;ultima volta il 5 settembre</b>, tre giorni prima che il video uscisse &mdash; e <b>gli altri suoi personaggi non sono elencabili</b>: il filtro per account di poe.ninja risponde 200 e <b>non filtra</b>, e il profilo pubblico di GGG mostra solo i personaggi di PoE 1.</li>
+      <li>⚠️ <b>Il personaggio linkato in cima &egrave; suo, ma non &egrave; detto che sia quello del video.</b> Su poe.ninja risulta <b>visto l&rsquo;ultima volta il 5 settembre</b>, tre giorni prima che il video uscisse &mdash; e <b>gli altri suoi personaggi non sono elencabili</b>: il filtro per account di poe.ninja risponde 200 e <b>non filtra</b>, e il profilo pubblico di GGG mostra solo i personaggi di PoE 1.</li>
     </ul>
   </div>
 
   <footer class="pie">
-    <p>Strategie da <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">XTheFarmerX &mdash; <i>Updated 0.5.5 Expedition Guide</i></a> (8 settembre 2026) e dal <a href="https://docs.google.com/spreadsheets/d/14FFZPebLxeWIBGlbD-zKCxIy33lkOWpILO5JleVBnUw/edit?gid=1428949269#gid=1428949269" target="_blank" rel="noopener">suo cheatsheet</a>. Prezzi da <a href="https://poe.ninja/poe2/economy/forbidden-rites" target="_blank" rel="noopener">poe.ninja</a> e dal <a href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites" target="_blank" rel="noopener">trade2</a>, letti il <b>10 settembre 2026</b>. Patch 0.5.5, lega Forbidden Rites.</p>
+    <p>Strategia da <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">XTheFarmerX &mdash; <i>Updated 0.5.5 Expedition Guide</i></a> (8 settembre 2026) e dal <a href="https://docs.google.com/spreadsheets/d/14FFZPebLxeWIBGlbD-zKCxIy33lkOWpILO5JleVBnUw/edit?gid=1428949269#gid=1428949269" target="_blank" rel="noopener">suo cheatsheet</a>. Prezzi da <a href="https://poe.ninja/poe2/economy/forbidden-rites" target="_blank" rel="noopener">poe.ninja</a> e dal <a href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites" target="_blank" rel="noopener">trade2</a>, letti il <b>10 settembre 2026</b>. Patch 0.5.5, lega Forbidden Rites.</p>
   </footer>
 
 </div>
 
 <script src="../menu.js"></script>
 <script>
-/* Apri / chiudi tutti. I pulsanti esistono solo se lo script gira. */
+/* Apri / chiudi tutte le fasi. I pulsanti esistono solo se lo script gira. */
 (() => {
   const comandi = document.getElementById("comandi");
-  const schede = [...document.querySelectorAll(".strat > details")];
-  if (!comandi || !schede.length) return;
+  const fasi = [...document.querySelectorAll("details.fase")];
+  if (!comandi || !fasi.length) return;
   comandi.hidden = false;
   comandi.addEventListener("click", (e) => {
     const b = e.target.closest("[data-tutti]");
     if (!b) return;
-    for (const d of schede) d.open = b.dataset.tutti === "1";
+    for (const d of fasi) d.open = b.dataset.tutti === "1";
   });
+})();
+
+/* Le tre voci del ciclo puntano alle fasi: se la fase e' chiusa, il salto
+   arriverebbe su una riga chiusa e sembrerebbe non aver fatto niente. */
+(() => {
+  for (const a of document.querySelectorAll(".ciclo a")) {
+    a.addEventListener("click", () => {
+      const d = document.querySelector(a.getAttribute("href"));
+      if (d) d.open = true;
+    });
+  }
 })();
 
 /* Il menu delle sezioni si illumina su quella che stai leggendo. Stesso pezzo
