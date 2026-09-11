@@ -87,6 +87,18 @@
 
   .corpo{display:grid;gap:var(--s5);grid-template-columns:1.55fr 1fr;
          padding:var(--s5)}
+  /* Le file che non sono fasi — rune, rumor, prezzi, limiti, e tutta la scheda
+     delle strongbox — sono tabelle larghe: la griglia a due colonne le
+     strozzerebbe. Stessa riga di accordion, corpo a colonna piena. */
+  .corpo.pieno{grid-template-columns:1fr}
+  /* La fascia dei numeri: e' il posto dei .misure dell'altra scheda, quindi ha
+     lo stesso bordo e lo stesso fondo. Dentro ci sta una .kpi invece di quattro
+     .misura perche' qui i numeri non sono misuratori con le tacche: sono cifre. */
+  .fascia{padding:var(--s4) var(--s5);background:var(--panel2);
+          border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .fascia .kpi > div{background:transparent;border:0;padding:0}
+  .wrap article[id],.wrap details[id]{scroll-margin-top:calc(var(--nav-h) + var(--sezioni-h) + 2px)}
+  .corpo.pieno > .card{background:var(--panel2)}
   /* 880px e' il punto in cui la colonna stretta smette di reggere una tabella;
      620px quello in cui quattro misuratori affiancati diventano illeggibili. */
   @media(max-width:880px){.corpo{grid-template-columns:1fr}
@@ -177,9 +189,9 @@
     <a href="#expedition">La strategia</a>
     <a href="#rune">Le rune</a>
     <a href="#rumor">I rumor</a>
-    <a href="#prezzi">I prezzi di oggi</a>
-    <a href="#strongbox">Le strongbox</a>
+    <a href="#prezzi">I prezzi</a>
     <a href="#limiti">Cosa non dice</a>
+    <a href="#strongbox">Le strongbox</a>
   </div>
 </div>
 
@@ -187,7 +199,7 @@
 
   <header class="testata">
     <h1>Strategie di <span>farming</span></h1>
-    <p class="sub">Una strategia per scheda, con dentro le sue fasi. Oggi ce n&rsquo;&egrave; <b>una</b>: farmare l&rsquo;<b>Expedition</b> della 0.5.5 &mdash; tre fasi che si montano in sequenza e <b>un solo bivio vero</b>, quello che dipende da quanto reggi. Coi tablet da comprare, i nodi dell&rsquo;atlante e cosa guardare mentre corri. 🔴 E i prezzi rifatti oggi, che smentiscono <b>quattro cifre su cinque</b> della fonte &mdash; sempre verso l&rsquo;alto. In fondo, una cosa che <b>non</b> &egrave; una strategia: le <b>strongbox</b>, che si incontrano in ogni mappa e si possono valutare <i>prima</i> di aprirle.</p>
+    <p class="sub"><b>Una scheda per strategia, e tutto quello che la riguarda dentro le sue righe apribili.</b> Oggi le schede sono due: la strategia dell&rsquo;<b>Expedition</b> della 0.5.5 &mdash; tre fasi che si montano in sequenza, un solo bivio vero, pi&ugrave; le rune, i rumor, i prezzi e i suoi limiti &mdash; e le <b>strongbox</b>, che non sono una strategia ma si incontrano in ogni mappa. 🔑 <b>A riposo la pagina &egrave; un indice</b>: si apre solo la riga che serve.</p>
     <div class="badges">
       <span class="badge oro">patch <b>0.5.5</b></span>
       <span class="badge">lega <b>Forbidden Rites</b></span>
@@ -243,9 +255,15 @@
     <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>L&rsquo;ultima riga &egrave; il motore di tutto.</b> Le rune che si propagano sono la ragione per cui la fase 2 ha un bivio: si possono scegliere i remnant per <b>quello che pagano</b>, oppure per <b>quello che aggiungono ai mostri</b>. Il secondo modo rende di pi&ugrave; e ti ammazza.</p>
   </div>
 
-  <h2 class="sec" id="expedition">La strategia</h2>
+  <!-- 🔴 I due pulsanti nascono `hidden` e li accende lo script: le righe si
+       aprono da sole col <details>, questi due no. Un comando morto in pagina
+       e' peggio di un comando assente. -->
+  <div class="comandi" id="comandi" hidden>
+    <button type="button" data-tutti="1">Apri tutto</button>
+    <button type="button" data-tutti="0">Chiudi tutto</button>
+  </div>
 
-  <article class="strat" id="ciclo">
+  <article class="strat" id="expedition">
     <header>
       <h2>Expedition &mdash; una strategia, tre fasi <span class="badge">0.5.5</span> <span class="badge">🎥 8-9 div a mappa</span></h2>
       <p class="sommario">Non si sceglie una fase contro un&rsquo;altra: <b>si montano in sequenza, nella stessa sessione</b>. Le travel map sono il modo in cui arrivi alle Grand Expedition, e la boss map &egrave; cosa fai quando ti cade una saga. 🔑 <b>L&rsquo;unico bivio vero sta dentro la fase 2</b>, ed &egrave; quello che il video vende come <i>budget</i> contro <i>highend</i>.</p>
@@ -459,19 +477,9 @@
         </div>
       </div>
     </details>
-  </article>
-
-  <!-- 🔴 I due pulsanti nascono `hidden` e li accende lo script: le fasi si
-       aprono da sole col <details>, questi due no. Un comando morto in pagina
-       e' peggio di un comando assente. -->
-  <div class="comandi" id="comandi" hidden>
-    <button type="button" data-tutti="1">Apri tutte le fasi</button>
-    <button type="button" data-tutti="0">Chiudi tutte</button>
-  </div>
-
-  <h2 class="sec" id="rune">Le rune, in una tabella</h2>
-
-  <div class="card" style="padding:var(--s5)">
+    <details class="fase" id="rune">
+      <summary><span class="n">§</span> <span class="t">Le rune da cercare, in una tabella</span> <span class="d">🎥 &egrave; la sua tier list, non una misura &mdash; e serve al <b>ramo B</b> della fase 2</span></summary>
+      <div class="corpo pieno">
     <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 <b>&Egrave; la tier list dell&rsquo;autore</b>, presa dal foglio che linka nella descrizione. Non porta un campione, un numero o una misura: sta qui perch&eacute; &egrave; la parte operativa del <b>ramo B</b> della fase 2, non perch&eacute; sia verificata. Gli effetti sono <b>come li descrive lui</b>, non il testo del gioco.</p>
     <div class="scorre">
       <table class="tabella">
@@ -489,11 +497,13 @@
       </table>
     </div>
     <p style="margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)">🔑 <b>Le tre C hanno la stessa motivazione, e non &egrave; il bottino: &egrave; il fastidio.</b> Sono le rune che allungano il combattimento invece di renderlo pi&ugrave; ricco &mdash; e in una fase il cui unico costo &egrave; il tempo, quello &egrave; il criterio giusto.</p>
-  </div>
+  
+      </div>
+    </details>
 
-  <h2 class="sec" id="rumor">I rumor delle Grand Expedition</h2>
-
-  <div class="card" style="padding:var(--s5)">
+    <details class="fase" id="rumor">
+      <summary><span class="n">§</span> <span class="t">I rumor delle Grand Expedition, e le quattro boss map</span> <span class="d">🎥 sua classifica &middot; la regola: <b>un rumor solido pi&ugrave; almeno tre in tutto</b></span></summary>
+      <div class="corpo pieno">
     <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 Stessa fonte, stesso peso: &egrave; una <b>sua classifica</b>. La regola operativa che d&agrave; nel video &egrave; semplice &mdash; <b>un rumor solido pi&ugrave; almeno tre rumor in tutto, e il logbook si consuma</b>.</p>
     <div class="scorre">
       <table class="tabella">
@@ -526,10 +536,13 @@
         </tbody>
       </table>
     </div>
-  </div>
+  
+      </div>
+    </details>
 
-  <h2 class="sec" id="prezzi">I prezzi di oggi, e le quattro smentite</h2>
-
+    <details class="fase" id="prezzi">
+      <summary><span class="n">§</span> <span class="t">I prezzi di oggi, e le quattro smentite</span> <span class="d">🔴 <b>quattro cifre su cinque</b> del video cadono, tutte verso l&rsquo;alto</span></summary>
+      <div class="corpo pieno">
   <div class="avviso">
     🔴 <b>Quattro cifre su cinque del video sono sbagliate, e sono sbagliate tutte
     nello stesso verso: verso il basso.</b> Non &egrave; disonest&agrave; &mdash; il video ha due
@@ -586,28 +599,47 @@
     <p style="margin:0 0 var(--s3);color:var(--muted)">🔑 <b>La riga verde spiega le quattro rosse.</b> L&rsquo;unica cifra che regge &egrave; l&rsquo;unica che lui non ricava da un prezzo ma da un <b>rapporto interno al gioco</b>: 300 splinter fanno un Simulacrum, e quel rapporto non invecchia. Tutte le altre erano prezzi ricordati, e un prezzo ricordato in una lega di sei giorni &egrave; gi&agrave; vecchio quando lo pronunci.</p>
     <p style="margin:0;color:var(--muted)">🧮 <b>Non ribalta la strategia</b>: 55 ex di tablet contro le 8-9 divine a mappa che dichiara restano spiccioli. Ribalta <b>due decisioni d&rsquo;acquisto</b>: il set di deli tablet da dieci mappe <b>oggi non &egrave; comprabile</b>, e la Lineage Support da 80 div <b>non &egrave; vendibile a quel prezzo</b> finch&eacute; il mercato ha una riga sola.</p>
   </div>
+      </div>
+    </details>
 
-  <h2 class="sec" id="strongbox">Le strongbox, e quali vale aprire</h2>
+    <details class="fase" id="limiti">
+      <summary><span class="n">§</span> <span class="t">Cosa questa strategia non dice</span> <span class="d">⚠️ la resa non &egrave; misurata in <b>nessuna</b> delle tre fasi</span></summary>
+      <div class="corpo pieno">
+        <ul class="fonti" style="margin:0;padding-left:1.1rem">
+      <li>🔴 <b>La resa non &egrave; misurata, in nessuna delle tre fasi.</b> &laquo;8-9 div a mappa&raquo;, &laquo;150 div in un giorno&raquo;, e il <b>&laquo;30D+/HR&raquo; del titolo</b> sono dichiarazioni. ⚠️ Quel numero <b>non compare mai nel corpo del video</b>, e non c&rsquo;&egrave; un cronometro da nessuna parte: 🧮 per arrivarci con 8-9 div a mappa servirebbero <b>~3,5 mappe l&rsquo;ora</b>.</li>
+      <li><b>Vale per la sua build.</b> Un Twister Gemling gi&agrave; forte, che per sua stessa ammissione <b>fatica sui mostri dell&rsquo;expedition</b>. Il ramo B della fase 2 non &egrave; una scelta di gusto: &egrave; una soglia di danno e di sopravvivenza che o hai o non hai.</li>
+      <li><b>Il tasso di Farrow non &egrave; verificato.</b> ✅ Che venda Liquid Verisium in cambio di Verisium sta in un nodo dell&rsquo;atlante; il <b>600 : 1</b> &egrave; solo suo.</li>
+      <li><b>La catena degli item level non &egrave; verificata.</b> ✅ Verificati il nome <i>Irradiated</i> e il nodo <i>Grand Expeditions have +1 Area Level</i>; il &laquo;+1 dal mostro raro&raquo; e l&rsquo;<b>ilvl 82 garantito</b> no.</li>
+      <li><b>L&rsquo;&laquo;1 su 20&raquo; delle Lineage Support</b> &egrave; detto dal video con un <i>probably</i>, e su quello poggia tutto il conto della fase 3.</li>
+      <li><b>I testi dei nodi dell&rsquo;atlante vengono da una fonte esterna</b>, non dal client. Chi li rilegge in gioco pu&ograve; promuoverli.</li>
+      <li>⚠️ <b>I due link di trade sono suoi e sono stati collaudati qui</b> (HTTP 200, <code>total</code> 2.391 e 10). Ma sono link alla lega <b>Forbidden Rites</b>: al prossimo cambio di lega vanno rigenerati, non riletti.</li>
+      <li>⚠️ <b>Il personaggio linkato in cima &egrave; suo, ma non &egrave; detto che sia quello del video.</b> Su poe.ninja risulta <b>visto l&rsquo;ultima volta il 5 settembre</b>, tre giorni prima che il video uscisse &mdash; e <b>gli altri suoi personaggi non sono elencabili</b>: il filtro per account di poe.ninja risponde 200 e <b>non filtra</b>, e il profilo pubblico di GGG mostra solo i personaggi di PoE 1.</li>
+        </ul>
+      </div>
+    </details>
 
-  <div class="avviso">
-    🔑 <b>Questa non &egrave; una strategia, ed &egrave; l&rsquo;unica sezione della pagina che
-    non parla dell&rsquo;Expedition.</b> Le strongbox si incontrano in <b>ogni</b> mappa,
-    e sono l&rsquo;unico contenuto che si pu&ograve; <b>valutare prima di ingaggiarlo</b>: il
-    tooltip si legge col mouse. Sta qui perch&eacute; un suffisso da tablet dice
-    &laquo;<i>Expeditions contain (1&mdash;2) buried Strongboxes in Map</i>&raquo; &mdash; &egrave; il punto
-    in cui le due cose si toccano. ✅ <b>Tipi, mod e uniche vengono dai dati del
-    gioco</b> (poe2db, letta l&rsquo;11 settembre); 🧮 <b>l&rsquo;ordine &egrave; un giudizio sulla
-    liquidit&agrave; di ci&ograve; che esce</b>, non una resa misurata &mdash; nessuno ha cronometrato
-    niente.
-  </div>
+  </article>
 
-  <div class="kpi">
-    <div><b>69,1 ex</b><span>costa riaprire una box</span></div>
-    <div><b>171</b><span>mod nel pool delle box</span></div>
-    <div><b>1</b><span>🔴 base su 9 che d&agrave; valuta</span></div>
-    <div><b>0</b><span>nodi d&rsquo;atlante che puntano un tipo</span></div>
-  </div>
+  <article class="strat" id="strongbox">
+    <header>
+      <h2>Le strongbox <span class="badge">non &egrave; una strategia</span> <span class="badge">vale in ogni mappa</span></h2>
+      <p class="sommario">Le strongbox si incontrano in <b>ogni</b> mappa, e sono l&rsquo;unico contenuto che si pu&ograve; <b>valutare prima di ingaggiarlo</b>: il tooltip si legge col mouse. Stanno su questa pagina perch&eacute; un suffisso da tablet dice &laquo;<i>Expeditions contain (1&mdash;2) buried Strongboxes in Map</i>&raquo;, ed &egrave; il punto in cui le due cose si toccano. 🔑 <b>Il motore: il tipo dice <i>cosa</i> esce, i suffissi dicono <i>quanto</i></b> &mdash; una Basic con <i>Contains 3 additional Inscribed Ultimatums</i> batte una Researcher&rsquo;s liscia.</p>
+      <p class="quando">✅ tipi, mod e uniche dai dati del gioco &middot; 🧮 l&rsquo;ordine &egrave; un giudizio sulla liquidit&agrave;, non una resa misurata</p>
+    </header>
 
+    <div class="fascia">
+      <div class="kpi">
+        <div><b>69,1 ex</b><span>costa riaprire una box</span></div>
+        <div><b>171</b><span>mod nel pool delle box</span></div>
+        <div><b>1</b><span>🔴 base su 9 che d&agrave; valuta</span></div>
+        <div><b>0</b><span>nodi d&rsquo;atlante che puntano un tipo</span></div>
+      </div>
+    </div>
+
+
+    <details class="fase" id="sb-basi">
+      <summary><span class="n">§</span> <span class="t">Le nove basi, e quali vale aprire</span> <span class="d">🔴 <b>una sola</b> droppa valuta: <i>Researcher&rsquo;s</i></span></summary>
+      <div class="corpo pieno">
   <div class="scorre" style="margin-top:var(--s5)">
     <table class="tabella">
       <thead><tr><th>Base</th><th>Cosa contiene</th><th class="v">Voto</th><th>Perch&eacute;</th></tr></thead>
@@ -629,9 +661,12 @@
     <p style="margin:0 0 var(--s3);color:var(--muted)">⚠️ <b>Le cinque righe con il triangolo non le dice il gioco.</b> poe2db d&agrave; una descrizione solo a <b>quattro</b> basi su nove: Researcher&rsquo;s, Cartographer&rsquo;s, Ornate e Basic. Le altre compaiono col <b>solo nome</b>, e quello che leggi sopra &egrave; <b>dedotto</b> dal pool di mod (i prefissi &laquo;<i>Contained non-Unique items are always Wands / Staves / Sceptres / Foci</i>&raquo; devono appartenere a una base, e <i>Arcane</i> &egrave; l&rsquo;unica che ha senso) e da due nodi d&rsquo;atlante che dividono le basi in due famiglie. <b>Si confermano leggendo un tooltip in gioco</b>, e finch&eacute; non &egrave; fatto restano dedotte.</p>
     <p style="margin:0;color:var(--muted)">🔴 <b>E sulle guide in rete non si pu&ograve; contare, per un motivo verificabile in un secondo.</b> Delle prime otto trovate cercando &laquo;best strongboxes poe 2&raquo;, una si intitola <i>&laquo;Ranked by Currency Per <b>Scarab</b>&raquo;</i> &mdash; <b>gli scarab non esistono in PoE 2</b>; un&rsquo;altra parla di <i>Arcanist&rsquo;s Strongbox</i>, che &egrave; il nome dell&rsquo;altro gioco; una terza cita un nodo d&rsquo;atlante <i>&laquo;Researcher&rsquo;s Plunder&raquo;</i> che <b>nei 536 nodi misurati il 7 settembre non esiste</b>. Nessuna cifra di quei siti &egrave; entrata in questa pagina.</p>
   </div>
+      </div>
+    </details>
 
-  <h3 id="strongbox-mod" style="margin:var(--s6) 0 var(--s3);font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;color:var(--gold)">Ma il tipo &egrave; solo il primo filtro: decidono i suffissi</h3>
-
+    <details class="fase" id="sb-mod">
+      <summary><span class="n">§</span> <span class="t">Il tipo &egrave; solo il primo filtro: decidono i suffissi</span> <span class="d">171 mod, e ognuno ha un <b>secondo grado</b></span></summary>
+      <div class="corpo pieno">
   <div class="card" style="padding:var(--s5)">
     <p style="margin:0 0 var(--s4);color:var(--muted)">Il pool ha <b>171 mod</b>, e ogni suffisso esiste in <b>due gradi</b> &mdash; il secondo lo sblocca il notevole <i>Royal Craftsmanship</i>. Questi sono i gradi alti, cio&egrave; quelli per cui vale la pena fermarsi a combattere:</p>
     <div class="bivio">
@@ -658,9 +693,12 @@
     </div>
     <p style="margin:var(--s4) 0 0;color:var(--muted)">🔑 <b>Da cui la regola che conta davvero:</b> una <b>Basic</b> con <i>Contains 3 additional Inscribed Ultimatums</i> vale pi&ugrave; di una <b>Researcher&rsquo;s</b> liscia. Il modello 3D dice la base; il <b>tooltip</b> dice se vale il combattimento.</p>
   </div>
+      </div>
+    </details>
 
-  <h3 id="strongbox-uniche" style="margin:var(--s6) 0 var(--s3);font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;color:var(--gold)">Le sette uniche, e una che si legge al contrario</h3>
-
+    <details class="fase" id="sb-uniche">
+      <summary><span class="n">§</span> <span class="t">Le sette uniche, e una che si legge al contrario</span> <span class="d">🔴 <i>Ogham&rsquo;s Legacy</i>: &laquo;Contains no other Items&raquo;</span></summary>
+      <div class="corpo pieno">
   <div class="scorre">
     <table class="tabella">
       <thead><tr><th>Unica</th><th>Base</th><th>Cosa fa, testo del gioco</th><th class="v">Voto</th></tr></thead>
@@ -679,9 +717,12 @@
   <div class="card" style="padding:var(--s5);margin-top:var(--s5)">
     <p style="margin:0;color:var(--muted)">🔴 <b>&laquo;Contains no other Items&raquo; su <i>Ogham&rsquo;s Legacy</i> &egrave; la riga che cambia una decisione.</b> Il premio non &egrave; dentro la box: &egrave; nel <b>bottino del raro</b> che resuscita tre-sei volte diventando ogni volta pi&ugrave; cattivo. Chi la apre aspettandosi il contenuto di una strongbox la sta leggendo al rovescio &mdash; e la sta combattendo per niente se non la finisce.</p>
   </div>
+      </div>
+    </details>
 
-  <h3 id="strongbox-riaprire" style="margin:var(--s6) 0 var(--s3);font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;color:var(--gold)">Riaprirla costa 69 exalted, e non 298</h3>
-
+    <details class="fase" id="sb-riaprire">
+      <summary><span class="n">§</span> <span class="t">Riaprirla costa 69 exalted, e non 298</span> <span class="d">✅ misurato l&rsquo;11 settembre &middot; 1 div = 246,0 ex</span></summary>
+      <div class="corpo pieno">
   <div class="scorre">
     <table class="tabella">
       <thead><tr><th>Come si riapre</th><th class="n">divine</th><th class="n">exalted</th><th class="n">volume</th><th>Testo del gioco</th></tr></thead>
@@ -697,9 +738,12 @@
     <p style="margin:0 0 var(--s3);color:var(--muted)">🧮 <b>La soglia che ne esce, ed &egrave; l&rsquo;unico numero misurato di questa sezione:</b> riaprire conviene se il contenuto atteso supera <b>~70 exalted</b>. Un Exalted Orb quota <b>1 ex</b>, quindi una box deve contenerne settanta perch&eacute; la chiave si ripaghi &mdash; che &egrave; un&rsquo;asticella alta per tutto ci&ograve; che non &egrave; una <b>Researcher&rsquo;s</b>.</p>
     <p style="margin:0;color:var(--muted)">⚠️ <b>E il Cryptic Key costa 4,3 volte meno dell&rsquo;Omen a parit&agrave; di effetto apparente.</b> Perch&eacute; <b>non &egrave; misurato</b>: le due formulazioni differiscono &mdash; l&rsquo;omen si spende sulla box che <i>clicchi</i>, la chiave su una box <b>non ancora aperta</b> &mdash; e i volumi sono simili (143 contro 178 div), quindi non &egrave; una riga sottile da ignorare. Finch&eacute; la differenza non &egrave; capita, <b>il prezzo della riapertura &egrave; 69 ex</b>. Prezzi poe.ninja dell&rsquo;<b>11 settembre 2026</b>, 1 div = <b>246,0 ex</b>.</p>
   </div>
+      </div>
+    </details>
 
-  <h3 id="strongbox-atlante" style="margin:var(--s6) 0 var(--s3);font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.09em;color:var(--gold)">Sull&rsquo;atlante: ventidue nodi, e quattro che sono trappole</h3>
-
+    <details class="fase" id="sb-atlante">
+      <summary><span class="n">§</span> <span class="t">Sull&rsquo;atlante: ventidue nodi, e quattro che sono trappole</span> <span class="d">⚠️ nessun nodo punta un <b>tipo</b> di box</span></summary>
+      <div class="corpo pieno">
   <div class="card" style="padding:var(--s5)">
     <div class="bivio">
       <div class="ramo">
@@ -726,24 +770,21 @@
     </div>
     <p style="margin:var(--s4) 0 0;color:var(--muted)">🔑 <b>E una cosa che l&rsquo;albero <i>non</i> sa fare: puntare un tipo.</b> Nei <b>536</b> nodi misurati il 7 settembre non ce n&rsquo;&egrave; <b>nessuno</b> che aumenti la frequenza delle Researcher&rsquo;s o di qualunque altra base. Le sole due leve sul tipo sono <i>Intriguing Designs</i>, che toglie la Basic, e i due nodi che aggiungono <b>prefissi</b> alle basi specializzate (<i>Specialised Containers</i> e <i>Craftsman&rsquo;s Creed</i>). Chi ti dice di &laquo;farmare le Researcher&rsquo;s&raquo; ti sta dicendo di farmare <b>strongbox</b>, e di sperare.</p>
   </div>
+      </div>
+    </details>
 
-  <h2 class="sec" id="limiti">Cosa questa pagina non dice</h2>
-
-  <div class="card" style="padding:var(--s5)">
-    <ul class="fonti" style="margin:0;padding-left:1.1rem">
-      <li>🔴 <b>La resa non &egrave; misurata, in nessuna delle tre fasi.</b> &laquo;8-9 div a mappa&raquo;, &laquo;150 div in un giorno&raquo;, e il <b>&laquo;30D+/HR&raquo; del titolo</b> sono dichiarazioni. ⚠️ Quel numero <b>non compare mai nel corpo del video</b>, e non c&rsquo;&egrave; un cronometro da nessuna parte: 🧮 per arrivarci con 8-9 div a mappa servirebbero <b>~3,5 mappe l&rsquo;ora</b>.</li>
-      <li><b>Vale per la sua build.</b> Un Twister Gemling gi&agrave; forte, che per sua stessa ammissione <b>fatica sui mostri dell&rsquo;expedition</b>. Il ramo B della fase 2 non &egrave; una scelta di gusto: &egrave; una soglia di danno e di sopravvivenza che o hai o non hai.</li>
-      <li><b>Il tasso di Farrow non &egrave; verificato.</b> ✅ Che venda Liquid Verisium in cambio di Verisium sta in un nodo dell&rsquo;atlante; il <b>600 : 1</b> &egrave; solo suo.</li>
-      <li><b>La catena degli item level non &egrave; verificata.</b> ✅ Verificati il nome <i>Irradiated</i> e il nodo <i>Grand Expeditions have +1 Area Level</i>; il &laquo;+1 dal mostro raro&raquo; e l&rsquo;<b>ilvl 82 garantito</b> no.</li>
-      <li><b>L&rsquo;&laquo;1 su 20&raquo; delle Lineage Support</b> &egrave; detto dal video con un <i>probably</i>, e su quello poggia tutto il conto della fase 3.</li>
-      <li><b>I testi dei nodi dell&rsquo;atlante vengono da una fonte esterna</b>, non dal client. Chi li rilegge in gioco pu&ograve; promuoverli.</li>
-      <li>⚠️ <b>I due link di trade sono suoi e sono stati collaudati qui</b> (HTTP 200, <code>total</code> 2.391 e 10). Ma sono link alla lega <b>Forbidden Rites</b>: al prossimo cambio di lega vanno rigenerati, non riletti.</li>
-      <li>⚠️ <b>Il personaggio linkato in cima &egrave; suo, ma non &egrave; detto che sia quello del video.</b> Su poe.ninja risulta <b>visto l&rsquo;ultima volta il 5 settembre</b>, tre giorni prima che il video uscisse &mdash; e <b>gli altri suoi personaggi non sono elencabili</b>: il filtro per account di poe.ninja risponde 200 e <b>non filtra</b>, e il profilo pubblico di GGG mostra solo i personaggi di PoE 1.</li>
+    <details class="fase" id="sb-limiti">
+      <summary><span class="n">§</span> <span class="t">Cosa questa sezione non dice</span> <span class="d">⚠️ la resa non &egrave; misurata, e cinque basi su nove sono <b>dedotte</b></span></summary>
+      <div class="corpo pieno">
+        <ul class="fonti" style="margin:0;padding-left:1.1rem">
       <li>🔴 <b>E della sezione sulle strongbox non &egrave; misurata la resa, n&eacute; quella di una box n&eacute; quella di una mappa.</b> I <b>voti</b> ordinano la <b>liquidit&agrave; di ci&ograve; che esce</b> &mdash; la valuta si vende, un&rsquo;armatura rara quasi mai &mdash; non divine all&rsquo;ora. ⚠️ Non sono misurati nemmeno i <b>pesi di spawn</b>: quanto spesso esca una Researcher&rsquo;s non si sa.</li>
       <li>⚠️ <b>Cinque basi su nove dicono cosa contengono solo per deduzione.</b> poe2db descrive Researcher&rsquo;s, Cartographer&rsquo;s, Ornate e Basic; Arcane, Jeweller&rsquo;s, Blacksmith&rsquo;s, Armourer&rsquo;s e Large compaiono col solo nome. Un tooltip letto in gioco le promuove in un secondo.</li>
       <li>⚠️ <b>Tre cose viste nei dati e non identificate.</b> Un item di dominio <i>Atlas</i> che porta insieme <i>&laquo;Your Maps contain 2 additional Strongboxes&raquo;</i>, <i>&laquo;Strongboxes in your Maps are Corrupted&raquo;</i> e <i>&laquo;Strongboxes in your Maps are <b>at least Rare</b>&raquo;</i> &mdash; che sarebbe la leva pi&ugrave; forte di tutte e <b>non si sa cosa sia</b>; su quale tablet esca <i>&laquo;Expeditions contain buried Strongboxes&raquo;</i>; e cosa ci sia in <i>Ventor&rsquo;s Trove</i>.</li>
-    </ul>
-  </div>
+        </ul>
+      </div>
+    </details>
+
+  </article>
 
   <footer class="pie">
     <p>Strategia da <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">XTheFarmerX &mdash; <i>Updated 0.5.5 Expedition Guide</i></a> (8 settembre 2026) e dal <a href="https://docs.google.com/spreadsheets/d/14FFZPebLxeWIBGlbD-zKCxIy33lkOWpILO5JleVBnUw/edit?gid=1428949269#gid=1428949269" target="_blank" rel="noopener">suo cheatsheet</a>. Prezzi da <a href="https://poe.ninja/poe2/economy/forbidden-rites" target="_blank" rel="noopener">poe.ninja</a> e dal <a href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites" target="_blank" rel="noopener">trade2</a>, letti il <b>10 settembre 2026</b>. Patch 0.5.5, lega Forbidden Rites.</p>
@@ -766,15 +807,24 @@
   });
 })();
 
-/* Le tre voci del ciclo puntano alle fasi: se la fase e' chiusa, il salto
-   arriverebbe su una riga chiusa e sembrerebbe non aver fatto niente. */
+/* Ogni link interno che punta a una riga chiusa la apre prima del salto —
+   le voci del ciclo, l'indice delle sezioni, e un indirizzo aperto con l'ancora
+   gia' dentro. Senza questo il salto arriva su una riga chiusa e sembra non
+   aver fatto niente: e' il difetto che rende inutile un indice sopra un
+   accordion. */
 (() => {
-  for (const a of document.querySelectorAll(".ciclo a")) {
-    a.addEventListener("click", () => {
-      const d = document.querySelector(a.getAttribute("href"));
-      if (d) d.open = true;
-    });
-  }
+  const apri = (hash) => {
+    if (!hash || hash.length < 2) return;
+    let n = document.getElementById(hash.slice(1));
+    if (!n) return;
+    // anche gli antenati: una riga dentro una scheda chiusa resta invisibile.
+    for (let d = n.closest("details"); d; d = d.parentElement.closest("details")) d.open = true;
+    if (n.tagName === "DETAILS") n.open = true;
+  };
+  for (const a of document.querySelectorAll('a[href^="#"]'))
+    a.addEventListener("click", () => apri(a.getAttribute("href")));
+  addEventListener("hashchange", () => apri(location.hash));
+  apri(location.hash);
 })();
 
 /* Il menu delle sezioni si illumina su quella che stai leggendo. Stesso pezzo

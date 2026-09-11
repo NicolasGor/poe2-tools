@@ -121,6 +121,21 @@ status type**.
     respingendo la proposta di metterle nella tabella dei tier.
 - Un strumento = una cartella con il suo `index.html`, più una scheda nel
   catalogo in `index.html` alla radice.
+- 🔴 **Su una pagina di strategie l'unità è la scheda, e tutto quello che riguarda
+  una strategia sta dentro la sua scheda, in righe apribili.** Non si aggiunge una
+  sezione al livello della pagina per le rune, i rumor, i prezzi o i limiti di una
+  strategia: quelle sono parti di quella strategia, e fuori dalla scheda la pagina
+  diventa uno scorrimento lungo in cui non si capisce più cosa appartiene a cosa.
+  Detto da Nicolas l'11 settembre 2026 — *«non si capisce nulla»* — davanti a
+  `/strategie/`, che aveva quattro sezioni di pagina per una sola strategia.
+  - **A riposo la pagina deve essere un indice**: titolo, i numeri di sintesi in
+    fascia, e le righe chiuse. Si apre solo quella che serve.
+  - **Una riga che non è un passo della sequenza si marca diversamente** dalle
+    fasi numerate: qui le fasi hanno `1 2 3` e gli allegati `§`.
+  - 🔴 **E l'indice in cima deve aprire la riga a cui punta.** Un'ancora che
+    atterra su un accordion chiuso sembra non aver fatto niente: è il difetto che
+    rende inutile un indice sopra un accordion. Lo fa lo script della pagina, su
+    `a[href^="#"]` e su `hashchange`, aprendo anche gli antenati.
 - 🔴 **E la voce va aggiunta alla barra di *tutte* le pagine**, non solo a quella
   su cui stai lavorando: la barra è copiata dentro ogni `index.html`.
   `node controlla-barre.mjs` lo verifica, e una GitHub Action lo rifà a ogni push
