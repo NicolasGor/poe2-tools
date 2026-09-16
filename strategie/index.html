@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Strategie di farming &mdash; Expedition 0.5.5 | PoE 2 Tools</title>
-<meta name="description" content="Farmare l'Expedition nella 0.5.5 di Path of Exile 2: cosa fare passo per passo e quali tre tablet mettere nelle torri per le due tipologie di mappa — travel map col Delirium, Grand Expedition con gli Irradiated — coi prezzi rimisurati il 17 settembre 2026.">
+<meta name="description" content="Farmare l'Expedition nella 0.5.5 di Path of Exile 2, confrontando le guide di XTheFarmerX e Fubgun: cosa fare passo per passo, quali tre tablet e quale waystone per ognuna delle due tipologie di mappa, coi link d'acquisto collaudati e i prezzi del 17 settembre 2026.">
 <link rel="stylesheet" href="../stile.css">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>
@@ -157,6 +157,30 @@
   @media(max-width:520px){.ricetta .r{flex-direction:column;gap:.1rem}
                           .ricetta .r .k{width:auto}}
 
+  /* 🤝 / ⚔️ — da quando le fonti sono due, la cosa piu' informativa della pagina
+     non e' cosa dice una delle due: e' se dicono la stessa cosa. Due fonti
+     indipendenti che concordano valgono piu' di una; dove divergono, la pagina
+     non sceglie per il lettore, mostra le due cifre e chi le dice. */
+  .duefonti{display:grid;gap:var(--s2);grid-template-columns:1fr 1fr;margin:var(--s3) 0 var(--s4)}
+  @media(max-width:880px){.duefonti{grid-template-columns:1fr}}
+  .duefonti > div{background:var(--panel2);border:1px solid var(--line);
+                  border-radius:var(--r);padding:var(--s3);font-size:var(--t-sm);
+                  color:var(--muted);line-height:1.55}
+  .duefonti .chi{display:block;font-size:var(--t-xs);text-transform:uppercase;
+                 letter-spacing:.09em;color:var(--gold);margin-bottom:.15rem}
+  .duefonti b{color:var(--text)}
+  .accordo{border-left:3px solid var(--good);background:var(--panel2);
+           border-radius:var(--r);padding:var(--s3) var(--s4);margin:0 0 var(--s4);
+           font-size:var(--t-sm);line-height:1.6;color:var(--muted)}
+  .divergenza{border-left:3px solid var(--bad);background:var(--panel2);
+              border-radius:var(--r);padding:var(--s3) var(--s4);margin:0 0 var(--s4);
+              font-size:var(--t-sm);line-height:1.6;color:var(--muted)}
+  .accordo b,.divergenza b{color:var(--text)}
+  .accordo > .et,.divergenza > .et{display:block;font-size:var(--t-xs);
+      text-transform:uppercase;letter-spacing:.09em;margin-bottom:.2rem}
+  .accordo > .et{color:var(--good)}
+  .divergenza > .et{color:var(--bad)}
+
   /* Il bivio: l'unico punto della pagina in cui si sceglie davvero, e per questo
      e' l'unica cosa disegnata come due colonne affiancate. */
   .bivio{display:grid;gap:var(--s4);grid-template-columns:1fr 1fr;margin:var(--s4) 0}
@@ -250,39 +274,44 @@
   </header>
 
   <div class="avviso">
-    🔴 <b>Due fonti, e non hanno lo stesso peso.</b> La <b>strategia</b> &mdash; cosa
-    cliccare, cosa saltare, in che ordine &mdash; viene da
-    <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">un
-    video di XTheFarmerX</a> dell&rsquo;<b>8 settembre 2026</b>, ed &egrave; l&rsquo;opinione di
-    <b>un</b> giocatore che gioca un <b>Twister Gemling</b> gi&agrave; forte: dice lui stesso
-    che pulisce tutto il gioco ma che <b>sui mostri dell&rsquo;expedition fa fatica</b>.
-    I <b>prezzi e i conteggi di mercato</b> invece sono stati rimisurati qui, sul
-    trade2 e su poe.ninja, partendo dai <b>suoi stessi link di ricerca</b>: una
-    prima volta il <b>10 settembre</b> e di nuovo il <b>17</b>. 🔴 <b>E la seconda
-    misura ha smentito la prima</b> &mdash; i tablet sono scesi, non saliti. Ogni
-    cifra in pagina porta la sua data, perch&eacute; qui &egrave; l&rsquo;unica cosa che la rende
-    leggibile.
+    🔴 <b>Tre fonti, e non hanno lo stesso peso.</b> La <b>strategia</b> &mdash; cosa
+    cliccare, cosa saltare, in che ordine &mdash; viene da <b>due video diversi</b>,
+    ed &egrave; opinione di chi gioca:
+    <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">XTheFarmerX</a>
+    (8 settembre) e
+    <a href="https://youtu.be/LOCSAtbunho" target="_blank" rel="noopener">Fubgun</a>
+    (10 settembre, con la <a href="https://mobalytics.gg/poe-2/atlas-trees/fubgun-atlas-tree-strats" target="_blank" rel="noopener">versione scritta su mobalytics</a>).
+    I <b>prezzi, i conteggi di mercato e i mod</b> sono stati misurati qui sul
+    trade2 e su poe.ninja, l&rsquo;ultima volta il <b>17 settembre</b>.
+    🤝 <b>Dove i due concordano la riga lo dice</b>, ed &egrave; l&rsquo;informazione pi&ugrave;
+    solida della pagina: sono due giocatori che non si citano a vicenda.
+    ⚔️ <b>Dove divergono, la pagina non sceglie</b>: mostra le due cifre e chi le dice.
   </div>
 
-  <div class="card" style="padding:var(--s4) var(--s5);margin-top:var(--s4)">
-    <p style="margin:0;color:var(--muted);font-size:var(--t-sm)">✅ <b>E la sua
-    build si guarda, non si crede.</b> Account <b><code>xthefarmerx#5994</code></b>,
-    personaggio <b>xthefarmerxMILKED</b>, Gemling Legionnaire <b>96</b> &mdash;
-    <a href="https://poe.ninja/poe2/builds/forbiddenrites/character/xthefarmerx-5994/xthefarmerxMILKED" target="_blank" rel="noopener">su poe.ninja</a>.
-    🔑 Il riscontro che chiude l&rsquo;identificazione non &egrave; il nome: sul suo Barrage
-    sono socketate <b>Uhtred&rsquo;s Constellation</b> e <b>Olroth&rsquo;s Conviction</b>,
-    cio&egrave; <b>le due Lineage Support di cui parla il video</b>. La soglia che il
-    ramo pesante della fase 2 presuppone, in numeri: <b>1.702 vita</b>,
-    <b>3.218 ES</b>, <b>EHP 21.166</b>, resistenze 75/75/75, <b>6 cariche
-    frenzy</b>, <b>136% item rarity</b>. ⚠️ &Egrave; <b>un</b> suo personaggio: che sia
-    <b>quello</b> del video non &egrave; dimostrabile da fuori.</p>
-  </div>
-
-  <div class="legenda">
-    <div><span class="s">🎥</span><span><b>Dal video</b> &mdash; strategia dichiarata, non misurata.</span></div>
-    <div><span class="s">✅</span><span><b>Misurato il 10 settembre</b> &mdash; trade2, poe.ninja o dati del gioco.</span></div>
-    <div><span class="s">🧮</span><span><b>Conto mio</b> &mdash; derivato da due numeri verificati.</span></div>
-    <div><span class="s">🔴</span><span><b>Smentito</b> &mdash; il video dice una cifra, la misura ne dice un&rsquo;altra.</span></div>
+  <div class="duefonti">
+    <div>
+      <span class="chi">🎥 XTheFarmerX &middot; 8 settembre</span>
+      <b>Un Twister Gemling gi&agrave; forte</b>, che per sua ammissione pulisce tutto il
+      gioco ma <b>fatica sui mostri dell&rsquo;expedition</b>. ✅ La build si guarda:
+      <code>xthefarmerx#5994</code>, Gemling Legionnaire <b>96</b> &mdash;
+      <a href="https://poe.ninja/poe2/builds/forbiddenrites/character/xthefarmerx-5994/xthefarmerxMILKED" target="_blank" rel="noopener">su poe.ninja</a>.
+      Vita <b>1.702</b>, ES <b>3.218</b>, <b>EHP 21.166</b>, <b>136% item rarity</b>.
+      🔑 Il riscontro che chiude l&rsquo;identificazione non &egrave; il nome: sul suo Barrage
+      ci sono socketate <b>le due Lineage Support di cui parla il video</b>.
+      ⚠️ Che sia <b>quel</b> personaggio non &egrave; dimostrabile da fuori.
+      <b>Resa dichiarata:</b> 8-9 div a mappa, mai cronometrata.
+    </div>
+    <div>
+      <span class="chi">🎥 Fubgun &middot; 10 settembre</span>
+      <b>Guida scritta oltre che parlata</b>, ed &egrave; la differenza che conta: i nomi
+      dei nodi e dei mod si leggono invece di doverli indovinare dai sottotitoli.
+      🔑 <b>La sua resa &egrave; l&rsquo;unica delle due con un metodo dichiarato</b>:
+      <i>&laquo;ho fatto expedition per 8-9 ore, sono passato da <b>325 divine</b> a
+      <b>562</b>&raquo;</i> &mdash; <b>~26-30 div l&rsquo;ora di sole divine grezze</b>, e da l&igrave;
+      stima 50-60 con il resto. ⚠️ Resta un conto suo, non verificato qui, e su un
+      personaggio che dichiara forte: dice che <b>la maggior parte delle build ha
+      bisogno di un Headhunter</b> prima di provarci.
+    </div>
   </div>
 
   <h2 class="sec" id="come">Come funziona, in sei righe</h2>
@@ -309,8 +338,8 @@
 
   <article class="strat" id="expedition">
     <header>
-      <h2>Expedition &mdash; una strategia, tre fasi <span class="badge">0.5.5</span> <span class="badge">🎥 8-9 div a mappa</span></h2>
-      <p class="sommario">Non si sceglie una fase contro un&rsquo;altra: <b>si montano in sequenza, nella stessa sessione</b>. Le travel map sono il modo in cui arrivi alle Grand Expedition, e la boss map &egrave; cosa fai quando ti cade una saga. 🔑 <b>L&rsquo;unico bivio vero sta dentro la fase 2</b>, ed &egrave; quello che il video vende come <i>budget</i> contro <i>highend</i>.</p>
+      <h2>Expedition &mdash; una strategia, tre fasi <span class="badge">0.5.5</span> <span class="badge">🎥 due fonti</span> <span class="badge">🎥 ~26 div/h</span></h2>
+      <p class="sommario">Non si sceglie una fase contro un&rsquo;altra: <b>si montano in sequenza, nella stessa sessione</b>. Le travel map sono il modo in cui arrivi alle Grand Expedition, e la boss map &egrave; cosa fai quando ti cade una saga. 🔑 <b>L&rsquo;unico bivio vero sta dentro la fase 2</b>, ed &egrave; quello che i video vendono come <i>budget</i> contro <i>highend</i>. 🤝 <b>La pagina mette a confronto due guide indipendenti</b>: dove concordano la riga lo dice, dove divergono mostra le due cifre.</p>
       <p class="quando">Quando: quando l&rsquo;oceano &egrave; sbloccato e hai logbook da bruciare</p>
     </header>
 
@@ -322,33 +351,40 @@
         <div class="val">✅ 0,06-0,10 div a mappa<small>tre Irradiated Tablet ogni dieci Grand Expedition; le travel map ne costano <b>0,01</b>. 🔴 Rimisurato il 17 settembre: i tablet sono <b>scesi</b></small></div>
         <div class="tacche"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
       <div class="misura"><div class="et">Resa</div>
-        <div class="val">🎥 dichiarata, mai misurata<small>8-9 div a Grand Expedition e 0,49 div di splinter a travel map &mdash; ✅ solo il secondo numero regge alla misura</small></div>
+        <div class="val">🎥 ~26 div/h, dichiarata<small>Fubgun: da <b>325 a 562 div in 8-9 ore</b>, l&rsquo;unica delle due con un metodo. XTheFarmerX: 8-9 div a mappa. ✅ Misurato qui solo lo splinter della fase 1</small></div>
         <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
       <div class="misura"><div class="et">Ritmo</div>
-        <div class="val">🎥 mai cronometrato<small>45 s la boss map, &laquo;zero tempo aggiunto&raquo; la travel map, la fase 2 nessuno lo dice</small></div>
+        <div class="val">🎥 mai cronometrato<small>45 s la boss map, &laquo;zero tempo aggiunto&raquo; la travel map. Per la fase 2 si ricava solo dalle <b>8-9 ore</b> di Fubgun, non dal numero di mappe</small></div>
         <div class="tacche resa"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
     </div>
 
     <div class="ciclo">
-      <a href="#fase1"><b>Fase 1 &middot; di passaggio</b>Travel map &mdash; tre <b>Delirium Tablet</b> nelle torri, e le mappe che attraversi comunque non costano tempo.</a>
-      <a href="#fase2"><b>Fase 2 &middot; il grasso</b>Grand Expedition &mdash; tre <b>Irradiated Tablet</b> nelle stesse torri, e qui sta il bivio budget / highend.</a>
+      <a href="#fase1"><b>Fase 1 &middot; di passaggio</b>Travel map &mdash; tre <b>Delirium Tablet</b>, waystone a 6 mod. Coi link per comprarli.</a>
+      <a href="#fase2"><b>Fase 2 &middot; il grasso</b>Grand Expedition &mdash; tre <b>Irradiated Tablet</b>, waystone a 8 mod, e il bivio. Coi link per comprarli.</a>
       <a href="#fase3"><b>Fase 3 &middot; la lotteria</b>Boss map con la saga &mdash; 45 secondi su mappa bianca, per le Lineage Support.</a>
     </div>
 
     <!-- =============== FASE 1 =============== -->
     <details class="fase" id="fase1">
-      <summary><span class="n">1</span> <span class="t">Travel map &mdash; Delirium boss rush</span> <span class="d">✅ tre Delirium Tablet, <b>3 vaal l&rsquo;uno</b> &middot; 0,01 div a mappa</span></summary>
+      <summary><span class="n">1</span> <span class="t">Travel map &mdash; Delirium boss rush</span> <span class="d">🤝 tre <b>Delirium Tablet</b>, 1-2 vaal l&rsquo;uno &middot; waystone a 6 mod</span></summary>
       <div class="corpo">
         <div>
+          <div class="accordo"><span class="et">🤝 Su questa fase i due concordano quasi su tutto</span>
+            Tre <b>Delirium Tablet</b> nelle torri, una waystone qualsiasi purch&eacute; a <b>sei mod</b>,
+            si corre la mappa normalmente e <b>si chiude il delirio solo dopo aver ucciso il boss</b>.
+            Fubgun la chiama <i>&laquo;Deli Rush&raquo;</i> e la mette fra le sue varianti d&rsquo;atlante;
+            XTheFarmerX la chiama &laquo;la mappa di passaggio&raquo;. &Egrave; la stessa cosa.
+          </div>
+
           <h3>Cosa fai, in ordine</h3>
           <ol class="passi">
             <li>Sull&rsquo;atlante guarda le <b>travel map</b> che ti separano dalla prossima Grand Expedition: sono quelle che attraverseresti comunque.</li>
             <li>Trova le <b>tre Precursor Tower</b> i cui cerchi coprono quella zona, mettici dentro <b>un Delirium Tablet ciascuna</b> e <b>completa le torri</b>.</li>
-            <li>Apri la mappa, prendi lo <b>specchio del delirio</b> e falla <b>normalmente</b>, correndo verso il boss.</li>
-            <li>Lungo la strada uccidi i <b>point of interest arancioni</b>: sono boss garantiti, e 🎥 un boss del delirio lascia <b>10-15 splinter</b>, che tablet e atlante poi moltiplicano.</li>
-            <li>Uccidi il boss di mappa, <b>apri gli specchi rimasti</b> nella sua stanza, <b>chiudi</b> il delirio. Fine: nessun tempo aggiunto.</li>
+            <li>Apri la mappa con una waystone <b>a sei mod</b>, prendi lo <b>specchio del delirio</b> e falla <b>normalmente</b>, correndo verso il boss.</li>
+            <li>🎥 <b>Fubgun:</b> lungo la strada <b>fai tutte le caselle-ricompensa del delirio</b> che ti restano di strada. 🎥 <b>XTheFarmerX:</b> uccidi i <b>point of interest arancioni</b>, che sono boss garantiti e lasciano <b>10-15 splinter</b> l&rsquo;uno.</li>
+            <li>🤝 Uccidi il boss di mappa, apri gli specchi rimasti nella sua stanza, e <b>solo a quel punto</b> chiudi il delirio. &Egrave; l&rsquo;unico ordine su cui insistono tutti e due.</li>
           </ol>
-          <p>⚠️ <b>L&rsquo;unico punto in cui questa fase morde &egrave; la stanza del boss</b>, dove il delirio pu&ograve; ammassare mostri e specchio nello stesso istante. Tutto il resto non uccide nessuno.</p>
+          <p>⚠️ <b>L&rsquo;unico punto in cui questa fase morde &egrave; la stanza del boss</b>, dove il delirio pu&ograve; ammassare mostri e specchio nello stesso istante. Tutto il resto non uccide nessuno &mdash; &egrave; il motivo per cui questa fase &laquo;non aggiunge tempo&raquo;.</p>
 
           <h3 class="piu">I tre tablet &mdash; tre torri, lo stesso tablet</h3>
           <div class="torri">
@@ -357,53 +393,63 @@
             <div><span class="q">Torre 3</span><b>Delirium Tablet</b></div>
           </div>
           <div class="ricetta">
-            <div class="r"><span class="k">Implicito</span><span class="v"><b>Adds a Mirror of Delirium to a Map</b> &mdash; <i>&ge; 10 usi</i>. &Egrave; l&rsquo;implicito che identifica il tablet: la ricerca non filtra per <code>type</code>, quindi prende anche i magici a due mod.</span></div>
-            <div class="r"><span class="k">Prefisso</span><span class="v">uno qualsiasi fra <b>rarity</b>, <b>effectiveness</b>, <b>monster rarity</b> e <b>rare monsters</b> &mdash; <i>&ge; 1</i>. Serve solo a ingrassare la mappa.</span></div>
-            <div class="r"><span class="k">Suffisso</span><span class="v">e qui si decide: <b>unique boss</b>, <b>fracturing mirrors</b> o <b>stack di Simulacrum Splinter</b> &mdash; <i>&ge; 20%</i>. Pi&ugrave; specchi sono pi&ugrave; mostri che lasciano splinter; i boss unici li lasciano garantiti.</span></div>
+            <div class="r"><span class="k">Implicito</span><span class="v"><b>Adds a Mirror of Delirium to a Map</b> &mdash; <i>&ge; 10 usi</i>, cio&egrave; dieci mappe. &Egrave; l&rsquo;implicito che identifica il tablet: la ricerca non filtra per <code>type</code>, quindi prende anche i magici a due mod.</span></div>
+            <div class="r"><span class="k">I due mod</span><span class="v">🎥 <b>Fubgun</b> ne nomina due e basta: <b>increased Stack size of Simulacrum Splinters</b> oppure <b>Delirium Encounters more likely to spawn Unique Bosses</b>, <i>15-30%</i>. Sono i due che pagano.</span></div>
+            <div class="r"><span class="k">Il terzo</span><span class="v">⚔️ <b>Delirium Fog spawns increased Fracturing Mirrors.</b> 🎥 XTheFarmerX lo mette fra quelli da cercare (&laquo;pi&ugrave; specchi = pi&ugrave; mostri che lasciano splinter&raquo;); 🎥 Fubgun scrive <i>&laquo;not sure how good&raquo;</i>. <b>Non &egrave; misurato</b>: il link qui accanto chiede i due sicuri.</span></div>
+            <div class="r"><span class="k">Prefisso</span><span class="v">🎥 XTheFarmerX vuole anche <b>un</b> mod fra rarity, effectiveness, monster rarity e rare monsters. 🎥 Fubgun dice che <i>si pu&ograve; anche &laquo;alch and go&raquo;</i>: a 1 vaal l&rsquo;uno, la differenza non si sente.</span></div>
           </div>
+
+          <h3 class="piu">La waystone: conta <b>quante</b> righe ha, non quali</h3>
+          <div class="accordo"><span class="et">🤝 E qui vanno d&rsquo;accordo alla lettera</span>
+            🎥 Fubgun: <i>&laquo;just want a <b>6 mod waystone</b> so you can run 3 tablets, <b>you don&rsquo;t care for any modifier</b>&raquo;</i>.
+            🎥 XTheFarmerX: <i>&laquo;we&rsquo;re just running any <b>six mod</b> map, it doesn&rsquo;t matter, everything is good&raquo;</i>.
+            <b>&Egrave; l&rsquo;unica cosa che devi guardare</b>, e costa 2-3 vaal.
+          </div>
+          <p>🔑 <b>Ma nella frase di Fubgun c&rsquo;&egrave; un pezzo di meccanica che nessuno dei due spiega</b>: <i>&laquo;sei mod <b>cos&igrave; puoi far girare tre tablet</b>&raquo;</i>. Se &egrave; vero, il &laquo;tre&raquo; non dipende da quante torri coprono la mappa ma da <b>quante righe ha la waystone</b> &mdash; ⚠️ e nella fase 2 lui ne vuole <b>otto</b>. <b>Qui non &egrave; misurato</b>, ed &egrave; la cosa che vale di pi&ugrave; verificare in gioco di tutta la pagina.</p>
+          <p>🎥 Fubgun aggiunge una cosa che &egrave; profitto gratis: le <b>T16 che ti cadono, corrompile e vendile</b> &mdash; qui non servono.</p>
 
           <h3 class="piu">Perch&eacute; <b>tre</b>, e perch&eacute; nelle torri</h3>
           <ul>
             <li>✅ <b>Un tablet non si mette sulla mappa, si mette in una torre.</b> Lo dice il tablet stesso: <i>&laquo;Can only be applied to Precursor Tower Maps &mdash; Completing the Tower makes all nearby Maps accessible&raquo;</i>.</li>
             <li>✅ <b>Su una stessa mappa ne agiscono pi&ugrave; d&rsquo;uno, e i mod si sommano.</b> Tre nodi dell&rsquo;atlante contano proprio <i>&laquo;for each Tablet affecting Map area&raquo;</i>.</li>
             <li>✅ <b>Un uso si consuma quando apri una mappa</b> &mdash; il nodo <i>Curiously Durable Stone</i> d&agrave; <i>&laquo;8% chance to not consume Tablet uses when opening Maps&raquo;</i>. Quindi <b>&ge; 10 usi = 10 mappe</b>, ed &egrave; tutto il motivo di quel filtro.</li>
-            <li>🧮 <b>Da qui il tre:</b> il video parla di un <i>&laquo;whole tablet set&raquo;</i> da 180 ex a 60 ex l&rsquo;uno, <i>&laquo;for 10 maps&raquo;</i> &mdash; cio&egrave; <b>tre tablet da dieci usi</b> in tre torri che coprono la stessa zona.</li>
-            <li>⚠️ <b>Quello che qui non &egrave; misurato:</b> se <b>tre</b> sia un tetto o solo la geometria del suo atlante, e se l&rsquo;<b>implicito</b> si duplichi (tre specchi) o se a sommarsi siano solo i mod espliciti.</li>
+            <li>🤝 <b>Il &laquo;tre&raquo; ora lo dicono tutti e due, e in modo indipendente:</b> Fubgun lo scrive in chiaro (<i>&laquo;3x delirium tablets&raquo;</i>, <i>&laquo;3x Irradiated tablets&raquo;</i>); da XTheFarmerX si ricava dalla sua aritmetica (un <i>set</i> da 180 ex a 60 l&rsquo;uno, <i>&laquo;for 10 maps&raquo;</i>). <b>Prima era una mia deduzione, adesso &egrave; una fonte.</b></li>
+            <li>⚠️ <b>Resta non misurato</b> se tre sia un tetto, e <b>da cosa dipenda</b>: dalle torri che coprono la mappa o dai mod della waystone. E se l&rsquo;<b>implicito</b> si duplichi &mdash; tre specchi o uno.</li>
           </ul>
 
           <h3 class="piu">Perch&eacute; Delirium e non Breach o Abyss</h3>
-          <p>🎥 Il criterio che d&agrave; &egrave; buono e vale oltre il caso: <b>si sceglie la meccanica che non ti fa aspettare</b>. Breach vuole che il cerchio si apra e si chiuda, Abyss che i mostri saltino dentro e poi escano. Il delirio no: cammina con te.</p>
+          <p>🎥 XTheFarmerX d&agrave; il criterio, ed &egrave; buono oltre il caso: <b>si sceglie la meccanica che non ti fa aspettare</b>. Breach vuole che il cerchio si apra e si chiuda, Abyss che i mostri saltino dentro e poi escano. Il delirio no: cammina con te.</p>
           <p>🧮 Il che rende questa la fase meno fragile della strategia. Se domani il delirio venisse nerfato, il criterio &laquo;niente attese&raquo; sopravvive al nerf; una lista di tablet no.</p>
         </div>
 
         <div>
           <div class="pannello">
-            <h3>Quanto costano, oggi</h3>
-            <div class="voce"><span class="n"><b>Uno</b><small>il pi&ugrave; economico che passa il filtro</small></span><span class="p">3 vaal<small>0,032 div &middot; ~14 ex</small></span></div>
-            <div class="voce"><span class="n"><b>Il set da tre</b><small>copre <b>dieci</b> mappe</small></span><span class="p">9 vaal<small>0,096 div</small></span></div>
-            <div class="voce"><span class="n">Per mappa</span><span class="p">0,01 div<small>~4 ex</small></span></div>
-            <div class="voce"><span class="n">✅ Inserzioni nella lega</span><span class="p">10.000<small>&egrave; il tetto del trade</small></span></div>
-            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACAK2Q3QqDMAyF3yXXMpLGqvVVhgynHRT8Y9axIX33xQ3GQL0YjN71fOecJDOMvvTTCPkM_eBd30EOo62ma3luLITopYt8nME_Bitq2dUQwcU13l7fgqvl27VD4yrnD4vhxFlqkIiJhb2VzWSXhtZJPGEIRYg-eVU_dX5NhY0Oe__uUIwJopImWOK2CEy0FoR2iZhilWjOWO0RnBomScmE-MvYbBJlZHDMVm4lp9meQmvCGJWJf_DIVrI-kUk3TYW8JxoSftv_AQAA" target="_blank" rel="noopener">Apri la ricerca ↗</a>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🔴 <b>Il link non &egrave; pi&ugrave; il suo.</b> Quello del video porta dentro <code>price: exalted</code>, che mostra <b>solo le inserzioni prezzate in exalted</b> &mdash; e le pi&ugrave; economiche sono prezzate in <b>Vaal Orb</b>. Tolto quel filtro, gli stessi requisiti passano da <b>1.328</b> a <b>10.000</b>.</p>
+            <h3>🛒 Comprare &mdash; i tre tablet</h3>
+            <div class="voce"><span class="n"><b>Economico</b> &mdash; alch and go<small>solo l&rsquo;implicito, &ge; 10 usi</small></span><span class="p">1 vaal<small>0,011 div &middot; 10.000 in vendita</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACACWNSwrDMAxE76K1KTFetMlVSilqrIBASUwsF4rx3SM3zG7efCpkRS0Zpgp7Ut43mCDTXA78CEFzf274WUF_iYziFsHBwqJ0XICj2bwm4Zn11gvv8LiPg_fBB8tGzn3NUgtKJgdflEL9cmX780NrL9MJD_c5z4wAAAA" target="_blank" rel="noopener">Cerca i tablet economici ↗</a>
+            <div class="voce" style="margin-top:var(--s3)"><span class="n"><b>Buono</b> &mdash; coi due mod che pagano<small>splinter o unique boss, &ge; 15%</small></span><span class="p">2 vaal<small>0,021 div &middot; 10.000 in vendita</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACAI2NywrCMBBF_2XWQRJDH-mvSJHYTmEgfdBMRCn5dxMFQeyizG7Ovfds4Nly8NBsMC9M8wQNeOzCam8OIYo3T_iyAT8XTNROPQgYyDGuH0B9etO4OOqIT7lw1XVlpFJa6ZTtyee1lBqs8yjgbl3ArBwp-ZSMsY3iK-jmMDH8peKOFB-_Ul0WhVKmOiAtYlburZjybEopZX1spU33AuvAMiNHAQAA" target="_blank" rel="noopener">Cerca i tablet buoni ↗</a>
+            <div class="voce" style="margin-top:var(--s3)"><span class="n"><b>Il set da tre</b><small>copre <b>dieci</b> mappe</small></span><span class="p">3-6 vaal<small>~0,06 div in tutto</small></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">💡 <b>La differenza fra i due &egrave; un vaal</b>: prendi i buoni. &Egrave; l&rsquo;unico punto della pagina in cui il consiglio &laquo;non risparmiare&raquo; costa meno di niente.</p>
           </div>
 
           <div class="pannello">
-            <h3>🔴 E la nostra misura del 10 settembre &egrave; scaduta</h3>
-            <div class="voce"><span class="n">Il 10 settembre, qui<small>col filtro <code>price: exalted</code></small></span><span class="p nulla">200 ex<small>0,81 div &middot; 10 inserzioni</small></span></div>
-            <div class="voce"><span class="n">Il 17 settembre, qui</span><span class="p">3 vaal<small>0,032 div &middot; 10.000</small></span></div>
-            <div class="voce"><span class="n">🎥 Diceva il video</span><span class="p">10-20 ex<small><i>&laquo;incredibly cheap&raquo;</i></small></span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">📌 <b>Sette giorni dopo il video aveva ragione e noi torto</b>: <b>25 volte</b> pi&ugrave; economico in divine, e il &laquo;dieci in tutta la lega&raquo; era un mercato giovane visto attraverso un filtro che ne nascondeva met&agrave;. <b>Anche una misura &egrave; una fotografia</b> &mdash; la regola vale nelle due direzioni.</p>
+            <h3>🛒 Comprare &mdash; la waystone</h3>
+            <div class="voce"><span class="n"><b>Waystone T15</b><small>&ge; 6 mod, <b>qualunque</b> essi siano</small></span><span class="p">2-3 vaal<small>0,02-0,03 div</small></span></div>
+            <div class="voce"><span class="n">In vendita</span><span class="p">10.000<small>il tetto del trade</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACADWOwQrCMAyGX2XkpFAED3rYcwgeREpmUwh07WhacZS-u5lDcgh8-T_yN5CCpQqMDdJSOEUYQehVM06BoBso60LK7rhKSZGGw40pD-fLEczPVfXR_imMTrHnUCjvB3aKF6Hq0mlfNtZ5omyTt-g9f-ycnKjlWLafmvcYhAy8MVTais2sra69P3W-J95rO7EAAAA" target="_blank" rel="noopener">Cerca le waystone ↗</a>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🔑 <b>Il filtro &egrave; il conteggio dei mod</b> (<code>pseudo # Modifiers</code>), non un mod specifico: &egrave; esattamente quello che dicono tutti e due.</p>
           </div>
 
           <div class="pannello">
             <h3>Il master &mdash; Jado&rsquo;s Spycraft, per <b>tutte e due</b> le fasi</h3>
-            <div class="voce"><span class="n"><b>Partial Translations</b><small>0-40% increased effect of Explicit Modifiers on Tablets</small></span><span class="p">chiave</span></div>
+            <div class="voce"><span class="n"><b>Partial Translations</b></span><span class="p">chiave</span></div>
             <div class="voce"><span class="n"><b>Unexpected Missions</b><small>waystone corrotte: +1 modificatore casuale</small></span><span class="p">s&igrave;</span></div>
             <div class="voce"><span class="n"><b>Eastern Knowledge</b><small>rerolla i Verisium Remnant</small></span><span class="p">s&igrave;</span></div>
-            <div class="voce"><span class="n"><b>Keen Appraisal</b><small>50% increased Exceptional Items found</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n"><b>Keen Appraisal</b><small>increased Exceptional Items found</small></span><span class="p">s&igrave;</span></div>
             <div class="voce"><span class="n">Nodi Delirium</span><span class="p">6 punti<small>🎥 basta quello degli splinter</small></span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🔑 <b>Il master &egrave; lo stesso nella fase 1 e nella fase 2</b>, e non &egrave; un caso: le due si corrono di seguito, quindi <b>l&rsquo;atlante non si tocca fra l&rsquo;una e l&rsquo;altra</b> &mdash; cambia solo cosa c&rsquo;&egrave; nelle torri. Si tocca <b>una volta sola</b>, nella fase 3, dove <i>Untold Histories</i> prende il posto di <i>Keen Appraisal</i>.</p>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--bad)">🔴 <b>&Egrave; il pezzo pi&ugrave; debole della pagina, e va detto.</b> Questi quattro nomi vengono da <a href="https://vulkk.com/2026/06/17/path-of-exile-2-atlas-masters-jados-spycraft/" target="_blank" rel="noopener">un articolo esterno</a> e dal video: <b>nessuno &egrave; mai stato letto in gioco</b>. Nei <b>536 nodi</b> dell&rsquo;albero dell&rsquo;atlante misurati il 7 settembre <b>dieci degli undici nomi dei due master non compaiono</b>, e l&rsquo;unico che c&rsquo;&egrave; &mdash; <i>Partial Translation</i>, al singolare &mdash; dice una cosa <b>diversa</b>: <i>&laquo;Your Tablets may be upgraded to Rare and have +1 Maximum Modifier&raquo;</i>, non il &laquo;0-40% di effetto&raquo;. ⚠️ <b>Non &egrave; una smentita</b>: i master hanno un pool di punti suo e quell&rsquo;esportazione non li copre. &Egrave; che <b>non sono verificati</b>, e un tooltip letto in gioco li chiuderebbe in un minuto.</p>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🤝 <b>I quattro nodi sono gli stessi in tutte e due le fonti</b>, e Fubgun li scrive invece di pronunciarli &mdash; <i>&laquo;Jado: Unexpected Missions, Eastern Knowledge, Partial Translations and Keen Appraisal&raquo;</i>. Due elenchi identici e indipendenti: &egrave; la conferma migliore che la pagina abbia su questo punto.</p>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">⚠️ <b>Ma nessuno dei due li ha letti dal client, e io nemmeno.</b> Nei <b>536 nodi</b> dell&rsquo;albero dell&rsquo;atlante misurati il 7 settembre <b>questi nomi non compaiono</b> &mdash; il che non li smentisce, perch&eacute; i master hanno un pool di punti proprio e quell&rsquo;esportazione non li copre. 🔑 <b>Il master &egrave; lo stesso nella fase 1 e nella 2</b>: fra le due l&rsquo;atlante <b>non si tocca</b>, cambia solo cosa c&rsquo;&egrave; nelle torri. Si tocca una volta sola, nella fase 3.</p>
           </div>
 
           <div class="pannello">
@@ -411,7 +457,7 @@
             <div class="voce"><span class="n"><b>Simulacrum Splinter</b></span><span class="p">1,7 ex</span></div>
             <div class="voce"><span class="n">300 splinter = 1 Simulacrum</span><span class="p">2,07 div</span></div>
             <div class="voce"><span class="n">Simulacrum sul mercato</span><span class="p">2,17 div</span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Il video dice &laquo;<i>around two div for a whole simulacrum</i>&raquo;: <b>esatto</b>. &Egrave; l&rsquo;unica sua cifra che deriva da un rapporto interno al gioco invece che dalla memoria del prezzo di ieri &mdash; e infatti &egrave; l&rsquo;unica che non &egrave; mai invecchiata.</p>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Il video dice &laquo;<i>around two div for a whole simulacrum</i>&raquo;: <b>esatto</b>. &Egrave; l&rsquo;unica cifra che deriva da un rapporto interno al gioco invece che dalla memoria del prezzo di ieri &mdash; e infatti &egrave; l&rsquo;unica che non &egrave; mai invecchiata.</p>
           </div>
         </div>
       </div>
@@ -419,15 +465,23 @@
 
     <!-- =============== FASE 2 =============== -->
     <details class="fase" id="fase2">
-      <summary><span class="n">2</span> <span class="t">Grand Expedition &mdash; e il bivio</span> <span class="d">✅ tre Irradiated Tablet, <b>2-3 chaos l&rsquo;uno</b> &middot; 0,06-0,10 div a mappa</span></summary>
+      <summary><span class="n">2</span> <span class="t">Grand Expedition &mdash; e il bivio</span> <span class="d">🤝 tre <b>Irradiated Tablet</b> &middot; da 0,3 a 6 div l&rsquo;uno &middot; waystone a 8 mod</span></summary>
       <div class="corpo">
         <div>
+          <div class="accordo"><span class="et">🤝 E qui arriva la risposta alla domanda &laquo;perch&eacute; proprio l&rsquo;Irradiated&raquo;</span>
+            🎥 <b>Fubgun la dice in chiaro, ed &egrave; una regola del gioco, non una preferenza:</b>
+            <i>&laquo;do note, at least currently, the <b>Expedition tablets do not work for Grand Expeditions</b>. So you&rsquo;re only using these tablets&raquo;</i>
+            &mdash; cio&egrave; gli <b>Irradiated</b>. 🔑 <b>Non &egrave; che l&rsquo;Irradiated sia il migliore: &egrave; l&rsquo;unico che funziona.</b>
+            Era la domanda aperta pi&ugrave; grossa di questa scheda, e la chiude una fonte sola ma esplicita.
+          </div>
+
           <h3>Cosa fai, in ordine</h3>
           <ol class="passi">
-            <li><b>Stesse tre torri, stesso atlante della fase 1.</b> Cambia solo cosa ci metti dentro: un <b>Irradiated Tablet</b> per torre, e i cerchi devono coprire i nodi <b>Grand Expedition</b>.</li>
-            <li>Rolla le waystone <b>a sei mod</b>, con <b>Chaotic Quantity</b> perch&eacute; escano senza <i>pack size</i> &mdash; 🎥 l&rsquo;unico mod <i>&laquo;completely useless for this strategy&raquo;</i>. Poi <b>corrompile</b>: serve a <i>Unexpected Missions</i>.</li>
+            <li><b>Stesse tre torri, stesso master della fase 1.</b> Cambia solo cosa ci metti dentro: un <b>Irradiated Tablet</b> per torre, e i cerchi devono coprire i nodi <b>Grand Expedition</b>.</li>
+            <li>Apri con una waystone <b>a otto mod</b>, tirata al massimo di <b>monster effectiveness</b>. 🤝 Tutti e due: <b>niente pack size</b>, <b>Chaotic Quantity</b> per farla uscire senza, poi <b>corrompi</b>.</li>
             <li>Entra e piazza gli esplosivi lungo la catena di <b>Verisium Remnant</b>.</li>
-            <li>🔑 <b>Qui sta l&rsquo;unico bivio della pagina</b>, ed &egrave; il passo che decide se la mappa ti paga il doppio o ti uccide &mdash; il blocco qui sotto.</li>
+            <li>🔑 <b>Qui sta l&rsquo;unico bivio della pagina</b> &mdash; il blocco qui sotto &mdash; ed &egrave; il passo che decide se la mappa ti paga il doppio o ti uccide.</li>
+            <li>🎥 <b>Fubgun aggiunge l&rsquo;ordine, che &egrave; la cosa pi&ugrave; utile che dice:</b> all&rsquo;inizio prendi <b>tanti remnant buoni</b> anche se piccoli (4-6 rune), e <b>tieni per ultimi quelli da 7+ rune</b> &mdash; cos&igrave; tutte le rune che si propagano atterrano l&igrave;.</li>
             <li>Gli esplosivi che avanzano vanno sui <b>forzieri</b>, che pagano in tutti e due i rami.</li>
           </ol>
 
@@ -438,11 +492,21 @@
             <div><span class="q">Torre 3</span><b>Irradiated Tablet</b></div>
           </div>
           <div class="ricetta">
-            <div class="r"><span class="k">Tipo</span><span class="v"><b>Irradiated Tablet</b> &mdash; qui la ricerca filtra per <code>type</code>, non per l&rsquo;implicito. <i>&ge; 10 usi</i>, cio&egrave; dieci mappe.</span></div>
-            <div class="r"><span class="k">Quantit&agrave;</span><span class="v">un mod che faccia pi&ugrave; mostri: <b>effectiveness</b>, <b>rare monsters</b> o <b>monster rarity</b> &mdash; <i>&ge; 1</i>.</span></div>
-            <div class="r"><span class="k">Rarity</span><span class="v"><b>increased Rarity of Items found in Map</b> &mdash; <i>&ge; 1</i>, e non &egrave; opzionale: 🎥 la rarity dei tablet si applica <b>anche ai forzieri</b>, che sono met&agrave; della resa. &Egrave; il motivo per cui il suo filtro la chiede <b>sempre</b>.</span></div>
+            <div class="r"><span class="k">Tipo</span><span class="v"><b>Irradiated Tablet</b> &mdash; <b>l&rsquo;unico che funziona</b> sulle Grand Expedition. <i>&ge; 10 usi</i>, cio&egrave; dieci mappe.</span></div>
+            <div class="r"><span class="k">Premium</span><span class="v">🎥 <b>Fubgun:</b> <b>Map has # additional random Modifier</b>, che tira da 1 a 2. <i>&laquo;Compri un +1 e lo divini a +2: in media &egrave; 50/50, quindi due divine per un +2&raquo;</i>. Pi&ugrave; <b>monster effectiveness</b> o <b>increased number of rares</b>. <b>Item rarity va bene ma vale meno degli altri due.</b></span></div>
+            <div class="r"><span class="k">Economico</span><span class="v">🎥 <b>Fubgun:</b> due mod su tre fra <b>rare monsters</b>, <b>monster effectiveness</b> e <b>monster rarity</b>. <i>&laquo;Il bottino sar&agrave; peggiore, ma le mappe molto pi&ugrave; facili e i tablet praticamente gratis&raquo;</i> &mdash; &egrave; la via se la build non regge.</span></div>
+            <div class="r"><span class="k">Farmer</span><span class="v">chiede <b>rarity sempre</b> pi&ugrave; un mod di quantit&agrave; mostri, e non nomina il mod dei modificatori aggiuntivi. &Egrave; in pratica il <b>setup economico</b> di Fubgun con la rarity resa obbligatoria.</span></div>
           </div>
-          <p>🔴 <b>Una cosa che il video non spiega, e che qui non &egrave; misurata:</b> il suo filtro chiede <b>solo juice generico</b> &mdash; rarity e quantit&agrave; di mostri &mdash; e <b>nessun mod dell&rsquo;expedition</b>. Altri tipi di tablet porterebbero gli stessi mod. <b>Perch&eacute; proprio l&rsquo;Irradiated</b> resta non detto.</p>
+          <p>🧮 <b>La distanza fra i due setup &egrave; il fatto economico di questa scheda</b>: il premium sta a <b>~6 divine il tablet</b> e l&rsquo;economico a <b>0,3</b>. Sono <b>18 div contro 1</b> per coprire dieci mappe. 🎥 Fubgun lo sa e lo dice: <i>&laquo;three tablets are expensive, but ideal to use on your giga expedition maps&raquo;</i> &mdash; il premium lo tiene <b>per le mappe rare</b>, non per tutte.</p>
+
+          <h3 class="piu">La waystone: otto mod, e il massimo di monster effectiveness</h3>
+          <div class="divergenza"><span class="et">⚔️ E qui i due non dicono la stessa cosa</span>
+            🎥 <b>XTheFarmerX</b> corre <b>sei mod</b>, come nella fase 1.
+            🎥 <b>Fubgun</b> scrive <i>&laquo;<b>8 Mod waystones</b> seem to be the best for loot. Aim for the <b>highest monster effect</b>. Monster rarity is also quite good, rarity is okay and <b>pack size is bad</b>&raquo;</i>.
+            <b>Nessuno dei due ha misurato la differenza</b>, ma Fubgun &egrave; l&rsquo;unico dei due che dichiara un metodo per la sua resa &mdash; e il suo &laquo;otto&raquo; &egrave; coerente con il &laquo;sei cos&igrave; puoi far girare tre tablet&raquo; della fase 1.
+          </div>
+          <p>✅ <b>Misurato qui, e cambia come si compra:</b> su una waystone <b>monster effectiveness, item rarity, monster rarity e pack size non sono mod, sono <i>propriet&agrave;</i></b> &mdash; le calcola il gioco dai mod che ci sono sopra, che sono tutti <b>malus</b> (danno dei mostri, resistenze, veleno). 🔴 <b>Per questo cercarle come mod d&agrave; zero risultati</b>, ed &egrave; l&rsquo;errore in cui sono cascato: si filtrano con i <code>map_filters</code> del trade, non con le stat. Il link qui accanto lo fa.</p>
+          <p>🎥 <b>E la T16 non serve:</b> <i>&laquo;T16 waystones can also be good, but pretty expensive and <b>aren&rsquo;t needed anymore</b> since you reach area lvl 81 with t15 maps in grand expeditions, meaning you <b>still drop ilvl 82 exceptional bases</b>&raquo;</i>. 🤝 <b>&Egrave; la stessa catena di item level che XTheFarmerX afferma</b>, e adesso la dicono in due &mdash; resta comunque <b>non misurata qui</b>.</p>
 
           <h3 class="piu rosso">Il bivio, ed &egrave; l&rsquo;unico della pagina</h3>
           <p>La mappa &egrave; la stessa, i tablet sono gli stessi, la spesa &egrave; la stessa. 🔑 <b>Cambia solo il criterio con cui scegli i Verisium Remnant</b>, e da quel criterio dipende se la mappa ti paga il doppio o ti uccide.</p>
@@ -451,9 +515,9 @@
             <div class="ramo">
               <div class="tit">Ramo A &middot; budget<b>Si sceglie per la ricompensa</b></div>
               <ul style="margin:0;padding-left:1.1rem;font-size:var(--t-sm);line-height:1.6;color:var(--muted)">
-                <li>Si prendono <b>solo</b> i remnant che pagano. 🎥 Soglia: <b>un terzo di divine</b> &mdash; sotto si rerolla con Liquid Verisium, se resta sotto <b>si salta</b>.</li>
+                <li>Si prendono <b>solo</b> i remnant che pagano; sotto soglia si rerolla, e se resta sotto <b>si salta</b>.</li>
                 <li>Gli esplosivi che avanzano servono a <b>raggiungere i forzieri</b>, non ad allungare la catena.</li>
-                <li>🎥 &Egrave; quello con cui l&rsquo;autore dice di aver fatto le sue prime dieci ore.</li>
+                <li>🎥 XTheFarmerX dice di averci fatto le sue prime dieci ore.</li>
               </ul>
             </div>
             <div class="ramo pesante">
@@ -465,15 +529,28 @@
               </ul>
             </div>
           </div>
-          <p>🧮 <b>La soglia non &egrave; una preferenza, ed &egrave; misurabile</b>: la build dell&rsquo;autore, quella che sceglie il ramo B, sta a <b>EHP 21.166</b> con un colpo massimo incassabile di <b>5.267</b>. Sotto quei numeri il ramo B non &egrave; &laquo;pi&ugrave; rischioso&raquo;, &egrave; una mappa persa.</p>
+
+          <div class="divergenza"><span class="et">⚔️ La soglia della ricompensa: sono lontanissimi, ed &egrave; la divergenza pi&ugrave; grossa della pagina</span>
+            🎥 <b>XTheFarmerX: un terzo di divine.</b> Sotto quella, rerolla o salta.<br>
+            🎥 <b>Fubgun: &laquo;<i>always want to keep good rewards of at least <b>3 Divines</b> or higher</i>&raquo;</b>, e scende a 1-2 solo se la mappa &egrave; brutta.<br>
+            <b>Sono nove volte.</b> ⚠️ Non &egrave; detto che uno dei due sbagli: sono due personaggi che uccidono a velocit&agrave; diverse, e la soglia giusta &egrave; quella sotto cui <b>il tempo di prendere il remnant costa pi&ugrave; di quel che rende</b>. 🧮 Con le rese che dichiarano &mdash; 8-9 div a mappa lui, ~28 div l&rsquo;ora Fubgun &mdash; la soglia alta &egrave; coerente con chi corre pi&ugrave; forte. <b>Se stai iniziando, la soglia bassa &egrave; la tua.</b>
+          </div>
+          <p>🧮 <b>La soglia fra i due rami, invece, &egrave; misurabile</b>: la build di XTheFarmerX, quella che sceglie il ramo B, sta a <b>EHP 21.166</b> con un colpo massimo incassabile di <b>5.267</b>. Sotto quei numeri il ramo B non &egrave; &laquo;pi&ugrave; rischioso&raquo;, &egrave; una mappa persa. 🎥 E Fubgun mette la sbarra ancora pi&ugrave; in alto: <i>&laquo;most builds probably need at least a <b>Headhunter</b> before starting&raquo;</i>.</p>
 
           <h3 class="piu">Il meccanismo delle rune &mdash; l&rsquo;unica cosa da capire</h3>
+          <div class="accordo"><span class="et">🤝 Sul motore concordano parola per parola</span>
+            Ogni remnant porta rune, ogni runa aggiunge un modificatore ai mostri, e <b>le rune col bordo dorato si propagano al remnant successivo</b> (Fubgun le chiama <i>prolif</i>).
+            🔑 <b>E non si sommano:</b> <i>&laquo;Runes do <b>Not</b> stack, so you want <b>one of each</b>&raquo;</i>.
+            Quindi <b>una runa presa presto vale molto pi&ugrave; della stessa presa tardi</b> &mdash; ed &egrave; il motivo per cui nel ramo B conviene prendere un remnant che non paga niente.
+          </div>
+          <div class="divergenza"><span class="et">⚔️ Ma le due tier list delle rune non coincidono</span>
+            🤝 <b>Opulent &egrave; la migliore per tutti e due</b>, ed &egrave; l&rsquo;unica dorata: senza, dicono entrambi, il bottino &egrave; circa met&agrave;. Fubgun <b>ci corre incontro</b> quando la vede a met&agrave; mappa.<br>
+            ⚔️ <b>Power:</b> B per XTheFarmerX, <b>S</b> per Fubgun. &nbsp;⚔️ <b>Oath:</b> <b>C</b> per XTheFarmerX (<i>&laquo;super annoying&raquo;</i>), <b>A</b> per Fubgun.<br>
+            ⚠️ <b>E il criterio non &egrave; lo stesso</b>, che &egrave; probabilmente tutta la spiegazione: XTheFarmerX declassa le rune che gli fanno <b>perdere tempo</b>, Fubgun le ordina per <b>bottino</b>. Due classifiche diverse perch&eacute; misurano cose diverse.
+          </div>
           <ul>
-            <li>Ogni remnant porta delle rune, e <b>ogni runa aggiunge un modificatore ai mostri</b>.</li>
-            <li>🔑 <b>Le rune col bordo luminoso si propagano al remnant successivo</b>, e continuano lungo tutta la catena. Quelle senza bordo valgono solo l&igrave;.</li>
-            <li>⚠️ <b>Non si duplicano.</b> Due rune uguali che si propagano restano una.</li>
-            <li>Quindi <b>una runa presa presto vale molto pi&ugrave; della stessa presa tardi</b> &mdash; ed &egrave; il motivo per cui nel ramo B vale la pena prendere un remnant che non paga niente.</li>
-            <li>🎥 Se non hai voglia di leggere i mod: <b>oro &gt; viola &gt; blu</b>, e basta.</li>
+            <li>🎥 Se non hai voglia di leggere i mod: <b>oro &gt; viola &gt; blu</b>, e basta. <i>Rebirth</i> &egrave; l&rsquo;unica blu che Fubgun mette in alto.</li>
+            <li>🎥 <b>Fubgun:</b> sulle mappe <i>all 5 / 6 / 7</i> <b>rerolla aggressivamente</b>, perch&eacute; la base non pu&ograve; essere cattiva.</li>
             <li>✅ <b>Le meccaniche di zona contano</b>: alcune expedition portano un effetto in pi&ugrave; &mdash; <i>Sulphite</i> d&agrave; increased rarity, e nel ramo B si va l&igrave;.</li>
           </ul>
 
@@ -481,54 +558,55 @@
           <ul>
             <li>🎥 <b>Icona con le chaos orb</b> &rarr; valuta. <b>Icona a stella</b> &rarr; mappe. <b>Rossi</b> &rarr; item generici.</li>
             <li>🎥 <b>Dorato invece che giallo spento = potenziato.</b> Un forziere di valuta dorato d&agrave; <b>il doppio</b>.</li>
-            <li>🔑 <b>Quelli con la chiave inglese danno gear garantito</b>, e se sono dorati danno <b>Exceptional Item garantiti</b>. &Egrave; la ragione per cui l&rsquo;autore vuole area level alta: dice che un Exceptional a <b>ilvl 82</b> pu&ograve; valere 100+ div.</li>
+            <li>🔑 <b>Quelli con la chiave inglese danno gear garantito</b>, e se sono dorati danno <b>Exceptional Item garantiti</b>. &Egrave; la ragione per cui si vuole area level alta: un Exceptional a <b>ilvl 82</b> pu&ograve; valere 100+ div.</li>
           </ul>
-
-          <h3 class="piu rosso">La catena degli item level &egrave; sua, non misurata</h3>
-          <p>✅ Verificato: il tablet si chiama davvero <b>Irradiated</b>, e fra i nodi dell&rsquo;atlante esiste <i>Grand Expeditions have +1 Area Level</i>. 🎥 Il resto della catena &mdash; T16 &rarr; ilvl 81 &rarr; <b>82 dai mostri rari</b> &rarr; basi che valgono &mdash; &egrave; affermata dal video e non &egrave; stata verificata qui.</p>
         </div>
 
         <div>
           <div class="pannello">
-            <h3>Quanto costano, oggi</h3>
-            <div class="voce"><span class="n"><b>Uno</b><small>il pi&ugrave; economico che passa il filtro</small></span><span class="p">2-3 chaos<small>0,21-0,32 div</small></span></div>
-            <div class="voce"><span class="n"><b>Il set da tre</b><small>copre <b>dieci</b> mappe</small></span><span class="p">6-9 chaos<small>0,64-0,97 div</small></span></div>
-            <div class="voce"><span class="n">Per mappa</span><span class="p">0,06-0,10 div<small>~28-42 ex</small></span></div>
-            <div class="voce"><span class="n">✅ Inserzioni nella lega</span><span class="p">8.143</span></div>
-            <div class="voce"><span class="n">Lo stesso tablet <b>senza</b> i mod<small>solo tipo e usi &ge; 10</small></span><span class="p">1 chaos<small>i mod raddoppiano il prezzo</small></span></div>
-            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACAKWOzarCMBBGX0VmLZI2bW19A_fuREJsRhlok5Kfy72UvvudKC5EXbkamDnfmW-GEHVMAXYzuCmSs7CDgH3y-jwgLGuIfxPybu-9NqQjmtUhnyKsb1FOHucH1Ltk8-FHDwmzciT2FWy50BDR32EyjOLvNFBPcZMlqhRNXQtRFh2_fEvIbScLZtryE1EVVdnUspVMnDLzdSkpGu7UbrtnobYG3oSngMm4zX0om8YzeuUuKgUMyuOoyZK9vhYRC9tPyz8u0HCqigEAAA" target="_blank" rel="noopener">Apri la ricerca ↗</a>
+            <h3>🛒 Comprare &mdash; i tre tablet</h3>
+            <div class="voce"><span class="n"><b>Economico</b><small>2 mod su 3: rares / effectiveness / monster rarity</small></span><span class="p">0,3 chaos&ndash;3<small>da 10 ex &middot; 7.256 in vendita</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACAI2Oy2rDMBBFfyXM2gRbttMkf5B9diUIxRqHAVkyepQEo3_vqKGFEC-KFoI7c-aeBUJUMQU4LuDmSM7CEQIOyaurQcgVxMeMnJ28V5pURL05l1GE6gdl8nP5XVJWczySieifA9IczwGTdtvnJ22aruilG2UKGKTHSZEle2NSUyi3mRmVCVjBlzIJi9tELNbUOV9y9Vc3uGSLx-uWyCsKeJ8NDRS3xVm2H4e26ft6L95Ly_0VRNQ7BmrRHP6NdE0ndn27b9daLvy-AYKwl5V9AQAA" target="_blank" rel="noopener">Cerca i tablet economici ↗</a>
+            <div class="voce" style="margin-top:var(--s3)"><span class="n"><b>Premium +1</b><small>+1 modificatore di mappa, da divinare a +2</small></span><span class="p">~6 div<small>2.620 in vendita</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACAI2PW4vCMBCF_4rMc5Fe7Fr9B777JhJiM5WBNCm5iEvJf9_JeoG9gJKHwJnznTkzgw8yRA_bGewUyBrYgsc-OnnSCKmA8DkhazvnpCIZUC32eRSg-EaZPMwPkzSK5YF0QHcbkGIZr5OmnsIyA6LturaqV92arYp8DmPTILXHAi5SR8xlRuImVUrFPWPyGJVd3j5h4nhCJ-wgokcvHI6SDJnzG5FlSseceq_c22jyLb8XvzyjLj_atizravN36bP1T6RZb5qKoa7-Bzny-wJGEIJRjgEAAA" target="_blank" rel="noopener">Cerca i +1 ↗</a>
+            <div class="voce" style="margin-top:var(--s3)"><span class="n"><b>Premium +2</b><small>gi&agrave; a 2, senza tirare</small></span><span class="p">6-10 div<small>1.582 in vendita</small></span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACAIWP3YrCMBCFX2WZ6yJttGv1Dbz3bpEQm-kykCYlP4tS8u5OVnfBH5BcBM6c78yZGUJUMQXYzuCmSM7CFgL2yaujQcgVxPOErO28V5pURP2xL6MI1S_K5Nf8Z1JWszyQieivA9Is42ky1FNcFEC2Xdc2YtWt2aoplDA2DcoErOBHmYSlzEjcRORc3TKmgEm7xfWTNo1H9NINMgUM0uOoyJL9fh_Z1DkfSuqtcu-SLbc8uPLbM0T92bZ1LZrN89L_1vfIcr1ZNgx14gVy4HcBUQAaUY4BAAA" target="_blank" rel="noopener">Cerca i +2 ↗</a>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">🧮 <b>Il set da tre:</b> ~<b>1 div</b> in economico, ~<b>18 div</b> in premium, per dieci mappe. 🎥 Fubgun tiene il premium <b>per le mappe rare</b> e dice di non pagare pi&ugrave; di <b>10 div</b> per un tablet.</p>
           </div>
 
           <div class="pannello">
-            <h3>✅ E qui il video aveva ragione</h3>
-            <div class="voce"><span class="n">🎥 Diceva il video<small><i>&laquo;3C, maybe five, 7C&raquo;</i> &mdash; un terzo di divine</small></span><span class="p">~0,33 div</span></div>
-            <div class="voce"><span class="n">Il 10 settembre, qui</span><span class="p nulla">8-9 chaos<small>0,75-0,84 div &middot; 🔴 ~3&times;</small></span></div>
-            <div class="voce"><span class="n">Il 17 settembre, qui</span><span class="p">2-3 chaos<small>0,21-0,32 div</small></span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">📌 <b>La nostra correzione del 10 settembre si &egrave; sciolta da sola</b>: in divine il tablet &egrave; sceso di <b>3,5 volte</b> in una settimana ed &egrave; tornato dove il video lo metteva. Una lega che matura fa <b>scendere</b> i prezzi dei consumabili &mdash; il contrario di quello che avevamo appena finito di scrivere.</p>
+            <h3>🛒 Comprare &mdash; la waystone</h3>
+            <div class="voce"><span class="n"><b>Waystone T15</b><small>&ge; 8 mod &middot; monster effectiveness &ge; 40%</small></span><span class="p">11 chaos<small>1,18 div</small></span></div>
+            <div class="voce"><span class="n">In vendita</span><span class="p">6.814</span></div>
+            <a class="verso" href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites/H4sIAAAAAAACAF2O3QrCMAyFX0VypTBEQUH2HIIXMkq2plJYf1hacYy-u5lDGeYm5Ds5J5mAE6bMUE8QYrLBQw1MXR6w7QlKBWmMJOyGI6fgabO9Who2x_MOqo9XrPfpu4VeCza2TzQsgtWCI1PWYb805bNraVDBKDTGvpQLmsWlLc83Zd9gz1TBE_tM82POyleXUprSrMKFY1Sr8U9x-LCdhHv-0TnndChzvQH-Udv2-QAAAA" target="_blank" rel="noopener">Cerca le waystone ↗</a>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">💡 <b>Alzando l&rsquo;asticella il prezzo corre</b>: a effectiveness &ge; 60% si trovano mappe da <b>+86%</b>, ma stanno a <b>27 chaos</b> (2,9 div) l&rsquo;una. 🎥 Per questo Fubgun consiglia di <b>farsele</b>: <i>&laquo;cheapest option is to make your own <b>70% effect</b> waystones with 6 modifiers and corrupt after&raquo;</i>.</p>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">⚠️ <b>Il link non esclude il pack size</b>, ed &egrave; voluto: 🎥 Fubgun lo tollera proprio sulle mappe a otto mod (<i>&laquo;I only keep pack size if it rolls on an eight mod map&raquo;</i>). Sotto gli otto, evitalo.</p>
           </div>
 
           <div class="pannello">
             <h3>Come si rollano le mappe</h3>
-            <div class="voce"><span class="n"><b>Sei mod</b><small>tutti buoni tranne uno</small></span><span class="p">s&igrave;</span></div>
-            <div class="voce"><span class="n">🔴 <b>Pack size</b><small>&laquo;<i>completely useless for this strategy</i>&raquo;</small></span><span class="p nulla">no</span></div>
-            <div class="voce"><span class="n"><b>Chaotic Quantity</b><small>fa uscire i mod senza pack size</small></span><span class="p">s&igrave;</span></div>
-            <div class="voce"><span class="n"><b>Corrompere</b><small>serve a <i>Unexpected Missions</i></small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n">🤝 <b>Chaotic Quantity</b><small>le fa uscire senza pack size</small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n">🤝 <b>Corrompere dopo</b><small>serve a <i>Unexpected Missions</i></small></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n">🔴 <b>Pack size</b><small>&laquo;<i>completely useless for this strategy</i>&raquo; &middot; &laquo;<i>pack size is bad</i>&raquo;</small></span><span class="p nulla">no</span></div>
+            <div class="voce"><span class="n">⚔️ Quanti mod</span><span class="p">6 o 8<small>lui sei, Fubgun otto</small></span></div>
           </div>
 
           <div class="pannello">
-            <h3>Il reroll</h3>
-            <div class="voce"><span class="n"><b>Liquid Verisium</b><small>si compra da <b>Farrow</b> scambiando Verisium</small></span><span class="p">1 reroll</span></div>
-            <div class="voce"><span class="n">🎥 Tasso dichiarato</span><span class="p nulla">600 : 1<small>non verificato</small></span></div>
-            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Che Farrow lo venda &egrave; scritto in un nodo dell&rsquo;atlante &mdash; <i>Farrow now sells Liquid Verisium in exchange for Verisium</i>. Il <b>tasso</b> no.</p>
+            <h3>⚔️ Il reroll dei remnant</h3>
+            <div class="voce"><span class="n"><b>Liquid Verisium</b><small>rerolla un Verisium Remnant</small></span><span class="p">1 reroll</span></div>
+            <div class="voce"><span class="n">🎥 XTheFarmerX<small>si compra da <b>Farrow</b> scambiando Verisium</small></span><span class="p nulla">600 : 1<small>non verificato</small></span></div>
+            <div class="voce"><span class="n">🎥 Fubgun<small><i>&laquo;you 100% always self-sustain these&raquo;</i></small></span><span class="p">gratis<small>ne ha <b>400</b></small></span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">✅ Che Farrow lo venda &egrave; scritto in un nodo dell&rsquo;atlante. 🔑 <b>Ma se Fubgun ha ragione la domanda non si pone</b>: se ne raccolgono pi&ugrave; di quanti se ne spendano, e <b>rerollare non &egrave; una spesa</b>. Il che rende la soglia del ramo A meno importante di quanto sembri.</p>
           </div>
 
           <div class="pannello">
             <h3>Se il ramo B ti uccide</h3>
-            <p style="margin:0 0 var(--s3);font-size:var(--t-sm);color:var(--muted)">🎥 Non si cambia strategia: si cambia <b>master</b>. Si lascia Jado e si va su <b>Doryani&rsquo;s Science</b> &mdash; rende un po&rsquo; meno, ma d&agrave; una vita in pi&ugrave;. 🔴 <b>Anche questi quattro nomi non sono verificati in gioco</b>: nessuno compare fra i 536 nodi misurati &mdash; vedi la nota nel pannello del master, nella fase 1.</p>
-            <div class="voce"><span class="n"><b>Stitch the Flesh</b><small>Your Maps have an additional Revival</small></span><span class="p">il motivo</span></div>
-            <div class="voce"><span class="n"><b>Evolutionary Pressure</b></span><span class="p">s&igrave;</span></div>
-            <div class="voce"><span class="n"><b>Improved Calibration</b></span><span class="p">s&igrave;</span></div>
-            <div class="voce"><span class="n"><b>Careful Procurement</b><small>al posto di <i>Hidden Patterns</i></small></span><span class="p">s&igrave;</span></div>
+            <p style="margin:0 0 var(--s3);font-size:var(--t-sm);color:var(--muted)">🤝 Non si cambia strategia: si cambia <b>master</b>. Si lascia Jado e si va su <b>Doryani&rsquo;s Science</b>. 🎥 Fubgun: <i>&laquo;Doryani is also viable, but I had more success running Jado&raquo;</i>.</p>
+            <div class="voce"><span class="n">🤝 <b>Stitch the Flesh</b><small>una revival in pi&ugrave; &mdash; &egrave; il motivo</small></span><span class="p">il motivo</span></div>
+            <div class="voce"><span class="n">🤝 <b>Evolutionary Pressure</b></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n">🤝 <b>Improved Calibration</b></span><span class="p">s&igrave;</span></div>
+            <div class="voce"><span class="n">⚔️ <b>Il quarto</b><small>Careful Procurement <i>o</i> Volatile Connections</small></span><span class="p nulla">non concordano</span></div>
+            <p style="margin:var(--s3) 0 0;font-size:var(--t-xs);color:var(--muted)">⚠️ <b>Tre nodi su quattro sono gli stessi in tutte e due le fonti</b>; sul quarto XTheFarmerX dice <i>Careful Procurement</i> e Fubgun <i>Volatile Connections</i>. Nessuno dei due spiega perch&eacute;.</p>
           </div>
         </div>
       </div>
@@ -583,8 +661,14 @@
       </div>
     </details>
     <details class="fase" id="rune">
-      <summary><span class="n">§</span> <span class="t">Le rune da cercare, in una tabella</span> <span class="d">🎥 &egrave; la sua tier list, non una misura &mdash; e serve al <b>ramo B</b> della fase 2</span></summary>
+      <summary><span class="n">§</span> <span class="t">Le rune da cercare, in una tabella</span> <span class="d">⚔️ <b>due tier list che non coincidono</b> &mdash; e serve al <b>ramo B</b> della fase 2</span></summary>
       <div class="corpo pieno">
+    <div class="divergenza"><span class="et">⚔️ Le due fonti hanno due tier list, e non coincidono</span>
+      🤝 <b>Su Opulent sono d&rsquo;accordo e la mettono sopra tutto</b>: &egrave; l&rsquo;unica dorata, e senza il bottino cala di circa met&agrave;. 🎥 Fubgun <b>ci corre incontro</b> se la vede a met&agrave; mappa.<br>
+      🤝 Concordano anche su <b>Bond</b> e <b>Death</b> in alto, e su <b>Time</b> a met&agrave; classifica.<br>
+      ⚔️ <b>Power</b> &mdash; <b>B</b> per XTheFarmerX, <b>S</b> per Fubgun. &nbsp;⚔️ <b>Oath</b> &mdash; <b>C</b> per XTheFarmerX (<i>&laquo;super annoying&raquo;</i>), <b>A</b> per Fubgun.<br>
+      🔑 <b>E la spiegazione &egrave; probabilmente che non misurano la stessa cosa</b>: XTheFarmerX declassa le rune che gli fanno <b>perdere tempo</b>, Fubgun le ordina per <b>bottino</b>. La tabella qui sotto &egrave; quella di XTheFarmerX &mdash; se corri veloce, alza Power e Oath.
+    </div>
     <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 <b>&Egrave; la tier list dell&rsquo;autore</b>, presa dal foglio che linka nella descrizione. Non porta un campione, un numero o una misura: sta qui perch&eacute; &egrave; la parte operativa del <b>ramo B</b> della fase 2, non perch&eacute; sia verificata. Gli effetti sono <b>come li descrive lui</b>, non il testo del gioco.</p>
     <div class="scorre">
       <table class="tabella">
@@ -607,14 +691,25 @@
     </details>
 
     <details class="fase" id="rumor">
-      <summary><span class="n">§</span> <span class="t">I rumor delle Grand Expedition, e le quattro boss map</span> <span class="d">🎥 sua classifica &middot; la regola: <b>un rumor solido pi&ugrave; almeno tre in tutto</b></span></summary>
+      <summary><span class="n">§</span> <span class="t">I rumor delle Grand Expedition, e le quattro boss map</span> <span class="d">⚔️ lui li sceglie, Fubgun <b>non li legge pi&ugrave;</b> &middot; 🔴 e una saga &egrave; stata <b>rimossa</b></span></summary>
       <div class="corpo pieno">
+    <div class="divergenza"><span class="et">🔴 Prima della tabella: nella 0.5.5 una saga &egrave; stata rimossa, e questo cambia la riga in cima</span>
+      🎥 <b>Fubgun:</b> <i>&laquo;<b>Aldur&rsquo;s Saga is removed from the game</b>, it cannot spawn in the event league 0.5.5, and instead it now spawns randomly on grand expedition maps&raquo;</i> &mdash; la sua propriet&agrave;, il <b>boss garantito</b>, &egrave; diventata una piccola probabilit&agrave; su ogni logbook.
+      🔴 <b>Tocca proprio la riga S++++ della tabella</b>: <i>Fallen Stars</i> valeva tanto perch&eacute; puntava a <b>Perfect Flux o Aldur&rsquo;s Saga</b>; adesso 🎥 <i>&laquo;this will still guarantee a Perfect Flux&raquo;</i> e basta.
+      ✅ <b>Riscontro indiretto qui</b>: fra le sei righe di saga misurate il 10 settembre su poe.ninja (Perfect Flux, Uhtred&rsquo;s, Olroth&rsquo;s, Medved&rsquo;s, Vorana&rsquo;s, Logbook) <b>Aldur&rsquo;s Saga non c&rsquo;&egrave;</b>. &Egrave; coerente con la rimozione, e non la dimostra.
+    </div>
+    <div class="divergenza"><span class="et">⚔️ E sul fatto stesso di sceglierli, i due fanno il contrario</span>
+      🎥 <b>XTheFarmerX</b> li classifica e aspetta un rumor solido prima di spendere.<br>
+      🎥 <b>Fubgun li ha smesso:</b> <i>&laquo;I personally don&rsquo;t even read the loot rumors anymore &hellip; it&rsquo;s currently <b>five logbooks for one divine</b>, I just use it every single time&raquo;</i>.
+      🧮 <b>&Egrave; un conto, non un capriccio</b>, e il nostro dato lo regge: il <b>10 settembre l&rsquo;Expedition Logbook stava a 0,231 div</b>, cio&egrave; <b>4,3 per divine</b>. A quel prezzo il tempo speso a leggere il rumor costa pi&ugrave; del logbook che risparmi. ⚠️ <b>Vale finch&eacute; i logbook restano a quel prezzo</b>: &egrave; una soglia economica, non una regola del gioco.<br>
+      🤝 <b>Ma su cosa vale la pena, concordano</b>: <b>Stardrinker</b> &rarr; <b>Uhtred</b> &rarr; il quest item una-volta-per-personaggio (<i>Runeseeker&rsquo;s Call</i>). Fubgun: <i>&laquo;when you see this, you should be doing it&raquo;</i>.
+    </div>
     <p style="margin:0 0 var(--s4);color:var(--muted);font-size:var(--t-sm)">🎥 Stessa fonte, stesso peso: &egrave; una <b>sua classifica</b>. La regola operativa che d&agrave; nel video &egrave; semplice &mdash; <b>un rumor solido pi&ugrave; almeno tre rumor in tutto, e il logbook si consuma</b>.</p>
     <div class="scorre">
       <table class="tabella">
         <thead><tr><th>Rumor</th><th>Mappa</th><th>Cosa porta</th><th class="v">Voto</th><th>Nota</th></tr></thead>
         <tbody>
-          <tr><td><b>Fallen Stars</b></td><td>Moor</td><td>Runestones</td><td class="v"><span class="voto s">S++++</span></td><td>si punta a Perfect Flux o Aldur&rsquo;s Saga, quale vale di pi&ugrave;</td></tr>
+          <tr><td><b>Fallen Stars</b></td><td>Moor</td><td>Runestones</td><td class="v"><span class="voto s">S++++</span></td><td>🔴 <b>solo Perfect Flux dalla 0.5.5</b>: Aldur&rsquo;s Saga &egrave; stata rimossa</td></tr>
           <tr><td><b>Cold as Ice</b></td><td>Frigid Bluffs</td><td>Old Expedition</td><td class="v"><span class="voto a">A+</span></td><td>quello che nel video basta da solo</td></tr>
           <tr><td><b>Nothing to Drink</b></td><td>Stagnant Basin</td><td>Oil</td><td class="v"><span class="voto a">A+</span></td><td></td></tr>
           <tr><td><b>Sulphite!</b></td><td>Scorched Cay</td><td>Increased Rarity</td><td class="v"><span class="voto a">A</span></td><td>il preferito per il <b>ramo B</b></td></tr>
@@ -900,7 +995,7 @@
   </article>
 
   <footer class="pie">
-    <p>Strategia da <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">XTheFarmerX &mdash; <i>Updated 0.5.5 Expedition Guide</i></a> (8 settembre 2026) e dal <a href="https://docs.google.com/spreadsheets/d/14FFZPebLxeWIBGlbD-zKCxIy33lkOWpILO5JleVBnUw/edit?gid=1428949269#gid=1428949269" target="_blank" rel="noopener">suo cheatsheet</a>. Prezzi da <a href="https://poe.ninja/poe2/economy/forbidden-rites" target="_blank" rel="noopener">poe.ninja</a> e dal <a href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites" target="_blank" rel="noopener">trade2</a>, letti il <b>10 settembre 2026</b>. Patch 0.5.5, lega Forbidden Rites.</p>
+    <p>Strategia da due guide indipendenti: <a href="https://www.youtube.com/watch?v=yiCf1DhSbFc" target="_blank" rel="noopener">XTheFarmerX &mdash; <i>Updated 0.5.5 Expedition Guide</i></a> (8 settembre 2026) col <a href="https://docs.google.com/spreadsheets/d/14FFZPebLxeWIBGlbD-zKCxIy33lkOWpILO5JleVBnUw/edit?gid=1428949269#gid=1428949269" target="_blank" rel="noopener">suo cheatsheet</a>, e <a href="https://youtu.be/LOCSAtbunho" target="_blank" rel="noopener">Fubgun &mdash; <i>60d+/hr with Grand Expedition</i></a> (10 settembre 2026) con la <a href="https://mobalytics.gg/poe-2/atlas-trees/fubgun-atlas-tree-strats" target="_blank" rel="noopener">versione scritta su mobalytics</a>. Prezzi, mod e conteggi da <a href="https://poe.ninja/poe2/economy/forbidden-rites" target="_blank" rel="noopener">poe.ninja</a> e dal <a href="https://www.pathofexile.com/trade2/search/poe2/Forbidden%20Rites" target="_blank" rel="noopener">trade2</a>, misurati qui il <b>10</b> e il <b>17 settembre 2026</b>. Patch 0.5.5, lega Forbidden Rites.</p>
   </footer>
 
 </div>
